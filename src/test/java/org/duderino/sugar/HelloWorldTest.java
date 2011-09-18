@@ -2,9 +2,8 @@ package org.duderino.sugar;
 
 import java.io.IOException;
 
-import org.antlr.runtime.RecognitionException;
 import org.duderino.sugar.TestBase;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
 @Test
 public class HelloWorldTest extends TestBase {

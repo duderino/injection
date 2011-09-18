@@ -1,10 +1,8 @@
 package org.duderino.sugar;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.io.StringBufferInputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;

@@ -281,13 +281,15 @@
                 java -cp ver.jar Main 2 false false false false false Java.g 
 */
   
-grammar Java;
+grammar Sugar;
 
 
 options {
     backtrack=true;
     memoize=true;
-    superClass = JavaParserBase;
+    superClass = SugarParserBase;
+    output = template;
+    rewrite = true;
 }
 
 @header {
@@ -297,14 +299,6 @@ options {
 @lexer::header {
     package org.duderino.sugar;
 }
-
-/*@rulecatch {
-    catch (RecognitionException ex) {
-        reportError(ex);
-        // recover(ex);  instead of trying to recover, we fail the parse immediately
-        throw ex;
-    }
-}*/
 
 
 /********************************************************************************************
@@ -1419,7 +1413,7 @@ WS
         |    '\n'
         ) 
             {
-                skip();
+                $channel = HIDDEN;
             }          
     ;
     
@@ -1436,22 +1430,18 @@ COMMENT
         (options {greedy=false;} : . )* 
         '*/'
             {
-                if(isJavaDoc==true){
-                    $channel=HIDDEN;
-                }else{
-                    skip();
-                }
+                $channel = HIDDEN;
             }
     ;
 
 LINE_COMMENT
     :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
             {
-                skip();
+                $channel = HIDDEN;
             }
     |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
             {
-                skip();
+                $channel = HIDDEN;
             }
     ;   
         

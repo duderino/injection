@@ -13,9 +13,9 @@ public abstract class TestBase {
 	protected void parse(String fileName) throws Exception {
 		Reader reader = new FileReader(fileName);
 		
-		JavaLexer lexer = new JavaLexer(new ANTLRReaderStream(reader));
+		SugarLexer lexer = new SugarLexer(new ANTLRReaderStream(reader));
 		
-		JavaParser parser = new JavaParser(new CommonTokenStream(lexer));
+		SugarParser parser = new SugarParser(new CommonTokenStream(lexer));
 		
 		parser.compilationUnit();
 		

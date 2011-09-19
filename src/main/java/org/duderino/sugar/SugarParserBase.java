@@ -14,7 +14,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.TokenStream;
 
-public class JavaParserBase extends Parser {
+public class SugarParserBase extends Parser {
 	private List<Error> errors = new ArrayList<Error>();
 	
 	public static class Error {
@@ -39,13 +39,13 @@ public class JavaParserBase extends Parser {
 		}
 	}
 
-	public JavaParserBase(TokenStream input) {
+	public SugarParserBase(TokenStream input) {
 		super(input);
 		
 		System.err.println("Hiho");
 	}
 	
-	public JavaParserBase(TokenStream input, RecognizerSharedState state) {
+	public SugarParserBase(TokenStream input, RecognizerSharedState state) {
 		super(input, state);
 	}
 	

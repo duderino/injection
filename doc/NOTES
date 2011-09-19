@@ -1,0 +1,94 @@
+$ mvn 
+Listening for transport dt_socket at address: 4000
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Sugar Compiler 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- antlr3-maven-plugin:3.4:antlr (default) @ sugarc ---
+[INFO] ANTLR: Processing source directory /Users/blattj/dev/sugar/src/main/antlr3
+ANTLR Parser Generator  Version 3.4
+org/duderino/sugar/Sugar.g
+[INFO] 
+[INFO] --- maven-resources-plugin:2.4.3:resources (default-resources) @ sugarc ---
+[WARNING] Using platform encoding (MacRoman actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/blattj/dev/sugar/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ sugarc ---
+[WARNING] File encoding has not been set, using platform encoding MacRoman, i.e. build is platform dependent!
+[INFO] Compiling 4 source files to /Users/blattj/dev/sugar/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.4.3:testResources (default-testResources) @ sugarc ---
+[WARNING] Using platform encoding (MacRoman actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 5 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:testCompile (default-testCompile) @ sugarc ---
+[WARNING] File encoding has not been set, using platform encoding MacRoman, i.e. build is platform dependent!
+[INFO] Compiling 2 source files to /Users/blattj/dev/sugar/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.9:test (default-test) @ sugarc ---
+[INFO] Surefire report directory: /Users/blattj/dev/sugar/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.768 sec
+
+Results :
+
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-jar-plugin:2.3.1:jar (default-jar) @ sugarc ---
+[INFO] Building jar: /Users/blattj/dev/sugar/target/sugarc-1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-assembly-plugin:2.2-beta-5:attached (make-assembly) @ sugarc ---
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/antlr/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.antlr/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] Building jar: /Users/blattj/dev/sugar/target/sugarc-1.0-SNAPSHOT-jar-with-dependencies.jar
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] org/ already added, skipping
+[INFO] org/antlr/ already added, skipping
+[INFO] META-INF/maven/ already added, skipping
+[INFO] META-INF/maven/org.antlr/ already added, skipping
+[INFO] META-INF/ already added, skipping
+[INFO] META-INF/MANIFEST.MF already added, skipping
+[INFO] 
+[INFO] --- maven-install-plugin:2.3.1:install (default-install) @ sugarc ---
+[INFO] Installing /Users/blattj/dev/sugar/target/sugarc-1.0-SNAPSHOT.jar to /Users/blattj/.m2/repository/org/duderino/sugar/sugarc/1.0-SNAPSHOT/sugarc-1.0-SNAPSHOT.jar
+[INFO] Installing /Users/blattj/dev/sugar/pom.xml to /Users/blattj/.m2/repository/org/duderino/sugar/sugarc/1.0-SNAPSHOT/sugarc-1.0-SNAPSHOT.pom
+[INFO] Installing /Users/blattj/dev/sugar/target/sugarc-1.0-SNAPSHOT-jar-with-dependencies.jar to /Users/blattj/.m2/repository/org/duderino/sugar/sugarc/1.0-SNAPSHOT/sugarc-1.0-SNAPSHOT-jar-with-dependencies.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 20.815s
+[INFO] Finished at: Sun Sep 18 17:03:46 PDT 2011
+[INFO] Final Memory: 13M/123M
+[INFO] ------------------------------------------------------------------------
+$ java -jar target/sugarc-1.0-SNAPSHOT-jar-with-dependencies.jar src/test/resources/org/duderino/sugar/BadHelloWorld.sugar 
+2 Errors
+line 3:7 mismatched input 'class' expecting MONKEYS_AT
+line 9:0 mismatched input '<EOF>' expecting RBRACE
+$ java -jar target/sugarc-1.0-SNAPSHOT-jar-with-dependencies.jar src/test/resources/org/duderino/sugar/HelloWorld.sugar 
+$ cat src/test/resources/org/duderino/sugar/HelloWorld.java 
+package org.duderino.sugar;
+
+/**
+ *  Hello World!
+ */
+public class HelloWorld {
+	public static void main(String[] args) {
+		// do it
+		System.out.println("Hello World!");
+	}
+}
+

@@ -9,12 +9,12 @@ import org.testng.annotations.Test;
 public class HelloWorldTest extends TestBase {
  
   public void test() throws Exception { 	  
-	  parse("src/test/resources/org/duderino/sugar/HelloWorld.java");
+	  parse("src/test/resources/org/duderino/sugar/HelloWorld.sugar");
   }
   
   public void badHelloWorld() throws Exception {
 	  try {
-		  parse("src/test/resources/org/duderino/sugar/BadHelloWorld.java");
+		  parse("src/test/resources/org/duderino/sugar/BadHelloWorld.sugar");
 	  } catch (Exception expected) {
 		  return;
 	  }
@@ -24,7 +24,7 @@ public class HelloWorldTest extends TestBase {
   
   public void missingHelloWorld() throws Exception {
 	  try {
-		  parse("src/test/resources/org/duderino/sugar/MissingHelloWorld.java");
+		  parse("src/test/resources/org/duderino/sugar/MissingHelloWorld.sugar");
 	  } catch (IOException expected) {
 		  return;
 	  }

@@ -1,4 +1,4 @@
-package org.duderino.sugar;
+package org.duderino.inversion;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -14,7 +14,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.TokenStream;
 
-public class SugarParserBase extends Parser {
+public class InversionParserBase extends Parser {
 	private List<Error> errors = new ArrayList<Error>();
 	
 	public static class Error {
@@ -39,13 +39,13 @@ public class SugarParserBase extends Parser {
 		}
 	}
 
-	public SugarParserBase(TokenStream input) {
+	public InversionParserBase(TokenStream input) {
 		super(input);
 		
 		System.err.println("Hiho");
 	}
 	
-	public SugarParserBase(TokenStream input, RecognizerSharedState state) {
+	public InversionParserBase(TokenStream input, RecognizerSharedState state) {
 		super(input, state);
 	}
 	

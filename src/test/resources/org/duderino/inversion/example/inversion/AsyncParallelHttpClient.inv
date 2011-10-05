@@ -1,0 +1,137 @@
+package org.duderino.inversion.example.inversion;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.nio.client.DefaultHttpAsyncClient;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.nio.concurrent.FutureCallback;
+import org.apache.http.nio.reactor.IOReactorException;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class AsyncParallelHttpClient {
+    private static Logger logger = Logger.getLogger(org.duderino.inversion.example.java.AsyncParallelHttpClient.class.getName());
+
+    // Don't want to make these class variables because then they might be shared illegally between threads
+    // private final DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();
+    // private final Map<HttpUriRequest, Object> results = new HashMap<HttpUriRequest, Object>();
+
+    beforeSuite {
+        AsyncParallelHttpClient client = new AsyncParallelHttpClient();
+    }
+
+    afterSuite {
+    }
+
+    beforeTest {
+    }
+
+    afterTest {
+    }
+
+    public AsyncParallelHttpClient() {
+    }
+
+
+    public void fetch(final String[] URLs, final FutureCallback<Map<String, Object>> externalCallback) throws IOReactorException {
+        // maybe make it possible to run a mock in a different thread of control?
+        final DefaultHttpAsyncClient client = [
+            default: new DefaultHttpAsyncClient(),
+            test: new DefaultHttpAsyncClient() {
+                @Override
+                public Future<HttpResponse> execute(HttpUriRequest request, FutureCallback<HttpResponse> callback) {
+                    // Java 7 Strings in switch statements will make this cleaner
+                    if ("cancelled.example.com".equals(request.getURI().getHost())) {
+                        callback.cancelled();
+                    } else if ("failed.example.com".equals(request.getURI().getHost())) {
+                        callback.failed(new Exception("Should fail"));
+                    } else if ("completed.example.com".equals(request.getURI().getHost())) {
+                        callback.completed(new BasicHttpResponse(HttpVersion.HTTP_1_1, 200, "OK"));
+                    }
+
+                    return null;
+                }
+            };
+        ];
+
+        final Map<String, Object> results = new HashMap<String, Object>();
+
+        client.start();
+
+        for (final String URL : URLs) {
+            client.execute(new HttpGet(URL), new FutureCallback<HttpResponse>() {
+                private String url = URL;
+
+                public void completed(HttpResponse response) {
+                    handleEvent(response);
+                }
+
+                public void failed(Exception ex) {
+                    handleEvent(ex);
+                }
+
+                public void cancelled() {
+                    handleEvent(new CancellationException());
+                }
+
+                private void handleEvent(Object object) {
+                    boolean isComplete = false;
+
+                    synchronized (results) {
+                        results.put(url, object);
+
+                        if (results.size() == URLs.length) {
+                            isComplete = true;
+                        }
+                    }
+
+                    if (isComplete) {
+                        try {
+                            client.shutdown();
+                        } catch(InterruptedException ex) {
+                            if (logger.isLoggable(Level.WARNING)) {
+                                logger.log(Level.WARNING, "Cannot shutdown http client", ex);
+                            }
+                        }
+
+                        externalCallback.completed(results);
+                    }
+                }
+            });
+        }
+    }
+
+    test fetch {
+        String[] URLs = { "cancelled.example.com", "failed.example.com", "completed.example.com" };
+
+        final CountDownLatch signal = new CountDownLatch(1);
+
+        client.fetch(URLs, new FutureCallback<Map<String, Object>>() {
+            public void completed(Map<String, Object> results) {
+                assert results.get("cancelled.example.com") instanceof CancellationException;
+                assert results.get("failed.example.com") instanceof Exception;
+                assert results.get("completed.example.com") instanceof HttpResponse;
+
+                signal.countDown();
+            }
+
+            public void failed(Exception e) {
+                assert false;
+            }
+
+            public void cancelled() {
+                assert false;
+            }
+        });
+
+        signal.wait();
+    }
+}

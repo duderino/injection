@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Inversion" verbose="1" parallel="false" thread-count="1">
+
+    <parameter name="foo" value="bar"/>
+
+    <test name="unit">
+        <classes>
+            <class name="org.duderino.inversion.HelloWorldTest"/>
+        </classes>
+    </test>
+
+</suite>
+

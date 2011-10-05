@@ -1,0 +1,58 @@
+Inversion
+
+package com.example;
+
+public class Cache {
+	private 
+
+    public returnEven() {
+        return System.random() * 100 % 2;
+    };
+
+    public returnOdd() {
+        return System.random() * 100 % 1;
+    };
+};
+
+public class Example {
+    private final int THREE = 3;
+
+    private foo = new Foo(),
+        test: new Foo() {
+            public void returnOdd() {
+                return THREE;
+            }
+    };
+
+    private bar = new Bar(),
+    show mockito example
+
+           
+
+    private baz = new Baz(bar),
+        test: new Baz(test: bar);
+
+    public Example(Bar bar, int constant) {
+        this.bar = bar,
+            test: ...  show injection example
+    }
+
+	public static void main(String[] args) {
+	   show injection example.
+	   
+	   
+	   Example example = new Example(bar, test: baz);  // no!
+	   
+	   Example example = new Example( (bar, test: baz), 10);  ???
+	}    
+}
+
+
+early vs late binding
+   early - build tools must different code for test, production, etc
+   late - code can run with any tag combination, but slight runtime overhead with every new class creation.
+namespace tags?
+ordered list of tags.   if multiple tags are present, earlier tag in list wins
+system property > config file > tag overrides.   First two only supported with late binding
+Show mockito example (or external dsl equivalent of mockito)
+how to handle final classes and methods?

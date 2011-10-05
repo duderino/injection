@@ -1,8 +1,0 @@
-package org.duderino.sugar;
-
-public class HelloWorld {
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
-	}
-
-	// missing terminating brace

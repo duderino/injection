@@ -1,18 +1,15 @@
-package org.duderino.sugar;
+package org.duderino.inversion;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.List;
-
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.Token;
 
 public class Main {
-	private static final String EXTENSION = "sugar";
+	private static final String EXTENSION = "inv";
 	private static final boolean VERBOSE = false;
 	private static final int OK = 0;
 	private static final int BAD_INPUT = 1;
@@ -67,11 +64,11 @@ public class Main {
 	}
 	
 	private static boolean rewrite(InputStream inputStream, PrintStream outputStream) throws Exception {
-		SugarLexer lexer = new SugarLexer(new ANTLRInputStream(inputStream));
+		InversionLexer lexer = new InversionLexer(new ANTLRInputStream(inputStream));
 
 		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		
-		SugarParser parser = new SugarParser(tokens);
+		InversionParser parser = new InversionParser(tokens);
 
 		parser.compilationUnit();
 

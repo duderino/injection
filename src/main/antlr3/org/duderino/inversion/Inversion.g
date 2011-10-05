@@ -281,23 +281,23 @@
                 java -cp ver.jar Main 2 false false false false false Java.g 
 */
   
-grammar Sugar;
+grammar Inversion;
 
 
 options {
     backtrack=true;
     memoize=true;
-    superClass = SugarParserBase;
+    superClass = InversionParserBase;
     output = template;
     rewrite = true;
 }
 
 @header {
-    package org.duderino.sugar;
+    package org.duderino.inversion;
 }
 
 @lexer::header {
-    package org.duderino.sugar;
+    package org.duderino.inversion;
 }
 
 
@@ -1193,10 +1193,12 @@ arrayCreator
     ;
 
 variableInitializer 
-    :   arrayInitializer
-    |   expression
+    :  arrayInitializerOrExpression | taggedInitializerList
     ;
 
+arrayInitializerOrExpression 
+	:	arrayInitializer | expression;
+	
 arrayInitializer 
     :   '{' 
             (variableInitializer
@@ -1207,6 +1209,16 @@ arrayInitializer
         '}'             //Yang's fix, position change.
     ;
 
+// Inversion additions for injecting alternative objects based on tag/IDENTIFIER
+
+taggedInitializerList
+	: '[' taggedInitializer (',' taggedInitializer )* ']' 
+	;	
+	
+taggedInitializer 
+	: IDENTIFIER ':' arrayInitializerOrExpression ->
+	template(x={$IDENTIFIER.text}, y={$arrayInitializerOrExpression.text}) "case <x>: todo = <y>; break;"
+	;
 
 createdName 
     :   classOrInterfaceType

@@ -1,15 +1,19 @@
-package org.duderino.inversion.example.java;
+package org.duderino.inversion.example;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.nio.client.DefaultHttpAsyncClient;
 import org.apache.http.nio.concurrent.FutureCallback;
 import org.apache.http.nio.reactor.IOReactorException;
+import org.w3c.dom.Document;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AsyncParallelHttpClient {
@@ -22,7 +26,11 @@ public class AsyncParallelHttpClient {
     public AsyncParallelHttpClient() {
     }
 
-    public void fetch(final String[] URLs, final FutureCallback<Map<String, Object>> externalCallback) throws IOReactorException {
+    public interface Callback {
+        public void completed(Map<String, Object> results);
+    }
+
+    public void fetch(final String[] URLs, final Callback externalCallback) throws IOReactorException {
         final DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();
         final Map<String, Object> results = new HashMap<String, Object>();
 
@@ -33,7 +41,23 @@ public class AsyncParallelHttpClient {
                 private String url = URL;
 
                 public void completed(HttpResponse response) {
-                    handleEvent(response);
+                    if (200 > response.getStatusLine().getStatusCode() || 300 <= response.getStatusLine().getStatusCode()) {
+                        handleEvent(new HttpException(response.getStatusLine().getReasonPhrase()));
+
+                        return;
+                    }
+
+                    HttpEntity body = response.getEntity();
+
+                    try {
+                        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+                        Document document = docBuilder.parse(body.getContent());
+
+                        handleEvent(document);
+                    } catch (Exception ex) {
+                        handleEvent(ex);
+                    }
                 }
 
                 public void failed(Exception ex) {
@@ -56,13 +80,13 @@ public class AsyncParallelHttpClient {
                     }
 
                     if (isComplete) {
-                        try {
+                        /*try {   Deadlocks.   Not necessary to fix this to illustrate our point.
                             client.shutdown();
                         } catch (InterruptedException ex) {
                             if (logger.isLoggable(Level.WARNING)) {
                                 logger.log(Level.WARNING, "Cannot shutdown http client", ex);
                             }
-                        }
+                        } */
 
                         externalCallback.completed(results);
                     }

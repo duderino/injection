@@ -1,4 +1,4 @@
-package org.duderino.inversion.example.inversion;
+package org.duderino.inversion.example.flavor1;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -19,24 +19,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SyncParallelHttpClient {
-    private static Logger logger = Logger.getLogger(org.duderino.inversion.example.java.AsyncParallelHttpClient.class.getName());
+    private static Logger logger = Logger.getLogger(AsyncParallelHttpClient.class.getName());
 
     // Don't want to make these class variables because then they might be shared illegally between threads
     // private final DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();
     // private final Map<HttpUriRequest, Object> results = new HashMap<HttpUriRequest, Object>();
-
-    beforeSuite {
-        SyncParallelHttpClient client = new SyncParallelHttpClient();
-    }
-
-    afterSuite {
-    }
-
-    beforeTest {
-    }
-
-    afterTest {
-    }
 
     public SyncParallelHttpClient() {
     }
@@ -97,7 +84,9 @@ public class SyncParallelHttpClient {
     }
 
     test fetch {
-        String[] URLs = { "cancelled.example.com", "failed.example.com", "completed.example.com" };
+        final String[] URLs = { "cancelled.example.com", "failed.example.com", "completed.example.com" };
+
+        SyncParallelHttpClient client = new(test) SyncParallelHttpClient();
 
         Map<String, Object> results = client.fetch(URLs);
 

@@ -1,4 +1,4 @@
-package org.duderino.inversion.example.java;
+package org.duderino.inversion.example;
 
 public class Stack<E> {
     private Object[] array;

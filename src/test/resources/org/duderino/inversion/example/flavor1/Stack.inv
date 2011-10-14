@@ -1,4 +1,4 @@
-package org.duderino.inversion.example.inversion;
+package org.duderino.inversion.example.flavor1;
 
 /**
  * This example illustrates a possible built-in unit test functionality.
@@ -17,20 +17,6 @@ public class Stack<E> {
     private Object[] array;
     private int top = 0;
 
-    beforeSuite {
-        Stack<Integer> stack = new Stack<Integer>(3);
-    }
-
-    afterSuite {
-    }
-
-    beforeTest {
-        stack.clear();
-    }
-
-    afterTest {
-    }
-
     public Stack(int size) {
         array = new Object[size];
     }
@@ -40,6 +26,8 @@ public class Stack<E> {
     }
 
     test size {
+        Stack<Integer> stack = new Stack<Integer>(3);
+
         assert stack.size() == 0;
 
         stack.push(new Integer(1));
@@ -74,8 +62,9 @@ public class Stack<E> {
         assert 0 <= top;
     }
 
-    test push expect IndexOutOfBoundsException
-    {
+    test push expect IndexOutOfBoundsException {
+        Stack<Integer> stack = new Stack<Integer>(3);
+
         stack.push(new Integer(1));
 
         assert true;
@@ -109,6 +98,8 @@ public class Stack<E> {
     // this test method would be incorporated into the API documentation of both the push and the pop method
 
     test push pop {
+        Stack<Integer> stack = new Stack<Integer>(3);
+
         stack.push(new Integer(1));
         stack.push(new Integer(2));
         stack.push(new Integer(3));
@@ -123,6 +114,8 @@ public class Stack<E> {
     }
 
     test clear {
+        Stack<Integer> stack = new Stack<Integer>(3);
+
         stack.push(new Integer(1));
 
         stack.push(new Integer(2));

@@ -1,4 +1,4 @@
-package org.duderino.inversion.example.java;
+package org.duderino.inversion.example;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SyncParallelHttpClient {
-    private static Logger logger = Logger.getLogger(org.duderino.inversion.example.java.AsyncParallelHttpClient.class.getName());
+    private static Logger logger = Logger.getLogger(AsyncParallelHttpClient.class.getName());
 
     // Don't want to make these class variables because then they might be shared illegally between threads
     // private final DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();

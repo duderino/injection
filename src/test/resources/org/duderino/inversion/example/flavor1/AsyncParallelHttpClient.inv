@@ -1,4 +1,4 @@
-package org.duderino.inversion.example.inversion;
+package org.duderino.inversion.example.flavor1;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -18,30 +18,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AsyncParallelHttpClient {
-    private static Logger logger = Logger.getLogger(org.duderino.inversion.example.java.AsyncParallelHttpClient.class.getName());
+    private static Logger logger = Logger.getLogger(AsyncParallelHttpClient.class.getName());
 
     // Don't want to make these class variables because then they might be shared illegally between threads
     // private final DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();
     // private final Map<HttpUriRequest, Object> results = new HashMap<HttpUriRequest, Object>();
 
-    beforeSuite {
-        AsyncParallelHttpClient client = new AsyncParallelHttpClient();
-    }
-
-    afterSuite {
-    }
-
-    beforeTest {
-    }
-
-    afterTest {
-    }
-
     public AsyncParallelHttpClient() {
     }
 
+    public interface Callback {
+        public void completed(Map<String, Object> results);
+    }
 
-    public void fetch(final String[] URLs, final FutureCallback<Map<String, Object>> externalCallback) throws IOReactorException {
+    public void fetch(final String[] URLs, final Callback externalCallback) throws IOReactorException {
         // maybe make it possible to run a mock in a different thread of control?
         final DefaultHttpAsyncClient client = [
             default: new DefaultHttpAsyncClient(),
@@ -110,6 +100,8 @@ public class AsyncParallelHttpClient {
     }
 
     test fetch {
+        AsyncParallelHttpClient client = new(test) AsyncParallelHttpClient();
+
         String[] URLs = { "cancelled.example.com", "failed.example.com", "completed.example.com" };
 
         final CountDownLatch signal = new CountDownLatch(1);

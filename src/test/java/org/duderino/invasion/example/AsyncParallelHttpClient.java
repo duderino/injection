@@ -1,4 +1,4 @@
-package org.duderino.inversion.example;
+package org.duderino.invasion.example;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;

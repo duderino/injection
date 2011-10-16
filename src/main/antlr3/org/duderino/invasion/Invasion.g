@@ -281,23 +281,23 @@
                 java -cp ver.jar Main 2 false false false false false Java.g 
 */
   
-grammar Inversion;
+grammar Invasion;
 
 
 options {
     backtrack=true;
     memoize=true;
-    superClass = InversionParserBase;
+    superClass = InvasionParserBase;
     output = template;
     rewrite = true;
 }
 
 @header {
-    package org.duderino.inversion;
+    package org.duderino.invasion;
 }
 
 @lexer::header {
-    package org.duderino.inversion;
+    package org.duderino.invasion;
 }
 
 
@@ -1209,7 +1209,7 @@ arrayInitializer
         '}'             //Yang's fix, position change.
     ;
 
-// Inversion additions for injecting alternative objects based on tag/IDENTIFIER
+// Invasion additions for injecting alternative objects based on tag/IDENTIFIER
 
 taggedInitializerList
 	: '[' taggedInitializer (',' taggedInitializer )* ']' 

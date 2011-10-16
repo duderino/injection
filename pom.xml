@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.duderino.inversion</groupId>
-    <artifactId>inversionc</artifactId>
-    <name>Inversion Compiler</name>
+    <groupId>org.duderino.invasion</groupId>
+    <artifactId>invasionc</artifactId>
+    <name>Invasion Compiler</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <url>https://github.com/duderino/inversion</url>
+    <url>https://github.com/duderino/invasion</url>
 
     <dependencies>
         <dependency>
@@ -67,7 +67,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.duderino.inversion.Main</mainClass>
+                            <mainClass>org.duderino.invasion.Main</mainClass>
                         </manifest>
                     </archive>
 
@@ -92,7 +92,7 @@
                 <configuration>
                     <useFile>false</useFile>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/org/duderino/inversion/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/org/duderino/invasion/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <propertyName>propertyValue</propertyName>

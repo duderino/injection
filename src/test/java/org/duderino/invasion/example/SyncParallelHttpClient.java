@@ -1,18 +1,13 @@
-package org.duderino.inversion.example.flavor1;
+package org.duderino.invasion.example;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.nio.client.DefaultHttpAsyncClient;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.nio.concurrent.FutureCallback;
 import org.apache.http.nio.reactor.IOReactorException;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
@@ -29,31 +24,13 @@ public class SyncParallelHttpClient {
     }
 
     public Map<String, Object> fetch(String[] URLs) throws IOReactorException {
-        final DefaultHttpAsyncClient client = [
-            default: new DefaultHttpAsyncClient(),
-            test: new DefaultHttpAsyncClient() {
-                @Override
-                public Future<HttpResponse> execute(HttpUriRequest request, FutureCallback<HttpResponse> callback) {
-                    // Java 7 Strings in switch statements will make this cleaner
-                    if ("cancelled.example.com".equals(request.getURI().getHost())) {
-                        callback.cancelled();
-                    } else if ("failed.example.com".equals(request.getURI().getHost())) {
-                        callback.failed(new Exception("Should fail"));
-                    } else if ("completed.example.com".equals(request.getURI().getHost())) {
-                        callback.completed(new BasicHttpResponse(HttpVersion.HTTP_1_1, 200, "OK"));
-                    }
-
-                    return null;
-                }
-            };
-        ];
-
+        DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();
         Map<String, Object> results = new HashMap<String, Object>();
 
         client.start();
 
         Future<HttpResponse>[] futures = (Future<HttpResponse>[]) Array.newInstance(Future.class, URLs.length);
-        
+
         try {
             for (int i = 0; i < URLs.length; ++i) {
                 futures[i] = client.execute(new HttpGet(URLs[i]), null);
@@ -81,17 +58,5 @@ public class SyncParallelHttpClient {
         }
 
         return results;
-    }
-
-    test fetch {
-        final String[] URLs = { "cancelled.example.com", "failed.example.com", "completed.example.com" };
-
-        SyncParallelHttpClient client = new(test) SyncParallelHttpClient();
-
-        Map<String, Object> results = client.fetch(URLs);
-
-        assert results.get("cancelled.example.com") instanceof CancellationException;
-        assert results.get("failed.example.com") instanceof Exception;
-        assert results.get("completed.example.com") instanceof HttpResponse;
     }
 }

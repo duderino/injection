@@ -1,4 +1,4 @@
-package org.duderino.inversion;
+package org.duderino.invasion;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -14,7 +14,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.TokenStream;
 
-public class InversionParserBase extends Parser {
+public class InvasionParserBase extends Parser {
 	private List<Error> errors = new ArrayList<Error>();
 	
 	public static class Error {
@@ -39,13 +39,13 @@ public class InversionParserBase extends Parser {
 		}
 	}
 
-	public InversionParserBase(TokenStream input) {
+	public InvasionParserBase(TokenStream input) {
 		super(input);
 		
 		System.err.println("Hiho");
 	}
 	
-	public InversionParserBase(TokenStream input, RecognizerSharedState state) {
+	public InvasionParserBase(TokenStream input, RecognizerSharedState state) {
 		super(input, state);
 	}
 	

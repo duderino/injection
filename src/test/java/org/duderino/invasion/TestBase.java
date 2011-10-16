@@ -1,4 +1,4 @@
-package org.duderino.inversion;
+package org.duderino.invasion;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.TokenRewriteStream;
@@ -12,9 +12,9 @@ public abstract class TestBase {
     protected void parse(String fileName) throws Exception {
         Reader reader = new FileReader(fileName);
 
-        InversionLexer lexer = new InversionLexer(new ANTLRReaderStream(reader));
+        InvasionLexer lexer = new InvasionLexer(new ANTLRReaderStream(reader));
 
-        InversionParser parser = new InversionParser(new TokenRewriteStream(lexer));
+        InvasionParser parser = new InvasionParser(new TokenRewriteStream(lexer));
 
         parser.compilationUnit();
 

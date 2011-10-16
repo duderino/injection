@@ -1,4 +1,4 @@
-package org.duderino.inversion.example.flavor1;
+package org.duderino.invasion.example.flavor1;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;

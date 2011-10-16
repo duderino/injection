@@ -1,4 +1,4 @@
-package org.duderino.inversion;
+package org.duderino.invasion;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,11 +64,11 @@ public class Main {
 	}
 	
 	private static boolean rewrite(InputStream inputStream, PrintStream outputStream) throws Exception {
-		InversionLexer lexer = new InversionLexer(new ANTLRInputStream(inputStream));
+		InvasionLexer lexer = new InvasionLexer(new ANTLRInputStream(inputStream));
 
 		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		
-		InversionParser parser = new InversionParser(tokens);
+		InvasionParser parser = new InvasionParser(tokens);
 
 		parser.compilationUnit();
 

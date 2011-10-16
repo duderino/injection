@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Invasion" verbose="1" parallel="false" thread-count="1">
+
+    <parameter name="foo" value="bar"/>
+
+    <test name="unit">
+        <classes>
+            <class name="org.duderino.invasion.HelloWorldTest"/>
+            <class name="org.duderino.invasion.example.MusicianInfoTest"/>
+        </classes>
+    </test>
+
+</suite>
+

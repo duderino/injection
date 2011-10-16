@@ -1,4 +1,4 @@
-package org.duderino.inversion.example;
+package org.duderino.invasion.example;
 
 public class Stack<E> {
     private Object[] array;

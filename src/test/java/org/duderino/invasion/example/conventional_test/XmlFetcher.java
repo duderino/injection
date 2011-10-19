@@ -1,4 +1,4 @@
-package org.duderino.invasion.example;
+package org.duderino.invasion.example.conventional_test;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
@@ -14,24 +14,34 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
-import java.util.logging.Logger;
+import java.util.concurrent.CountDownLatch;
 
-public class AsyncParallelHttpClient {
-    private static Logger logger = Logger.getLogger(AsyncParallelHttpClient.class.getName());
+/**
+ * A HTTP client that fetches and parses a XML response from n URLs concurrently and asynchronously.
+ */
+public class XmlFetcher {
+    private DefaultHttpAsyncClient client;
 
-    // Don't want to make these class variables because then they might be shared illegally between threads
-    // private final DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();
-    // private final Map<HttpUriRequest, Object> results = new HashMap<HttpUriRequest, Object>();
+    public XmlFetcher() throws IOReactorException {
+        client = new DefaultHttpAsyncClient();
+    }
 
-    public AsyncParallelHttpClient() {
+    public XmlFetcher(DefaultHttpAsyncClient client) {
+        this.client = client;
     }
 
     public interface Callback {
         public void completed(Map<String, Object> results);
     }
 
-    public void fetch(final String[] URLs, final Callback externalCallback) throws IOReactorException {
-        final DefaultHttpAsyncClient client = new DefaultHttpAsyncClient();
+    /**
+     * GET and parse n XML responses from n URLs.
+     *
+     * @param URLs             The URLs to fetch
+     * @param externalCallback A user-supplied callback that will be passed a map of URL to Object results.  Objects
+     *                         can be downcast to either an org.w3c.dom.Document or a java.lang.Exception
+     */
+    public void fetch(final String[] URLs, final Callback externalCallback) {
         final Map<String, Object> results = new HashMap<String, Object>();
 
         client.start();
@@ -80,18 +90,35 @@ public class AsyncParallelHttpClient {
                     }
 
                     if (isComplete) {
-                        /*try {   Deadlocks.   Not necessary to fix this to illustrate our point.
-                            client.shutdown();
-                        } catch (InterruptedException ex) {
-                            if (logger.isLoggable(Level.WARNING)) {
-                                logger.log(Level.WARNING, "Cannot shutdown http client", ex);
-                            }
-                        } */
-
+                        // TODO - do a client.shutdown() without a deadlock.
                         externalCallback.completed(results);
                     }
                 }
             });
         }
+    }
+
+    /**
+     * GET and parse n XML responses from n URLs
+     *
+     * @param URLs The URLs to fetch
+     * @return A map of URL to Object results.  Objects can be downcast to either an org.w3c.dom.Document or a java.lang.Exception
+     * @throws InterruptedException
+     */
+    public Map<String, Object> fetch(String[] URLs) throws InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+        final Map<String, Object>[] result = (Map<String, Object>[]) new Map[1];
+
+        fetch(URLs, new Callback() {
+            @Override
+            public void completed(Map<String, Object> results) {
+                result[0] = results;
+                latch.countDown();
+            }
+        });
+
+        latch.await();
+
+        return result[0];
     }
 }

@@ -1,4 +1,4 @@
-package org.duderino.invasion.example;
+package org.duderino.invasion.example.conventional_test;
 
 import org.apache.http.nio.reactor.IOReactorException;
 import org.w3c.dom.Document;
@@ -9,51 +9,18 @@ import javax.xml.xpath.XPathFactory;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-public class MusicianInfo {
-    private AsyncParallelHttpClient client;
+public class MusicianDatabase {
+    private XmlFetcher client;
 
-    public MusicianInfo(AsyncParallelHttpClient client) {
+    public MusicianDatabase(XmlFetcher client) {
         this.client = client;
     }
 
-    public MusicianInfo() {
-        client = new AsyncParallelHttpClient();
+    public MusicianDatabase() throws IOReactorException {
+        client = new XmlFetcher();
     }
 
-    public static class Info {
-        private String dateOfBirth;
-        private String bookTitle;
-        private String newsHeadline;
-
-        public Info() {
-        }
-
-        public String getDateOfBirth() {
-            return dateOfBirth;
-        }
-
-        public String getBookTitle() {
-            return bookTitle;
-        }
-
-        public String getNewsHeadline() {
-            return newsHeadline;
-        }
-
-        public void setDateOfBirth(String dateOfBirth) {
-            this.dateOfBirth = dateOfBirth;
-        }
-
-        public void setBookTitle(String bookTitle) {
-            this.bookTitle = bookTitle;
-        }
-
-        public void setNewsHeadline(String newsHeadline) {
-            this.newsHeadline = newsHeadline;
-        }
-    }
-
-    public Info fetchNews(String name) throws IOReactorException {
+    public Info fetch(String name) {
         final String[] urls = {
                 "http://musicbrainz.org/ws/1/artist?limit=1&query=" + name,
                 "http://api.usatoday.com/open/articles?count=1&api_key=ptm7j7nr5qqbry5uze5vgnvn&tag=" + name,
@@ -63,7 +30,7 @@ public class MusicianInfo {
         final CountDownLatch latch = new CountDownLatch(1);
         final Info info = new Info();
 
-        client.fetch(urls, new AsyncParallelHttpClient.Callback() {
+        client.fetch(urls, new XmlFetcher.Callback() {
             public void completed(Map<String, Object> results) {
                 for (Map.Entry<String, Object> entry : results.entrySet()) {
                     assert null != entry.getValue();
@@ -131,5 +98,38 @@ public class MusicianInfo {
         }
 
         return info;
+    }
+
+    public static class Info {
+        private String dateOfBirth;
+        private String bookTitle;
+        private String newsHeadline;
+
+        public Info() {
+        }
+
+        public String getDateOfBirth() {
+            return dateOfBirth;
+        }
+
+        public String getBookTitle() {
+            return bookTitle;
+        }
+
+        public String getNewsHeadline() {
+            return newsHeadline;
+        }
+
+        public void setDateOfBirth(String dateOfBirth) {
+            this.dateOfBirth = dateOfBirth;
+        }
+
+        public void setBookTitle(String bookTitle) {
+            this.bookTitle = bookTitle;
+        }
+
+        public void setNewsHeadline(String newsHeadline) {
+            this.newsHeadline = newsHeadline;
+        }
     }
 }

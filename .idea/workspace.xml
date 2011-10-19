@@ -2,29 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1529a4b5-bc45-4305-adf1-719b398bb8e1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/doc/invasion.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/inversion/testng.xml" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/inversionc.iml" afterPath="$PROJECT_DIR$/invasion.iml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/antlr3/org/duderino/inversion/Inversion.g" afterPath="$PROJECT_DIR$/src/main/antlr3/org/duderino/invasion/Invasion.g" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/duderino/inversion/InversionParserBase.java" afterPath="$PROJECT_DIR$/src/main/java/org/duderino/invasion/InvasionParserBase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/org/duderino/inversion/Main.java" afterPath="$PROJECT_DIR$/src/main/java/org/duderino/invasion/Main.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/inversion/HelloWorldTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/HelloWorldTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/inversion/TestBase.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/TestBase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/inversion/example/AsyncParallelHttpClient.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/AsyncParallelHttpClient.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/inversion/example/MusicianInfo.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfo.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/inversion/example/MusicianInfoTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfoTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/inversion/example/Stack.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/Stack.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/inversion/example/SyncParallelHttpClient.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/SyncParallelHttpClient.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/inversion/BadHelloWorld.inv" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/BadHelloWorld.inv" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/inversion/HelloWorld.inv" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/HelloWorld.inv" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/inversion/example/flavor1/AsyncParallelHttpClient.inv" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/AsyncParallelHttpClient.inv" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/inversion/example/flavor1/Helper.java" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/Helper.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/inversion/example/flavor1/Stack.inv" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/Stack.inv" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/inversion/example/flavor1/SyncParallelHttpClient.inv" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/SyncParallelHttpClient.inv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.project" afterPath="$PROJECT_DIR$/.project" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README" afterPath="$PROJECT_DIR$/README" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabase.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabaseTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcher.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianDatabase.inv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/XmlFetcher.inv" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/invasion.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfoTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/SyncParallelHttpClient.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/AsyncParallelHttpClient.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/XmlFetcher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfo.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/MusicianDatabase.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/Stack.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/Stack.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/invasion.iml" afterPath="$PROJECT_DIR$/invasion.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml" />
     </list>
     <ignored path="invasion.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,71 +80,82 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TestBase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/TestBase.java">
+      <file leaf-file-name="MusicianDatabase.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="41" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
+            <state line="11" column="22" selection-start="338" selection-end="338" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InvasionParser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr3/org/duderino/invasion/InvasionParser.java">
+      <file leaf-file-name="XmlFetcher.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="705" column="11" selection-start="28590" selection-end="28590" vertical-scroll-proportion="0.0">
+            <state line="114" column="21" selection-start="4101" selection-end="4101" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HelloWorldTest.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/HelloWorldTest.java">
+      <file leaf-file-name="DefaultHttpAsyncClient.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpasyncclient/4.0-alpha2/httpasyncclient-4.0-alpha2.jar!/org/apache/http/impl/nio/client/DefaultHttpAsyncClient.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="34" selection-start="68" selection-end="68" vertical-scroll-proportion="0.06364922">
+            <state line="3" column="39" selection-start="122" selection-end="153" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InvasionLexer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr3/org/duderino/invasion/InvasionLexer.java">
+      <file leaf-file-name="XmlFetcherTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="136" column="11" selection-start="5065" selection-end="5065" vertical-scroll-proportion="0.0">
+            <state line="88" column="53" selection-start="3410" selection-end="3410" vertical-scroll-proportion="0.008645534">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Lexer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/antlr/antlr-runtime/3.4/antlr-runtime-3.4-sources.jar!/org/antlr/runtime/Lexer.java">
+      <file leaf-file-name="MusicianDatabase.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/MusicianDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="22" selection-start="1739" selection-end="1739" vertical-scroll-proportion="0.0">
+            <state line="10" column="20" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Invasion.g" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/antlr3/org/duderino/invasion/Invasion.g">
-          <provider selected="true" editor-type-id="grammar">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InvasionParserBase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/duderino/invasion/InvasionParserBase.java">
+      <file leaf-file-name="MusicianDatabaseTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabaseTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="13" selection-start="2626" selection-end="2626" vertical-scroll-proportion="0.0">
+            <state line="12" column="22" selection-start="329" selection-end="329" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SyncParallelHttpClient.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/SyncParallelHttpClient.java">
+      <file leaf-file-name="XmlFetcher.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/XmlFetcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="13" selection-start="486" selection-end="486" vertical-scroll-proportion="0.0">
+            <state line="109" column="22" selection-start="3635" selection-end="3635" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="XmlFetcher.inv" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/XmlFetcher.inv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="101" column="8" selection-start="3493" selection-end="3493" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MusicianDatabase.inv" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianDatabase.inv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="24" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -161,16 +164,7 @@
       <file leaf-file-name="testng.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="56" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AsyncParallelHttpClient.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/AsyncParallelHttpClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="80" selection-start="2094" selection-end="2263" vertical-scroll-proportion="0.0">
+            <state line="16" column="0" selection-start="509" selection-end="509" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -190,22 +184,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/invasion/SyncParallelHttpClient.inv" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/Helper.inv" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/java/SyncParallelHttpClient.inv" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/java/Helper.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/Stack.inv" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/SyncParallelHttpClient.inv" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/AsyncParallelHttpClient.inv" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/Helper.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/java/MusicianNews.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/java/AsyncParallelHttpClient.inv" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/java/MusicianInfo.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfo.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/AsyncParallelHttpClient.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfoTest.java" />
-        <option value="$PROJECT_DIR$/target/generated-sources/antlr3/org/duderino/invasion/InvasionParser.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/AsyncParallelHttpClientTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianInfo.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianInfo.inv" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/MusicianInfo.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/MusicianDatabase.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianDataBase.inv" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabase.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabaseTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianDatabase.inv" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/AsyncParallelHttpClient.inv" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/AsyncParallelHttpClient.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/AsyncParallelHttpClient.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcher.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/XmlFetcher.inv" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/XmlFetcher.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java" />
       </list>
     </option>
   </component>
@@ -237,7 +231,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="2" />
+    <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -252,6 +246,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -270,7 +266,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="inversion" />
+              <option name="myItemId" value="invasion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -280,7 +276,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="inversion" />
+              <option name="myItemId" value="invasion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -291,6 +287,14 @@
               <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -298,7 +302,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="inversion" />
+              <option name="myItemId" value="invasion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -324,7 +328,109 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="inversion" />
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="no_test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion_test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="example" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conventional_test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -350,7 +456,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="inversion" />
+              <option name="myItemId" value="invasion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -359,30 +465,12 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="antlr3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="duderino" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="invasion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -589,22 +677,22 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997421" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23060344" sideWeight="0.6706349" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48412699" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997421" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2658046" sideWeight="0.9933422" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48427072" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -655,94 +743,94 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfoTest.java">
+    <entry file="file://$PROJECT_DIR$/TODO">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="11" selection-start="10749" selection-end="10749" vertical-scroll-proportion="0.0" />
+        <state line="52" column="82" selection-start="2115" selection-end="2115" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/invasion.iml">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/org/w3c/dom/Node.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="221" column="18" selection-start="8927" selection-end="8927" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpasyncclient/4.0-alpha2/httpasyncclient-4.0-alpha2.jar!/org/apache/http/impl/nio/client/AbstractHttpAsyncClient.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="141" column="54" selection-start="9224" selection-end="9466" vertical-scroll-proportion="-20.36" />
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/javax/xml/parsers/DocumentBuilder.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.1.1/httpcore-4.1.1-sources.jar!/org/apache/http/entity/BasicHttpEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="20" selection-start="6155" selection-end="6155" vertical-scroll-proportion="0.0" />
+        <state line="39" column="13" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/org/duderino/invasion/example/flavor1/Helper.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.1.1/httpcore-4.1.1-sources.jar!/org/apache/http/HttpEntity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="13" selection-start="466" selection-end="1319" vertical-scroll-proportion="0.0" />
+        <state line="64" column="0" selection-start="2747" selection-end="2747" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/Stack.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpasyncclient/4.0-alpha2/httpasyncclient-4.0-alpha2.jar!/org/apache/http/nio/concurrent/FutureCallback.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="13" selection-start="53" selection-end="53" vertical-scroll-proportion="0.0" />
+        <state line="7" column="9" selection-start="208" selection-end="208" vertical-scroll-proportion="-4.2" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/SyncParallelHttpClient.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="486" selection-end="486" vertical-scroll-proportion="0.0" />
+        <state line="11" column="22" selection-start="338" selection-end="338" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpasyncclient/4.0-alpha2/httpasyncclient-4.0-alpha2.jar!/org/apache/http/impl/nio/client/DefaultHttpAsyncClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="39" selection-start="122" selection-end="153" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabaseTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="22" selection-start="329" selection-end="329" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianDatabase.inv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="24" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="56" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/AsyncParallelHttpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="80" selection-start="2094" selection-end="2263" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/antlr/antlr-runtime/3.4/antlr-runtime-3.4-sources.jar!/org/antlr/runtime/Lexer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="22" selection-start="1739" selection-end="1739" vertical-scroll-proportion="0.0">
+        <state line="16" column="0" selection-start="509" selection-end="509" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/antlr3/org/duderino/invasion/Invasion.g">
-      <provider selected="true" editor-type-id="grammar">
-        <state />
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/MusicianDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="20" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr3/org/duderino/invasion/InvasionLexer.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/XmlFetcher.inv">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="11" selection-start="5065" selection-end="5065" vertical-scroll-proportion="0.0">
+        <state line="101" column="8" selection-start="3493" selection-end="3493" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/duderino/invasion/InvasionParserBase.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="13" selection-start="2626" selection-end="2626" vertical-scroll-proportion="0.0">
+        <state line="114" column="21" selection-start="4101" selection-end="4101" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/TestBase.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/XmlFetcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="41" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
+        <state line="109" column="22" selection-start="3635" selection-end="3635" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr3/org/duderino/invasion/InvasionParser.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="705" column="11" selection-start="28590" selection-end="28590" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/HelloWorldTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="34" selection-start="68" selection-end="68" vertical-scroll-proportion="0.06364922">
+        <state line="88" column="53" selection-start="3410" selection-end="3410" vertical-scroll-proportion="0.008645534">
           <folding />
         </state>
       </provider>

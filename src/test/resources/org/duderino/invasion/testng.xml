@@ -7,7 +7,8 @@
     <test name="unit">
         <classes>
             <class name="org.duderino.invasion.HelloWorldTest"/>
-            <class name="org.duderino.invasion.example.MusicianInfoTest"/>
+            <class name="org.duderino.invasion.example.conventional_test.MusicianDatabaseTest"/>
+            <class name="org.duderino.invasion.example.conventional_test.XmlFetcherTest"/>
         </classes>
     </test>
 

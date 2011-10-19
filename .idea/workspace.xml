@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1529a4b5-bc45-4305-adf1-719b398bb8e1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabase.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabaseTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcher.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianDatabase.inv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/XmlFetcher.inv" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/invasion.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfoTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/SyncParallelHttpClient.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/AsyncParallelHttpClient.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/XmlFetcher.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/MusicianInfo.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/MusicianDatabase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/Stack.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/Stack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/invasion.iml" afterPath="$PROJECT_DIR$/invasion.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/invasion/testng.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README" afterPath="$PROJECT_DIR$/README" />
     </list>
     <ignored path="invasion.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,15 +66,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MusicianDatabase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianDatabase.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="22" selection-start="338" selection-end="338" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="XmlFetcher.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcher.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -107,10 +84,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="XmlFetcherTest.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="XmlFetcherTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="88" column="53" selection-start="3410" selection-end="3410" vertical-scroll-proportion="0.008645534">
+            <state line="88" column="53" selection-start="3410" selection-end="3410" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -184,7 +170,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/AsyncParallelHttpClientTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/MusicianInfo.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/MusicianInfo.inv" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/MusicianInfo.java" />
@@ -200,6 +185,7 @@
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/invasion_test/XmlFetcher.inv" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/no_test/XmlFetcher.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java" />
+        <option value="$PROJECT_DIR$/README" />
       </list>
     </option>
   </component>
@@ -743,11 +729,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="82" selection-start="2115" selection-end="2115" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/org/w3c/dom/Node.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="221" column="18" selection-start="8927" selection-end="8927" vertical-scroll-proportion="0.0" />
@@ -830,7 +811,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/invasion/example/conventional_test/XmlFetcherTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="53" selection-start="3410" selection-end="3410" vertical-scroll-proportion="0.008645534">
+        <state line="88" column="53" selection-start="3410" selection-end="3410" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>

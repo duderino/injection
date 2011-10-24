@@ -398,40 +398,15 @@ public class XmlFetcherTest {
     cases, but it's a shame that we had to change our code this way in
     order to test it.<br>
 
-    
-<h3>Alternatives</h3>
-
-    TODO - show use of dependency injection frameworks or service
-    locators referencing Fowler's <a href="http://martinfowler.com/articles/injection.html">Inversion
-      of Control Containers and the Dependency Injection pattern</a>.
-    &nbsp; Dependency injection frameworks rely on constructor and
-    setter injection so modify the public interface.&nbsp;&nbsp;&nbsp;
-    Service locators can avoid changes to the public interface but force
-    all code to lookup dependencies in the service locator and
-    centralizes instantiation logic and configuration in the service
-    locator or scatters instantiation logic by introducing external
-    configuration files.<br>
-
-    <br>
-
-    TODO - In general, mediating the interaction of every class that
-    needs mocked dependencies with a dependency injection framework or a
-    service locator adds a lot of complexity to the code.&nbsp;&nbsp; It
-    diminishes developer comprehension of the code.&nbsp; Sometimes you
-    can only figure out how classes are connected by stepping through
-    the program with a debugger.&nbsp;&nbsp; The overhead may also
-    discourage developers from writing test cases.<br>
-<br>
-TODO - discuss use of Thread Local Storage to offset sharing of 
-state.&nbsp;&nbsp;&nbsp; Con - TLS can break when an object is passed 
-around between threads.&nbsp;&nbsp;&nbsp; Both approaches (private 
-instance var, TLS var) both have the affect of introducing threading 
-constraints that are not documented as part of the public 
-API.&nbsp;&nbsp; Our original approach, however, cannot be used 
-incorrectly.<br>
 
     
-<h3>The Problem</h3>Let's take a step back, look at the problem at a 
+
+
+    
+
+    
+<h2>The Problem</h2>
+Let's take a step back, look at the problem at a 
 higher level and figure out what we really want.&nbsp;&nbsp; <br>
 <br>
 First we can add a few more test cases to make this more 
@@ -485,7 +460,13 @@ to break the very principle of object oriented programming they champion
 these abstract dependencies are still details of the class under test 
 and should not be exposed in the class under test's public API. <br>
 <br>
-Also we shouldn't have to modify a class's public API to collect the results of our assertions.&nbsp; &nbsp; <em><br>
+Also we shouldn't have to modify a class's public API to collect the results of our assertions. <br>
+<br>
+By keeping our testing constructs out of a class's public API, we also 
+make it easier to add tests to existing code.&nbsp;&nbsp; We can 
+introduce tests one class at a time without having to make more drastic,
+ potentially backwards compatibility breaking changes in order to inject
+ our mocks.<em><br>
   <br>
 Requirement 3:&nbsp; We cannot modify a class's public API in order to test it.</em> &nbsp; <em>As a result we cannot modify a class's public API in order to inject mock objects.</em><br>
 <br>
@@ -514,13 +495,14 @@ implementations are necessary or desirable.&nbsp;&nbsp; As a rule of
 thumb they should be used for packages or libraries, not individual 
 classes.&nbsp;&nbsp; <br>
 <br>
-We shouldn't impose the overhead abstractions/interfaces on every class in order to test it. <br>
+ Coarse-grained loose coupling is good.&nbsp;&nbsp; Fine-grained loose coupling is bad.<br>
+<br>
+We shouldn't impose the overhead of loose coupling on every class in order to test it. <br>
 <br>
 <em>Requirement 4: Tests should make classes more, not less, understandable.</em><br>
 <br>
-Finally we shouldn't have to change the actual behavior of a class in 
-order to test it.&nbsp;&nbsp; We do change the behavior when our tests 
-find bugs.<br>
+We shouldn't have to change the actual behavior of a class in order to 
+test it.&nbsp;&nbsp; We do change the behavior when our tests find bugs.<br>
 <br>
 In our motivating example, we turned a local variable into an instance 
 variable in order to inject a mock dependency.&nbsp;&nbsp; That may 
@@ -535,23 +517,436 @@ order to test it.&nbsp;&nbsp; It must be possible to introduce mock
 dependencies into local variables as well as instance and class 
 variables.</em><br>
 <br>
-TODO - test code should not run in prod<br>
+Test code should also be removed from production artifacts.&nbsp;&nbsp; 
+Embedded, mobile and downloaded applications may not be able tolerate 
+the extra size.&nbsp;&nbsp; <br>
 <br>
-TODO - assertions should be collected across threads<br>
-<h3>An Idea - Let Test Code Invade Classes Under Test.&nbsp;&nbsp; Strip It Out When Necessary.</h3>
-What if we weren't limited by the syntax of the Java programming 
-language and could instead introduce new constructions to support unit 
-testing?&nbsp;&nbsp; If we could change the programming language to 
-support our requirements, what would it look like?<br>
+Test hooks may expose additional attack surfaces to hackers.&nbsp;&nbsp;
+ Test code error handling strategies lean towards taking down the 
+application in a dramatic way so that it can be noticed and debugged 
+instead of production code which attempts to recover from 
+errors.&nbsp;&nbsp; It's generally bad if test code is executed in a 
+production context.<br>
 <br>
-Here's a slight modification of Java that let's us meet our five 
-requirements.&nbsp;&nbsp; The key idea here is to make test cases 
-implementational details of the classes under test.&nbsp;&nbsp; As such 
-they can substitute mock dependencies without altering the public API<br>
+<em>Requirement 6: Test code must not be included in production artifacts.</em><br>
+<br>
+Finally, it must be possible to write test cases for classes that are 
+used in multithreaded contexts.&nbsp;&nbsp; The test framework itself 
+must be threadsafe.&nbsp;&nbsp; It must be possible to collect test case
+ results for test cases that span multiple threads.&nbsp;&nbsp; Tricks 
+like storing test results in thread local storage fall over as soon as 
+the test case crosses the thread boundary.<br>
+<br>
+<em>Requirement 7: It must be possible to test multithreaded code.</em><br>
+<h2>A Conflict Between Code Testability &amp; Code Understandabililty<br>
+</h2>
+There's a conflict between <em>requirements 3 &amp; 4</em> that's hard to resolve.<br>
+<br>
+<em>Requirement 3:&nbsp; We cannot modify a class's public API in order to test it.</em> &nbsp; <em>As a result we cannot modify a class's public API in order to inject mock objects.</em><br>
+<br>
+<em>Requirement 4:&nbsp; Tests should make classes more, not less, understandable.<br>
+</em><br>
+We can satisfy <em>requirement 3</em> by finding an alternative 
+mechanism to inject mock dependencies.&nbsp;&nbsp; Martin Fowler, for 
+instance, details use of Service Locators in <a href="http://martinfowler.com/articles/injection.html">Inversion
+      of Control Containers and the Dependency Injection pattern</a>.&nbsp;&nbsp;&nbsp;
+ A Service Locator, in a nutshell, is a singleton class that can hand 
+out instances of other classes given a service ID.&nbsp; If classes 
+under test use a Service Locator instead of directly instantiating their
+ dependencies we can at least satisfy <em>Requirement 3</em> without 
+modifying their public APIs.&nbsp;&nbsp;&nbsp; When executing in test 
+mode, the Service Locator can return mocks instead of real 
+instances.&nbsp;&nbsp; The call to the Service Locator is nicely hidden 
+behind the class under test's original public API.<br>
+<br>
+A toy service locator:<br>
+<pre>public interface Factory {<br>    Object create();<br>}<br><br>public class Registry {<br>    private static final Map&lt;String, Object&gt; map = new HashMap&lt;String, Factory&gt;();<br><br>    public synchronized static Object create(String id) {<br>        return map.get(id).create();<br>    }<br><br>    public synchronized static void register(String id, Factory factory) {<br>        map.set(id, object);<br>    }<br>}<br><br>public class XmlFetcher {
+
+    public Map&lt;String, Object&gt; fetch(final String[] URLs) {<br>        try {<br>       &nbsp;    DefaultHttpAsyncClient client = (DefaultHttpAsyncClient) Registry.lookup("XmlFetcher.HttpClient");
+        <br>        ...<br>    }<br>}<br><br>@Test<br>public class XmlFetcherTest<br><br>    public void testValidResponseAsync() throws Exception {<br><br>	// Register a factory that can create a mock object<br><br>        Registry.register("XmlFetcher.HttpClient", new Factory() {<br>            @Override<br>            public Object create() {<br>                return new DefaultHttpAsyncClient() {
+            		@Override
+            		public Future&lt;HttpResponse&gt; execute(HttpUriRequest request, FutureCallback&lt;HttpResponse&gt; callback) {<br>				...<br>                        }<br>		}
+        };<br><br>	// Mock does not have to be injected through the public API<br><br>        XmlFetcher client = new XmlFetcher();
+
+        Map&lt;String, Object&gt; results = client.fetch(new String[]{URL});
+
+        ...
+    }<br>}<br></pre>
+A real Service Locator would be more complex than this.&nbsp;&nbsp; 
+Probably the object/factory registration would be externalized in a 
+config file.&nbsp;&nbsp; Different config files could be used for 
+production and testing.<br>
+<br>
+Regardless of implementation, all Service Locators introduce loose 
+coupling with all of it's advantages and disadvantages. &nbsp; When 
+browsing a class's implementation, you'll see the interfaces of its 
+dependencies, but you'll have to jump through extra hoops to understand 
+which implementations will be used at runtime in various contexts. 
+&nbsp; <br>
+<br>
+As we argued earlier, coarse-grained loose coupling is good, 
+find-grained loose coupling is bad.&nbsp;&nbsp; If we use Service 
+Locators to introduce mock dependencies into classes under test, we give
+ our code fine-grained loose coupling.<br>
+<br>
+So unless someone comes up with a new way to inject mock dependencies, we're left with a conflict between <em>requirements 3 &amp; 4</em>.&nbsp;&nbsp;
+ In order to test code we make it less understandable by introducing too
+ much loose coupling in an effort to inject mock dependencies.<br>
+<h2>A Proposal: Build Unit Testing And Mock Injection Into The Programming Language<br>
+</h2>
+What if we were less limited by the constraints of our programming 
+language and could instead modify it to better support testing?<br>
+<br>
+We could introduce various niceties like baked-in unit testing and 
+object mocking constructions so developers don't have to spend the time 
+fiddling with external frameworks every time they setup a new project.<br>
+<br>
+Maybe we could also address the conflict between testability and 
+understandability.&nbsp;&nbsp; Here we could specify mock dependencies 
+inline in classes under test without resorting to loose 
+coupling.&nbsp;&nbsp; The missing piece of syntatic sugar would be using
+ a tag like 'test', 'unit', or 'madonnaTest' to control which dependency
+ implementation is used.&nbsp;&nbsp; <br>
+<br>
+Rather than scattering the class under test, test cases, and mock 
+dependencies across many files, we could let both test cases and mocks 
+'invade' the class under test.<br>
+<br>
+The same tags could be used to strip out test cases and mocks from the 
+code before delivering it to production.&nbsp;&nbsp; Conceivably IDEs 
+could use them to toggle between a class view with and without test code
+ lest our classes become too cluttered with test cases and mock objects.<br>
+<br>
+Here are three changes we could make to Java...<br>
+<br>
+First, classes can now be instantiated with tags using the '[' <span style="font-style: italic;">tag</span><em></em> ':' <span style="font-family: monospace;"><em>expression</em> (',' </span><em><span style="font-family: monospace;">tag</span></em> ':' <span style="font-family: monospace;"><em>expression</em> )* ']'</span><span style="font-family: monospace;"> syntax.&nbsp;&nbsp; Example:<br>
+</span>
+<pre>            client = [
+                default: new DefaultHttpAsyncClient(),
+                test1: new DefaultHttpAsyncClient() {
+                    private static final String XML = "&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?&gt;&lt;metadata xmlns=\"http://musicbrainz.org/ns/mmd-1.0#\" xmlns:ext=\"http://musicbrainz.org/ns/ext-1.0#\"&gt;&lt;artist-list offset=\"0\" count=\"13\"&gt;&lt;artist type=\"Person\" id=\"79239441-bfd5-4981-a70c-55c3f15c1287\" ext:score=\"100\"&gt;&lt;name&gt;Madonna&lt;/name&gt;&lt;sort-name&gt;Madonna&lt;/sort-name&gt;&lt;life-span begin=\"1958-08-16\"/&gt;&lt;/artist&gt;&lt;/artist-list&gt;&lt;/metadata&gt;";
+
+                    @Override
+                    public Future&lt;HttpResponse&gt; execute(HttpUriRequest request, FutureCallback&lt;HttpResponse&gt; callback) {
+                        try {
+                            BasicHttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, 200, "OK");
+
+                            BasicHttpEntity entity = new BasicHttpEntity();
+
+                            byte[] content = XML.getBytes("UTF-8");
+
+                            entity.setContentLength(content.length);
+                            entity.setContentType("application/xml;charset=\"utf8\"");
+                            entity.setContent(new ByteArrayInputStream(content));
+
+                            response.setEntity(entity);
+
+                            callback.completed(response);
+                        } catch (Exception ex) {
+                            callback.failed(ex);
+                        }
+
+                        return null;
+                    }
+                }
+            ];</pre>
+
+<br>
+Second, test cases can now control which implementations are 
+instantiated with a syntactic construction similar to C++'s placement 
+new.&nbsp;&nbsp; Example:<br>
+<pre>	XmlFetcher client = new(test1) XmlFetcher();<br> <br></pre>
+
+If plain old 'new' is used, the alternative tagged 'default' will be instantiated.<br>
+<br>
+Third and finally, test cases can now be included inline in the class under test:<br>
+<pre>    test testValidResponseAsync() {
+        final String URL = "http://musicbrainz.org/ws/1/artist?limit=1&amp;query=madonna";
+
+        XmlFetcher client = new(test1) XmlFetcher();
+
+        client.fetch(new String[]{URL}, new XmlFetcher.Callback() {
+            @Override
+            public void completed(Map&lt;String, Object&gt; results) {
+                Object result = results.get("http://musicbrainz.org/ws/1/artist?limit=1&amp;query=madonna");
+
+                assert result instanceof Document;
+
+                Document document = (Document) result;
+
+                NodeList nodeList = document.getElementsByTagName("name");
+
+                assert null != nodeList;
+                assert 1 == nodeList.getLength();
+
+                Node node = nodeList.item(0);
+
+                assert "Madonna".equals(node.getTextContent());
+            }
+        });
+    }</pre>
+
+Putting them all together, our XmlFetcher would now look like this:<br>
+
+<pre>/**
+ * A HTTP client that fetches and parses a XML response from n URLs concurrently and asynchronously.
+ */
+public class XmlFetcher {
+    public XmlFetcher() {
+    }
+
+    public interface Callback {
+        public void completed(Map&lt;String, Object&gt; results);
+    }
+
+    /**
+     * GET and parse n XML responses from n URLs.
+     *
+     * @param URLs             The URLs to fetch
+     * @param externalCallback A user-supplied callback that will be passed a map of URL to Object results.  Objects
+     *                         can be downcast to either an org.w3c.dom.Document or a java.lang.Exception
+     */
+    public void fetch(final String[] URLs, final Callback externalCallback) {
+        final Map&lt;String, Object&gt; results = new HashMap&lt;String, Object&gt;();
+        final DefaultHttpAsyncClient client;
+
+        try {
+            client = [
+                default: new DefaultHttpAsyncClient(),
+                test1: new DefaultHttpAsyncClient() {
+                    private static final String XML = "&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?&gt;&lt;metadata xmlns=\"http://musicbrainz.org/ns/mmd-1.0#\" xmlns:ext=\"http://musicbrainz.org/ns/ext-1.0#\"&gt;&lt;artist-list offset=\"0\" count=\"13\"&gt;&lt;artist type=\"Person\" id=\"79239441-bfd5-4981-a70c-55c3f15c1287\" ext:score=\"100\"&gt;&lt;name&gt;Madonna&lt;/name&gt;&lt;sort-name&gt;Madonna&lt;/sort-name&gt;&lt;life-span begin=\"1958-08-16\"/&gt;&lt;/artist&gt;&lt;/artist-list&gt;&lt;/metadata&gt;";
+
+                    @Override
+                    public Future&lt;HttpResponse&gt; execute(HttpUriRequest request, FutureCallback&lt;HttpResponse&gt; callback) {
+                        try {
+                            BasicHttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, 200, "OK");
+
+                            BasicHttpEntity entity = new BasicHttpEntity();
+
+                            byte[] content = XML.getBytes("UTF-8");
+
+                            entity.setContentLength(content.length);
+                            entity.setContentType("application/xml;charset=\"utf8\"");
+                            entity.setContent(new ByteArrayInputStream(content));
+
+                            response.setEntity(entity);
+
+                            callback.completed(response);
+                        } catch (Exception ex) {
+                            callback.failed(ex);
+                        }
+
+                        return null;
+                    }
+                }
+            ];
+        } catch (IOReactorException ex) {
+            for (String url : URLs) {
+                results.put(url, ex);
+            }
+
+            return;
+        }
+
+        client.start();
+
+        for (final String URL : URLs) {
+            client.execute(new HttpGet(URL), new FutureCallback&lt;HttpResponse&gt;() {
+                private String url = URL;
+
+                public void completed(HttpResponse response) {
+                    if (200 &gt; response.getStatusLine().getStatusCode() || 300 &lt;= response.getStatusLine().getStatusCode()) {
+                        handleEvent(new HttpException(response.getStatusLine().getReasonPhrase()));
+
+                        return;
+                    }
+
+                    HttpEntity body = response.getEntity();
+
+                    try {
+                        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+                        Document document = docBuilder.parse(body.getContent());
+
+                        handleEvent(document);
+                    } catch (Exception ex) {
+                        handleEvent(ex);
+                    }
+                }
+
+                public void failed(Exception ex) {
+                    handleEvent(ex);
+                }
+
+                public void cancelled() {
+                    handleEvent(new CancellationException());
+                }
+
+                private void handleEvent(Object object) {
+                    boolean isComplete = false;
+
+                    synchronized (results) {
+                        results.put(url, object);
+
+                        if (results.size() == URLs.length) {
+                            isComplete = true;
+                        }
+                    }
+
+                    if (isComplete) {
+                        // TODO - do a client.shutdown() without a deadlock.
+                        externalCallback.completed(results);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * GET and parse n XML responses from n URLs
+     *
+     * @param URLs The URLs to fetch
+     * @return A map of URL to Object results.  Objects can be downcast to either an org.w3c.dom.Document or a java.lang.Exception
+     * @throws InterruptedException
+     */
+    public Map&lt;String, Object&gt; fetch(String[] URLs) throws InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+        final Map&lt;String, Object&gt;[] result = (Map&lt;String, Object&gt;[]) new Map[1];
+
+        fetch(URLs, new Callback() {
+            @Override
+            public void completed(Map&lt;String, Object&gt; results) {
+                result[0] = results;
+                latch.countDown();
+            }
+        });
+
+        latch.await();
+
+        return result[0];
+    }
+
+    test testValidResponseSync() {
+        final String URL = "http://musicbrainz.org/ws/1/artist?limit=1&amp;query=madonna";
+
+        XmlFetcher client = new(test1) XmlFetcher();
+
+        Map&lt;String, Object&gt; results = client.fetch(new String[]{URL});
+
+        Object result = results.get("http://musicbrainz.org/ws/1/artist?limit=1&amp;query=madonna");
+
+        assert result instanceof Document;
+
+        Document document = (Document) result;
+
+        NodeList nodeList = document.getElementsByTagName("name");
+
+        assert null != nodeList;
+        assert 1 == nodeList.getLength();
+
+        Node node = nodeList.item(0);
+
+        assert "Madonna".equals(node.getTextContent());
+    }
+
+    test testValidResponseAsync() {
+        final String URL = "http://musicbrainz.org/ws/1/artist?limit=1&amp;query=madonna";
+
+        XmlFetcher client = new(test1) XmlFetcher();
+
+        client.fetch(new String[]{URL}, new XmlFetcher.Callback() {
+            @Override
+            public void completed(Map&lt;String, Object&gt; results) {
+                Object result = results.get("http://musicbrainz.org/ws/1/artist?limit=1&amp;query=madonna");
+
+                assert result instanceof Document;
+
+                Document document = (Document) result;
+
+                NodeList nodeList = document.getElementsByTagName("name");
+
+                assert null != nodeList;
+                assert 1 == nodeList.getLength();
+
+                Node node = nodeList.item(0);
+
+                assert "Madonna".equals(node.getTextContent());
+            }
+        });
+    }
+}</pre>
+
+Now let's go back to our seven requirements and see how this approach fares:<br>
+<br>
+<span style="font-style: italic;">Requirement 1: T</span><em>est cases must be able to specify which mock object the class under test will use.</em>&nbsp; <br>
+
+<br>
+
+Check. &nbsp; Test cases can now select the mock with the 'new(' <em>tag</em> ')' syntax. &nbsp; <em><br>
+
+  <br>
+Requirement 2: Assertions must collaborate at all levels of the unit test.</em><br>
+
+<br>
+
+Check.&nbsp;&nbsp; Here all we do is use Java's built-in 
+assertion.&nbsp; Assertions can be placed in test cases, mocks, and the 
+real code.&nbsp;&nbsp;&nbsp; An assertion at any level with unroll the 
+stack and be noted by the test runner.<em><br>
+  <br>
+Requirement 3:&nbsp; We cannot modify a class's public API in order to test it.</em> &nbsp; <em>As a result we cannot modify a class's public API in order to inject mock objects.</em><br>
+
+<br>
+
+ Check.&nbsp;&nbsp; No changes to the public API were made.&nbsp;&nbsp; Mocks are injected in the implementation.<br>
+
+<br>
+
+<em>Requirement 4: Tests should make classes more, not less, understandable.</em><br>
+
+<br>
+
+Check?&nbsp;&nbsp; This one is arguable.&nbsp;&nbsp; Some will like 
+seeing everything in one place.&nbsp;&nbsp; Others will say that the 
+test code has 'polluted' the class under test, though hopefully they'll 
+still prefer it to fine-grained loose coupling.<br>
+<br>
+To partially offset the pollution argument, we could put pressure on our
+ IDEs to toggle between test-code and no-test-code views.<br>
+<br>
+
+<em>Requirement 5:&nbsp; We cannot alter a class in dangerous ways in order 
+to test it.&nbsp;&nbsp; It must be possible to introduce mock dependencies into 
+local variables as well as instance and class variables.</em><br>
+
+<br>
+
+Check.&nbsp;&nbsp; You can inject mocks anywhere you can use 'new'.<br>
+
+<br>
+
+<em>Requirement 6: Test code must not be included in production artifacts.</em><br>
+
+<br>
+
+Check.&nbsp;&nbsp; We can strip out all test cases and mock dependencies
+ (dependencies not tagged 'default') from the production artifacts.<br>
+
+<br>
+
+<em>Requirement 7: It must be possible to test multithreaded code.</em><br>
+<br>
+TODO - need to find a way to associate failed assertions/exceptions 
+thrown by threads other than the test case thread with the test case.<br>
+<br>
+<h2>Dedication</h2>
+This idea is dedicated to Erik Forsberg whose code I once inherited and 
+who wrote functions consisting of thousands of lines of 
+code.&nbsp;&nbsp; His code was hard to modify, but it sure was easy to 
+understand.<br>
 <br>
 <br>
 <br>
-TODO - req breakdown.&nbsp;&nbsp; Show how different features meet reqs<br>
 
 
     

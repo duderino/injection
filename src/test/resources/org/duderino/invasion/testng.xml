@@ -9,6 +9,8 @@
             <class name="org.duderino.invasion.HelloWorldTest"/>
             <class name="org.duderino.invasion.example.conventional_test.MusicianDatabaseTest"/>
             <class name="org.duderino.invasion.example.conventional_test.XmlFetcherTest"/>
+            <class name="org.duderino.invasion.example.jmockit_test.MusicianDatabaseTest"/>
+            <class name="org.duderino.invasion.example.jmockit_test.XmlFetcherTest"/>
         </classes>
     </test>
 

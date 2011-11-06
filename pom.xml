@@ -10,12 +10,30 @@
     <packaging>jar</packaging>
     <url>https://github.com/duderino/invasion</url>
 
+    <repositories>
+        <repository>
+            <id>jmockit-svn</id>
+            <url>http://jmockit.googlecode.com/svn/maven-repo</url>
+            <releases>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
+
+
     <dependencies>
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr-runtime</artifactId>
             <version>3.4</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <version>0.999.10</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -97,6 +115,8 @@
                     <systemPropertyVariables>
                         <propertyName>propertyValue</propertyName>
                     </systemPropertyVariables>
+                    <argLine>-javaagent:"${settings.localRepository}"/mockit/jmockit/0.999.10/jmockit-0.999.10.jar
+                    </argLine>
                 </configuration>
             </plugin>
 

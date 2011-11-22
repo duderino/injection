@@ -348,8 +348,8 @@ public class XmlFetcherTest {
     Here comes the point.&nbsp;&nbsp; In order to properly unit test our
     asynchronous HTTP client convenience class we had to change
     it. &nbsp; Here's a before and after diff compliments of
-    IntelliJ.&nbsp;&nbsp; On the right is the original code.&nbsp; On
-    the left is the code modified to support injection of our mock
+    IntelliJ.&nbsp;&nbsp; On the left is the original code.&nbsp; On
+    the right is the code modified to support injection of our mock
     object:<br>
 
     <br>
@@ -538,6 +538,17 @@ like storing test results in thread local storage fall over as soon as
 the test case crosses the thread boundary.<br>
 <br>
 <em>Requirement 7: It must be possible to test multithreaded code.</em><br>
+<br>
+TODO - add new requirement - One requirement that you didn't list explicitly as it may (not) be obvious:
+<br>
+you want a solution that's "pure Java" (or 100% in the language used for
+<br>
+writing code, not somewhere in the system around the code).&nbsp; Otherwise,
+<br>
+you could run a local web server, your code can connect to "127.0.0.1" and
+<br>
+you can return a mock XML.
+
 <h2>A Conflict Between Code Testability &amp; Code Understandabililty<br>
 </h2>
 There's a conflict between <em>requirements 3 &amp; 4</em> that's hard to resolve.<br>

@@ -1,4 +1,4 @@
-package org.duderino.invasion.example.conventional_test;
+package org.duderino.injection.jmockit;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
@@ -20,14 +20,8 @@ import java.util.concurrent.CountDownLatch;
  * A HTTP client that fetches and parses a XML response from n URLs concurrently and asynchronously.
  */
 public class XmlFetcher {
-    private DefaultHttpAsyncClient client;
 
-    public XmlFetcher() throws IOReactorException {
-        client = new DefaultHttpAsyncClient();
-    }
-
-    public XmlFetcher(DefaultHttpAsyncClient client) {
-        this.client = client;
+    public XmlFetcher() {
     }
 
     public interface Callback {
@@ -43,6 +37,17 @@ public class XmlFetcher {
      */
     public void fetch(final String[] URLs, final Callback externalCallback) {
         final Map<String, Object> results = new HashMap<String, Object>();
+        final DefaultHttpAsyncClient client;
+
+        try {
+            client = new DefaultHttpAsyncClient();
+        } catch (IOReactorException ex) {
+            for (String url : URLs) {
+                results.put(url, ex);
+            }
+
+            return;
+        }
 
         client.start();
 

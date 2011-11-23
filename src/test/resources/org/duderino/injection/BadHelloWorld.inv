@@ -1,8 +1,0 @@
-package org.duderino.invasion.example;
-
-public class BadHelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-
-// missing terminating brace

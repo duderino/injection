@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/invasion.iml" filepath="$PROJECT_DIR$/invasion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/injection.iml" filepath="$PROJECT_DIR$/injection.iml" />
     </modules>
   </component>
 </project>

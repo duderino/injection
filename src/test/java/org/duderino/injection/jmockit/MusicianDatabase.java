@@ -1,6 +1,5 @@
-package org.duderino.invasion.example.conventional_test;
+package org.duderino.injection.jmockit;
 
-import org.apache.http.nio.reactor.IOReactorException;
 import org.w3c.dom.Document;
 
 import javax.xml.xpath.XPath;
@@ -10,14 +9,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 public class MusicianDatabase {
-    private XmlFetcher client;
-
-    public MusicianDatabase(XmlFetcher client) {
-        this.client = client;
-    }
-
-    public MusicianDatabase() throws IOReactorException {
-        client = new XmlFetcher();
+    public MusicianDatabase() {
     }
 
     public Info fetch(String name) {
@@ -26,6 +18,8 @@ public class MusicianDatabase {
                 "http://api.usatoday.com/open/articles?count=1&api_key=ptm7j7nr5qqbry5uze5vgnvn&tag=" + name,
                 "http://z3950.loc.gov:7090/voyager?version=1.1&operation=searchRetrieve&maximumRecords=1&recordSchema=dc&query=" + name
         };
+
+        final XmlFetcher client = new XmlFetcher();
 
         final CountDownLatch latch = new CountDownLatch(1);
         final Info info = new Info();

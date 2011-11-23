@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.duderino.invasion</groupId>
-    <artifactId>invasionc</artifactId>
-    <name>Invasion Compiler</name>
+    <groupId>org.duderino.injection</groupId>
+    <artifactId>injection</artifactId>
+    <name>Injection</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <url>https://github.com/duderino/invasion</url>
+    <url>https://github.com/duderino/injection</url>
 
     <repositories>
         <repository>
@@ -22,13 +22,6 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-            <version>3.4</version>
-            <scope>compile</scope>
-        </dependency>
-
         <dependency>
             <groupId>mockit</groupId>
             <artifactId>jmockit</artifactId>
@@ -56,53 +49,11 @@
             <version>1.9.0-rc1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
-        <defaultGoal>install</defaultGoal>
+        <defaultGoal>test</defaultGoal>
         <plugins>
-            <plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr3-maven-plugin</artifactId>
-                <version>3.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>antlr</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>org.duderino.invasion.Main</mainClass>
-                        </manifest>
-                    </archive>
-
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -110,7 +61,7 @@
                 <configuration>
                     <useFile>false</useFile>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/org/duderino/invasion/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/org/duderino/injection/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <propertyName>propertyValue</propertyName>

@@ -1,5 +1,7 @@
-package org.duderino.invasion.example.conventional_test;
+package org.duderino.injection.jmockit;
 
+import mockit.Mock;
+import mockit.Mockit;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 
@@ -23,8 +25,8 @@ public class MusicianDatabaseTest {
     }
 
     public void unitTest() throws Exception {
-        XmlFetcher mockClient = new XmlFetcher() {
-            @Override
+        Mockit.setUpMock(XmlFetcher.class, new XmlFetcher() {
+            @Mock
             public void fetch(final String[] urls, final Callback callback) {
                 Map<String, String> results = new HashMap<String, String>();
 
@@ -49,9 +51,9 @@ public class MusicianDatabaseTest {
 
                 callback.completed(map);
             }
-        };
+        });
 
-        MusicianDatabase musicianDatabase = new MusicianDatabase(mockClient);
+        MusicianDatabase musicianDatabase = new MusicianDatabase();
 
         MusicianDatabase.Info info = musicianDatabase.fetch("madonna");
 

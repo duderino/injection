@@ -6,6 +6,7 @@
 
     <test name="unit">
         <classes>
+            <class name="org.duderino.injection.jmockit.basic.Y2KCheckerTest"/>
             <class name="org.duderino.injection.jmockit.MusicianDatabaseTest"/>
             <class name="org.duderino.injection.jmockit.XmlFetcherTest"/>
             <class name="org.duderino.injection.jmockit.SharedQueueTest"/>

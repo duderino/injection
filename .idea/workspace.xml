@@ -2,39 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1529a4b5-bc45-4305-adf1-719b398bb8e1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPool.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueueTest.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__antlr_antlr_2_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_antlr_antlr_runtime_3_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_antlr_stringtemplate_3_2_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/antlr3/org/duderino/invasion/Invasion.g" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/duderino/injection/InvasionParserBase.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/org/duderino/injection/Main.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/HelloWorldTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/TestBase.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/conventional_test/MusicianDatabase.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/conventional_test/XmlFetcher.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/invasion_test/MusicianDataBase.inv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/invasion_test/XmlFetcher.inv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/no_test/Stack.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/BadHelloWorld.inv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/HelloWorld.inv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/example/flavor1/AsyncParallelHttpClient.inv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/example/flavor1/Helper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/example/flavor1/Stack.inv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/example/flavor1/SyncParallelHttpClient.inv" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/conventional_test/MusicianDatabaseTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/conventional_test/XmlFetcherTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcherTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/no_test/MusicianDatabase.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabase.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/no_test/XmlFetcher.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.project" afterPath="$PROJECT_DIR$/.project" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README" afterPath="$PROJECT_DIR$/README" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/injection.iml" afterPath="$PROJECT_DIR$/injection.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" />
     </list>
     <ignored path="injection.iws" />
@@ -99,6 +66,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="ConsumerPoolTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="25" selection-start="1289" selection-end="1306" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ConsumerPool.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPool.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -108,10 +84,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConsumerPoolTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java">
+      <file leaf-file-name="MusicianDatabaseTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="38" selection-start="8" selection-end="38" vertical-scroll-proportion="0.0">
+            <state line="42" column="34" selection-start="7729" selection-end="7729" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Y2KChecker.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KChecker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="24" selection-start="0" selection-end="571" vertical-scroll-proportion="0.2979146">
               <folding />
             </state>
           </provider>
@@ -120,43 +105,34 @@
       <file leaf-file-name="testng.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="55" selection-start="424" selection-end="424" vertical-scroll-proportion="0.0">
+            <state line="8" column="79" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="System.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/System.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="125" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.18073486">
+            <state line="325" column="30" selection-start="11600" selection-end="11600" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MusicianDatabase.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabase.java">
+      <file leaf-file-name="Y2KCheckerTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+            <state line="25" column="26" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MusicianDatabaseTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java">
+      <file leaf-file-name="Date.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/util/Date.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SharedQueue.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueue.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+            <state line="864" column="16" selection-start="37265" selection-end="37265" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -165,16 +141,7 @@
       <file leaf-file-name="SharedQueueTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueueTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XmlFetcher.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+            <state line="9" column="13" selection-start="172" selection-end="172" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -183,7 +150,7 @@
       <file leaf-file-name="XmlFetcherTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcherTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+            <state line="23" column="13" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -203,8 +170,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/MusicianDatabaseTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/XmlFetcherTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/SharedQueue.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/SharedQueueTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/ConsumerPool.java" />
@@ -217,8 +182,10 @@
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcher.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcherTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KChecker.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java" />
       </list>
     </option>
   </component>
@@ -333,6 +300,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="jmockit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="injection" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmockit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="basic" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -498,6 +495,9 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value="SHOW_PROPERTIES" />
+  </component>
   <component name="SvnConfiguration" maxAnnotateRevisions="500">
     <option name="USER" value="" />
     <option name="PASSWORD" value="" />
@@ -552,11 +552,11 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29445878" sideWeight="0.66477275" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997421" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29445878" sideWeight="0.0" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29445878" sideWeight="0.3276515" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -615,37 +615,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpasyncclient/4.0-alpha2/httpasyncclient-4.0-alpha2-sources.jar!/org/apache/http/impl/nio/client/DefaultHttpAsyncClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpasyncclient/4.0-alpha2/httpasyncclient-4.0-alpha2.jar!/org/apache/http/impl/nio/client/AbstractHttpAsyncClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="45" selection-start="178" selection-end="201" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/util/concurrent/Semaphore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="284" column="16" selection-start="10573" selection-end="10573" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="29" selection-start="10456" selection-end="10456" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/Thread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1198" column="35" selection-start="46225" selection-end="46225" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/Runnable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="38" column="10" selection-start="1535" selection-end="1535" vertical-scroll-proportion="0.0">
@@ -653,21 +622,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="23" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
           <folding />
@@ -681,44 +636,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueueTest.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+        <state line="40" column="43" selection-start="1349" selection-end="1349" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/util/Calendar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="290" column="22" selection-start="14179" selection-end="14179" vertical-scroll-proportion="3.8679245">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+        <state line="21" column="13" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueueTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="172" selection-end="172" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcherTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+        <state line="23" column="13" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/util/Date.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="38" selection-start="8" selection-end="38" vertical-scroll-proportion="0.0">
+        <state line="864" column="16" selection-start="37265" selection-end="37265" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="34" selection-start="7729" selection-end="7729" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/System.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="325" column="30" selection-start="11600" selection-end="11600" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="55" selection-start="424" selection-end="424" vertical-scroll-proportion="0.0">
+        <state line="8" column="79" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="125" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.18073486">
+        <state line="44" column="25" selection-start="1289" selection-end="1306" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="23" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="26" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="24" selection-start="0" selection-end="571" vertical-scroll-proportion="0.2979146">
           <folding />
         </state>
       </provider>

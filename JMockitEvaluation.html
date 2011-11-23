@@ -1,13 +1,333 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>JMockit Evaluation</title>
 </head>
 <body>
   
-<h1>JMockit Evaluation<br />
-</h1>
+<h1>JMockit Evaluation</h1>
+<h2>1. Inject mocks/stubs without changing the API</h2>
+Class.java:<br />
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}<br /></pre>
+Dependency.java:<br />
+<pre>public class Dependency {
+    public int generate() {
+        return (int) Math.random() * 1000;
+    }
+}<br /></pre>
+ClassTest.java:<br />
+<pre>public class ClassTest {
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, new Dependency() {
+            @Mock
+            @Override
+            public int generate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}<br /></pre>
+<h2>2. Mock/stub out final/non-virtual functions</h2>
+Change dependency to be final so our mock cannot subclass it.<br />
+
+<br />
+
+Dependency.java:<br />
+
+
+
+
+<pre>public final class Dependency {
+    public final int generate() {
+        return (int) Math.random() * 1000;
+    }
+}</pre>
+
+
+The class under test doesn't change.<br />
+
+<br />
+
+Class.java:<br />
+
+
+
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}
+<br /></pre>
+
+The test case can no longer use Java's anonymous inner class mechanism 
+since the dependency cannot be subclassed.   Instead it has to use a 
+static/regular class with JMockit's @MockClass annotation.   The 
+annotation tells JMockit which class the mock is meant to replace.   It 
+works, but it is a bit less natural.<br />
+
+
+<br />
+
+
+
+ClassTest.java:<br />
+
+
+
+<pre>public class ClassTest {
+    @MockClass(realClass = Dependency.class)
+    public static class MockDependency {
+        @Mock
+        public int generate() {
+            return 123;
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}
+</pre>
+
+
+
+<h2>3. Mock/stub out static functions</h2>
+Here we change our dependency's method to be static.<br />
+<br />
+Dependency.java:<br />
+
+
+
+<pre>public class Dependency {
+    public static int generate() {
+        return (int) Math.random() * 1000;
+    }
+}
+</pre>
+
+The class under test no longer instantiates the dependency and instead calls its static method.<br />
+<br />
+Class.java:<br />
+
+
+<pre>public class Class {
+    public int generate() {
+        return Dependency.generate() * 2;
+    }
+}
+<br /></pre>
+The static method can be mocked out using the same mechanism used in the previous example.<br />
+
+<br />
+
+
+ClassTest.java:<br />
+
+
+<pre>public class ClassTest {
+    @MockClass(realClass = Dependency.class)
+    public static class MockDependency {
+        @Mock
+        public static int generate() {
+            return 123;
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}</pre>
+
+<h2>4. Mock/stub out anonymous inner classes</h2>
+That call back on the containing class?<br />
+<br />
+<h2>5. Mock/stub out inaccessible (e.g., private) inner classes</h2>
+<h2>6. Inject hand-coded mocks or stubs
+    </h2>
+<h2>7. Mocks injection can be narrowly targeted</h2>
+<br />
+<h3>Lesson Learned: Mocking Out The Java Class Library Is Dangerous</h3>
+
+Configuration.java<br />
+
+<pre>package org.duderino.injection.jmockit._1;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Configuration {
+    private Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+    private final String path;
+
+    public Configuration(String path) throws Exception {
+        this.path = path;
+
+        reload();
+    }
+
+    public String get(String key) {
+        return map.get(key);
+    }
+
+    public void reload() throws Exception {
+        map.clear();
+
+        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+        Document document = docBuilder.parse(new FileInputStream(path));
+
+        NodeList settings = document.getElementsByTagName("setting");
+
+        for (int i = 0; i &lt; settings.getLength(); ++i) {
+            Node setting = settings.item(i);
+
+            NodeList children = setting.getChildNodes();
+
+            String key = null;
+            String value = null;
+
+            for (int j = 0; j &lt; children.getLength(); ++j) {
+                Node child = children.item(j);
+
+                if ("key".equals(child.getNodeName())) {
+                    key = child.getNodeValue();
+                    continue;
+                }
+
+                if ("value".equals(child.getNodeName())) {
+                    value = child.getNodeValue();
+                    continue;
+                }
+            }
+
+            if (null != key) {
+                map.put(key, value);
+            }
+        }
+    }
+}
+<br /></pre>
+
+ConfigurationTest.java<br />
+
+<pre>package org.duderino.injection.jmockit._1;
+
+import mockit.Mock;
+import mockit.Mockit;
+import org.testng.annotations.Test;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class ConfigurationTest {
+    @Test
+    public void testCheck() throws Exception {
+        final String xml = "&lt;settings&gt;&lt;setting&gt;&lt;key&gt;foo&lt;/key&gt;&lt;value&gt;bar&lt;/value&gt;&lt;/setting&gt;&lt;/settings&gt;";
+
+        Mockit.setUpMock(FileInputStream.class, new InputStream() {
+            private byte[] bytes = xml.getBytes("UTF-8");
+            private int index = 0;
+
+            @Mock
+            public int read() throws IOException {
+                if (index &gt;= bytes.length) {
+                    return 0;
+                }
+
+                return bytes[index++];
+            }
+
+            @Mock
+            private void open(String name) throws FileNotFoundException {
+                // do nothing
+            }
+        });
+
+        Configuration configuration = new Configuration("dummy path");
+
+        assert "bar".equals(configuration.get("foo"));
+    }
+}
+<br /></pre>
+
+Output:<br />
+
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+WARNING: JMockit was initialized on demand, which may cause certain tests to fail;
+please check the documentation for better ways to get it initialized.
+ZoneInfo: Bad file descriptor
+ZoneInfo: Bad file descriptor
+ZoneInfo: Bad file descriptor
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.779 sec &lt;&lt;&lt; FAILURE!
+testCheck(org.duderino.injection.jmockit._1.ConfigurationTest)  Time elapsed: 0.382 sec  &lt;&lt;&lt; FAILURE!
+java.lang.NoClassDefFoundError: org/duderino/injection/jmockit/_1/Configuration
+	at org.duderino.injection.jmockit._1.ConfigurationTest.testCheck(ConfigurationTest.java:36)
+Caused by: java.lang.ClassNotFoundException: org.duderino.injection.jmockit._1.Configuration
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:199)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 35 more
+Caused by: java.io.IOException: Bad file descriptor
+	at java.io.FileInputStream.readBytes(Native Method)
+	at java.io.FileInputStream.read(FileInputStream.java:220)
+	at sun.misc.Resource.getBytes(Resource.java:108)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:257)
+	at java.net.URLClassLoader.access$000(URLClassLoader.java:58)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:197)
+	... 40 more
+testCheck(org.duderino.injection.jmockit.basic.Y2KCheckerTest)  Time elapsed: 0.01 sec  &lt;&lt;&lt; FAILURE!
+<br /></pre>
+
+<br />
+<h2>8. Generate basic stubs
+    </h2>
+<h2>9. Generate basic mocks</h2>
+<h2>10. Generate async-friendly mocks</h2>
+<h2>11. Generate thread-friendly mocks</h2>
+<h2>12. Associate assertions in hand-coded mocks or stubs with test cases in same thread</h2>
+<h2>13. Associate assertions in hand-coded mocks or stubs with test cases in different thread</h2>
+<br />
+<br />
+
 
 
 </body></html>

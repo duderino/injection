@@ -81,8 +81,7 @@ Minimal Maven POM:<br>
                     &lt;useFile&gt;false&lt;/useFile&gt;
                     &lt;suiteXmlFiles&gt;
                         &lt;suiteXmlFile&gt;src/test/resources/org/duderino/injection/testng.xml&lt;/suiteXmlFile&gt;
-                    &lt;/suiteXmlFiles&gt;
-                &lt;/configuration&gt;
+                    &lt;/suiteXmlFiles&gt;<span class="nt"><br>                    &lt;argLine&gt;</span>-javaagent:"${settings.localRepository}"/mockit/jmockit/0.999.10/jmockit-0.999.10.jar<span class="nt">&lt;/argLine&gt;</span><br>                &lt;/configuration&gt;
             &lt;/plugin&gt;
         &lt;/plugins&gt;
     &lt;/build&gt;
@@ -95,6 +94,13 @@ enumerated in the testng.xml file.<br>
 <br>
 Assumes source code and test sources can be found in the standard Maven directories (todo - link)<br>
 <br>
+If you are running JDK 1.6+, you can omit the 
+"&lt;argLine&gt;-javaagent..." line, but if you do so you'll see 
+worrying warning messages like this:<br>
+<pre>
+WARNING: JMockit was initialized on demand, which may cause certain tests to fail;
+please check the documentation for better ways to get it initialized.
+<br></pre>
 Sample testng.xml:<br>
 <pre>&lt;!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" &gt;
 &lt;suite name="Injection" verbose="1" parallel="false" thread-count="1"&gt;
@@ -112,7 +118,7 @@ import mockit.Mockit;
 import org.testng.annotations.Test;
 
 public class Y2KCheckerTest {
-    public static class MockSystem {
+    private static class MockSystem {
         private static final long Y2K_MILLIS = 949433850262L;
 
         @Mock
@@ -164,8 +170,6 @@ Mockit.setUpMock().&nbsp;&nbsp; TestNG verifies Y2KException is thrown.<br>
 &nbsp;T E S T S<br>
 -------------------------------------------------------<br>
 Running TestSuite<br>
-WARNING: JMockit was initialized on demand, which may cause certain tests to fail;<br>
-please check the documentation for better ways to get it initialized.<br>
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.798 sec<br>
   <br>
 Results :<br>

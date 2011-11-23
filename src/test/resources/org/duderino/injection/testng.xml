@@ -7,9 +7,13 @@
     <test name="unit">
         <classes>
             <class name="org.duderino.injection.jmockit.basic.Y2KCheckerTest"/>
-            <class name="org.duderino.injection.jmockit.MusicianDatabaseTest"/>
+            <class name="org.duderino.injection.jmockit._1.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._2.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._3.ClassTest"/>
+            <!--<class name="org.duderino.injection.jmockit._7.ConfigurationTest"/> -->
+            <!--<class name="org.duderino.injection.jmockit.MusicianDatabaseTest"/>
             <class name="org.duderino.injection.jmockit.XmlFetcherTest"/>
-            <class name="org.duderino.injection.jmockit.SharedQueueTest"/>
+            <class name="org.duderino.injection.jmockit.SharedQueueTest"/> -->
         </classes>
     </test>
 

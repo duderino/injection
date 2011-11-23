@@ -5,7 +5,7 @@ import mockit.Mockit;
 import org.testng.annotations.Test;
 
 public class Y2KCheckerTest {
-    public static class MockSystem {
+    private static class MockSystem {
         private static final long Y2K_MILLIS = 949433850262L;
 
         @Mock

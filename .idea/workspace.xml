@@ -2,6 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1529a4b5-bc45-4305-adf1-719b398bb8e1" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_all_1_9_0_rc1.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/injection.iml" afterPath="$PROJECT_DIR$/injection.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" afterPath="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" />
     </list>
     <ignored path="injection.iws" />
@@ -66,37 +71,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ConsumerPoolTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java">
+      <file leaf-file-name="ClassTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/ClassTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="25" selection-start="1289" selection-end="1306" vertical-scroll-proportion="0.0">
+            <state line="27" column="15" selection-start="617" selection-end="617" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConsumerPool.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPool.java">
+      <file leaf-file-name="Class.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/Class.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="23" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0">
+            <state line="5" column="0" selection-start="96" selection-end="194" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MusicianDatabaseTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java">
+      <file leaf-file-name="ClassTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/ClassTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="34" selection-start="7729" selection-end="7729" vertical-scroll-proportion="0.0">
+            <state line="27" column="30" selection-start="217" selection-end="613" vertical-scroll-proportion="0.4021847">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Y2KChecker.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KChecker.java">
+      <file leaf-file-name="Dependency.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/Dependency.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="24" selection-start="0" selection-end="571" vertical-scroll-proportion="0.2979146">
+            <state line="5" column="13" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="59" column="30" selection-start="2130" selection-end="2130" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -105,34 +119,7 @@
       <file leaf-file-name="testng.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="79" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="System.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/System.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="325" column="30" selection-start="11600" selection-end="11600" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Y2KCheckerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="26" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Date.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/util/Date.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="864" column="16" selection-start="37265" selection-end="37265" vertical-scroll-proportion="0.0">
+            <state line="11" column="58" selection-start="497" selection-end="497" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -150,7 +137,25 @@
       <file leaf-file-name="XmlFetcherTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcherTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="13" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
+            <state line="64" column="38" selection-start="2609" selection-end="2609" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Class.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/Class.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="27" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Dependency.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/Dependency.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="24" selection-start="0" selection-end="194" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -170,22 +175,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/SharedQueue.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/SharedQueueTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/ConsumerPool.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/example/jmockit_test/ConsumerPoolTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPool.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabase.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueue.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueueTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcher.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcherTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" />
-        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KChecker.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/Configuration.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/ConfigurationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_7/Configuration.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/Dependency.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/Class.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/ClassTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/Class.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/Dependency.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/ClassTest.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/Dependency.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/Class.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/ClassTest.java" />
       </list>
     </option>
   </component>
@@ -333,6 +338,126 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="injection" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmockit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_7" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="injection" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmockit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="injection" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmockit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="invasion" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="injection" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmockit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="_1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Favorites" />
@@ -375,6 +500,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.duderino.injection.jmockit._3" />
       <recent name="org.duderino.injection.example.jmockit_test" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -615,44 +741,44 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/Runnable.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_7/ConfigurationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="10" selection-start="1535" selection-end="1535" vertical-scroll-proportion="0.0">
+        <state line="31" column="81" selection-start="245" selection-end="919" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabase.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/Class.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+        <state line="11" column="22" selection-start="0" selection-end="243" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/SharedQueue.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/Dependency.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.0">
+        <state line="10" column="27" selection-start="43" selection-end="182" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_1/ClassTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="43" selection-start="1349" selection-end="1349" vertical-scroll-proportion="0.0">
+        <state line="12" column="28" selection-start="0" selection-end="559" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/util/Calendar.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="290" column="22" selection-start="14179" selection-end="14179" vertical-scroll-proportion="3.8679245">
+        <state line="14" column="13" selection-start="345" selection-end="345" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcher.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0">
+        <state line="11" column="13" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -666,63 +792,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/XmlFetcherTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
+        <state line="64" column="38" selection-start="2609" selection-end="2609" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/util/Date.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="864" column="16" selection-start="37265" selection-end="37265" vertical-scroll-proportion="0.0">
+        <state line="59" column="30" selection-start="2130" selection-end="2130" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/MusicianDatabaseTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/Class.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="34" selection-start="7729" selection-end="7729" vertical-scroll-proportion="0.0">
+        <state line="12" column="27" selection-start="243" selection-end="243" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/1.6.0_26-b03-384.jdk/Contents/Home/src.jar!/src/java/lang/System.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/Dependency.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="325" column="30" selection-start="11600" selection-end="11600" vertical-scroll-proportion="0.0">
+        <state line="10" column="24" selection-start="0" selection-end="194" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_2/ClassTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="15" selection-start="617" selection-end="617" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/org/duderino/injection/testng.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="79" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0">
+        <state line="11" column="58" selection-start="497" selection-end="497" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPoolTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/Class.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="25" selection-start="1289" selection-end="1306" vertical-scroll-proportion="0.0">
+        <state line="5" column="0" selection-start="96" selection-end="194" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/ConsumerPool.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/Dependency.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="23" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0">
+        <state line="5" column="13" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KCheckerTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/_3/ClassTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="26" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/duderino/injection/jmockit/basic/Y2KChecker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="24" selection-start="0" selection-end="571" vertical-scroll-proportion="0.2979146">
+        <state line="27" column="30" selection-start="217" selection-end="613" vertical-scroll-proportion="0.4021847">
           <folding />
         </state>
       </provider>

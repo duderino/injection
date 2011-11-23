@@ -4,7 +4,185 @@
 
   </head><body>
 <h1>JMockit: The Basics</h1>
+<h2>Motivating Example</h2>
+<pre>package org.duderino.injection.jmockit.basic;
+
+import java.util.Calendar;
+import java.util.Date;
+
+public class Y2KChecker {
+    public void check() throws Y2KException {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(2000, 1, 1);
+
+        Date date = calendar.getTime();
+
+        if (date.getTime() == System.currentTimeMillis()) {
+            throw new Y2KException("Y2K Bug!");
+        }
+    }
+
+    public static class Y2KException extends Exception {
+        public Y2KException(String reason) {
+            super(reason);
+        }
+    }
+}<br></pre>
+<h2>Set Up JMockit with Maven and TestNG</h2>
+Minimal Maven POM:<br>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;org.duderino.injection&lt;/groupId&gt;
+    &lt;artifactId&gt;injection&lt;/artifactId&gt;
+    &lt;name&gt;Injection&lt;/name&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+    &lt;url&gt;https://github.com/duderino/injection&lt;/url&gt;
+
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;jmockit-svn&lt;/id&gt;
+            &lt;url&gt;http://jmockit.googlecode.com/svn/maven-repo&lt;/url&gt;
+            &lt;releases&gt;
+                &lt;checksumPolicy&gt;ignore&lt;/checksumPolicy&gt;
+            &lt;/releases&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mockit&lt;/groupId&gt;
+            &lt;artifactId&gt;jmockit&lt;/artifactId&gt;
+            &lt;version&gt;0.999.10&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.testng&lt;/groupId&gt;
+            &lt;artifactId&gt;testng&lt;/artifactId&gt;
+            &lt;version&gt;6.1.1&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;build&gt;
+        &lt;defaultGoal&gt;test&lt;/defaultGoal&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.9&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;useFile&gt;false&lt;/useFile&gt;
+                    &lt;suiteXmlFiles&gt;
+                        &lt;suiteXmlFile&gt;src/test/resources/org/duderino/injection/testng.xml&lt;/suiteXmlFile&gt;
+                    &lt;/suiteXmlFiles&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;
+<br></pre>
+
+Pulls down the JMockit and TestNG jars.&nbsp;&nbsp; Configures the Maven
+ Surefire plugin to run unit tests.&nbsp;&nbsp; Unit tests are 
+enumerated in the testng.xml file.<br>
 <br>
+Assumes source code and test sources can be found in the standard Maven directories (todo - link)<br>
+<br>
+Sample testng.xml:<br>
+<pre>&lt;!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" &gt;
+&lt;suite name="Injection" verbose="1" parallel="false" thread-count="1"&gt;
+    &lt;test name="unit"&gt;
+        &lt;classes&gt;
+            &lt;class name="org.duderino.injection.jmockit.basic.Y2KCheckerTest"/&gt;
+        &lt;/classes&gt;
+    &lt;/test&gt;
+&lt;/suite&gt;<br></pre>
+<h2>Create A Test Case</h2>
+<pre>package org.duderino.injection.jmockit.basic;
+
+import mockit.Mock;
+import mockit.Mockit;
+import org.testng.annotations.Test;
+
+public class Y2KCheckerTest {
+    public static class MockSystem {
+        private static final long Y2K_MILLIS = 949433850262L;
+
+        @Mock
+        public long currentTimeMillis() {
+            return Y2K_MILLIS;
+        }
+    }
+
+    @Test(expectedExceptions = Y2KChecker.Y2KException.class)
+    public void testCheck() throws Exception {
+        Y2KChecker checker = new Y2KChecker();
+
+        Mockit.setUpMock(System.class, MockSystem.class);
+
+        checker.check();
+    }
+}
+<br></pre>
+Explain what's going on here.&nbsp;&nbsp; Mocking out a single method of
+ System.&nbsp;&nbsp; @Mock annotation.&nbsp;&nbsp; 
+Mockit.setUpMock().&nbsp;&nbsp; TestNG verifies Y2KException is thrown.<br>
+<h2>Run The Unit Tests</h2>
+<p>$ mvn<br>
+[INFO] Scanning for projects...<br>
+[INFO]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <br>
+[INFO] ------------------------------------------------------------------------<br>
+[INFO] Building Injection 1.0-SNAPSHOT<br>
+[INFO] ------------------------------------------------------------------------<br>
+[INFO] <br>
+[INFO] --- maven-resources-plugin:2.4.3:resources (default-resources) @ injection ---<br>
+[WARNING] Using platform encoding (MacRoman actually) to copy filtered resources, i.e. build is platform dependent!<br>
+[INFO] skip non existing resourceDirectory /Users/blattj/dev/injection/src/main/resources<br>
+[INFO] <br>
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ injection ---<br>
+[INFO] No sources to compile<br>
+[INFO] <br>
+[INFO] --- maven-resources-plugin:2.4.3:testResources (default-testResources) @ injection ---<br>
+[WARNING] Using platform encoding (MacRoman actually) to copy filtered resources, i.e. build is platform dependent!<br>
+[INFO] Copying 1 resource<br>
+[INFO] <br>
+[INFO] --- maven-compiler-plugin:2.3.2:testCompile (default-testCompile) @ injection ---<br>
+[INFO] Nothing to compile - all classes are up to date<br>
+[INFO] <br>
+[INFO] --- maven-surefire-plugin:2.9:test (default-test) @ injection ---<br>
+[INFO] Surefire report directory: /Users/blattj/dev/injection/target/surefire-reports<br>
+  <br>
+-------------------------------------------------------<br>
+&nbsp;T E S T S<br>
+-------------------------------------------------------<br>
+Running TestSuite<br>
+WARNING: JMockit was initialized on demand, which may cause certain tests to fail;<br>
+please check the documentation for better ways to get it initialized.<br>
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.798 sec<br>
+  <br>
+Results :<br>
+  <br>
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0<br>
+  <br>
+[INFO] ------------------------------------------------------------------------<br>
+[INFO] BUILD SUCCESS<br>
+[INFO] ------------------------------------------------------------------------<br>
+[INFO] Total time: 3.205s<br>
+[INFO] Finished at: Wed Nov 23 11:49:47 PST 2011<br>
+[INFO] Final Memory: 4M/81M<br>
+[INFO] ------------------------------------------------------------------------<br>
+  <br>
+</p>
+&nbsp;<br>
+
 <br>
 <h1>
   

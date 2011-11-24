@@ -38,7 +38,8 @@ ClassTest.java:<br />
 
         assert 123 * 2 == clazz.generate();
     }
-}<br /></pre>
+}<br /><br /></pre>
+TODO - mention must setUpMock for the exact class the method was declared in, not the immediate class.<br />
 <h2>2. Mock/stub out final/non-virtual functions</h2>
 Change dependency to be final so our mock cannot subclass it.<br />
 
@@ -105,8 +106,29 @@ ClassTest.java:<br />
 
         assert 123 * 2 == clazz.generate();
     }
-}
-</pre>
+}<br /></pre>
+JMockit also supports an alternative mechanism for these cases via its 
+MockUp generic class.   The authors recommend this as a replacement for 
+the convenience of anonymous mock classes, but the approach is arguably 
+more obscure.<br />
+<br />
+ClassTestAlternative.java:<br />
+<pre>public class ClassTestAlternative {
+    @Test
+    public void testIt() {
+        new MockUp&lt;Dependency&gt;() {
+            @Mock
+            public int generate() {
+                return 123;
+            }
+        };
+
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}<br /></pre>
 
 
 
@@ -162,13 +184,418 @@ ClassTest.java:<br />
     }
 }</pre>
 
-<h2>4. Mock/stub out anonymous inner classes</h2>
-That call back on the containing class?<br />
+<h2>4. Mock/stub out constructors</h2>
+Here we change our dependency to take an argument in its constructor.<br />
+
 <br />
-<h2>5. Mock/stub out inaccessible (e.g., private) inner classes</h2>
-<h2>6. Inject hand-coded mocks or stubs
+
+Dependency.java:<br />
+
+
+
+
+<pre>public class Dependency {
+    private final int max;
+
+    public Dependency(int max) {
+        this.max = max;
+    }
+
+    public int generate() {
+        return (int) Math.random() * max;
+    }
+}
+</pre>
+
+
+The class under test is similarly modified to pass the argument through its constructor to the dependency's constructor.<br />
+
+<br />
+
+Class.java:<br />
+
+
+
+<pre>public class Class {
+    private final Dependency dependency;
+
+    public Class(int max) {
+        dependency = new Dependency(max);
+    }
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}
+<br /></pre>
+
+Finally the test case is modified to pass the argument to the 
+constructor.   By defining a special "void $init()" method, the mock can
+ verify that the constructor was passed the correct value.<br />
+
+
+<br />
+
+
+
+ClassTest.java:<br />
+
+
+
+<pre>public class ClassTest {
+    private static final int MAX = 1000;
+
+    @MockClass(realClass = Dependency.class)
+    public static class MockDependency {
+        @Mock
+        void $init(int max) {
+            assert MAX == max;
+        }
+
+        @Mock
+        public static int generate() {
+            return 123;
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        Class clazz = new Class(MAX);
+
+        assert 123 * 2 == clazz.generate();
+    }
+}
+</pre>
+
+<h2>5. Mock/stub out anonymous inner classes</h2>
+Sometimes the class under test creates an anonymous inner class that 
+we'd like to mock out.   This is a particularly hard problem because the
+ inner class may call back on the class under test's internals.<br />
+<br />
+Either JMockit does not support this or I simply couldn't figure out how to do it.   This is what I tried to do...<br />
+<br />
+First, I turned the Dependency into an interface.<br />
+
+
+<br />
+
+
+Dependency.java:<br />
+
+
+
+
+
+<pre>public interface Dependency {
+    int generate();
+}
+</pre>
+
+
+
+Next I modified the class under test to instantiate an anonymous implementation of the interface.<br />
+
+
+<br />
+
+
+Class.java:<br />
+
+
+
+
+<pre>public class Class {
+    public int generate() {
+       Dependency dependency = new Dependency() {
+           @Override
+           public int generate() {
+               return (int) Math.random() * 1000;
+           }
+       };
+
+        return dependency.generate() * 2;
+    }
+}<br /></pre>
+
+
+Finally the test case was modified to inject a mock version of the Dependency.<br />
+
+
+
+<br />
+
+
+
+
+ClassTest.java:<br />
+
+
+
+
+<pre>public class ClassTest {
+    @MockClass(realClass = Dependency.class)
+    public static class MockDependency {
+        @Mock
+        public int generate() {
+            return 123;
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}
+</pre>
+
+Unfortunately JMockit threw a "Not a modifiable class" IllegalArgumentException when the test was run:<br />
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
+Running TestSuite
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.42 sec &lt;&lt;&lt; FAILURE!
+testIt(org.duderino.injection.jmockit._5.ClassTest)  Time elapsed: 0.033 sec  &lt;&lt;&lt; FAILURE!
+java.lang.IllegalArgumentException: Not a modifiable class: org.duderino.injection.jmockit._5.Dependency
+	at org.duderino.injection.jmockit._5.ClassTest.testIt(ClassTest.java:22)
+
+Results :
+
+Failed tests:   testIt(org.duderino.injection.jmockit._5.ClassTest): Not a modifiable class: org.duderino.injection.jmockit._5.Dependency
+
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+<br /></pre>
+<h2>6. Mock/stub out inaccessible (e.g., private) inner classes</h2>
+Extending on the previous example, it appears that JMockit must have 
+access to the definition of every class it needs to mock out.   Private 
+inner classes, static or not, are not visible to the JMockit annotations
+ so they break compilation.<br />
+<br />
+For this test we moved the Dependency class into the Class class.<br />
+
+
+
+<br />
+
+
+
+Class.java:<br />
+
+
+
+
+
+<pre>public class Class {
+    private static class Dependency {
+        public int generate() {
+            return (int) Math.random() * 1000;
+        }
+    }
+
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}<br /></pre>
+
+
+
+
+Next we tried to inject a mock implementation in the test case.<br />
+<br />
+
+
+
+
+
+ClassTest.java:<br />
+
+
+
+
+
+<pre>public class ClassTest {
+    @MockClass(realClass = Class.Dependency.class)
+    public static class MockDependency {
+        @Mock
+        public int generate() {
+            return 123;
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Class.Dependency.class, MockDependency.class);
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}
+
+</pre>
+
+
+The result was a predictable compilation error:<br />
+
+<pre>[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /Users/blattj/dev/injection/src/test/java/org/duderino/injection/jmockit/_6/ClassTest.java:[12,32] org.duderino.injection.jmockit._6.Class.Dependency has private access in org.duderino.injection.jmockit._6.Class
+[ERROR] /Users/blattj/dev/injection/src/test/java/org/duderino/injection/jmockit/_6/ClassTest.java:[22,30] org.duderino.injection.jmockit._6.Class.Dependency has private access in org.duderino.injection.jmockit._6.Class
+[INFO] 2 errors 
+
+<br /></pre>
+The same results were observed by omitting the 'static' qualifier.<br />
+
+<h2>7. Inject a mock that delegates to a real instance</h2>
+Since we want to make sure we call the real dependency, we first change 
+it to return a constant rather than the random number used in previous 
+examples.   Our test case will assert later that this constant was in 
+fact returned.<br />
+
+<br />
+
+Dependency.java:<br />
+
+
+
+
+<pre>public class Dependency {
+    public int generate() {
+        return 123;
+    }
+}
+</pre>
+
+
+And the class under test instantiates and calls the dependency as usual.<br />
+
+<br />
+
+Class.java:<br />
+
+
+
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}
+<br /></pre>
+
+So we save all the complexity for the test case...<br />
+
+
+<br />
+
+
+
+ClassTest.java:<br />
+
+
+
+<pre>public class ClassTest {
+    @Test
+    public void testIt() {
+        final List&lt;Integer&gt; calls = new ArrayList&lt;Integer&gt;();
+
+        Mockit.setUpMock(Dependency.class, new Dependency() {
+            //private int numCalls = 0;
+            public Dependency it;
+
+            @Mock(reentrant = true)
+            @Override
+            public int generate() {
+                int result = it.generate();
+
+                calls.add(new Integer(result));
+
+                return result;
+            }
+        });
+
+        Class clazz = new Class();
+
+        for (int i = 0; i &lt; 10; ++i) {
+            assert 123 * 2 == clazz.generate();
+        }
+
+        assert calls.size() == 10;
+    }
+}</pre>
+
+Several special things have to happen when we setup this mock object.<br />
+<br />
+We have to declare a 'public Dependency it;' member.   All three tokens 
+are important here.   If the member is declared private, JMockit will 
+throw an exception that looks like this:<br />
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
+Running TestSuite
+Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.529 sec &lt;&lt;&lt; FAILURE!
+testIt(org.duderino.injection.jmockit._7.ClassTest)  Time elapsed: 0.012 sec  &lt;&lt;&lt; FAILURE!
+java.lang.IllegalAccessError: tried to access field org.duderino.injection.jmockit._7.ClassTest$1.it from class org.duderino.injection.jmockit._7.Dependency
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+	at org.duderino.injection.jmockit._7.Class.generate(Class.java:10)
+	at org.duderino.injection.jmockit._7.ClassTest.testIt(ClassTest.java:37)
+
+Results :
+
+Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest): tried to access field org.duderino.injection.jmockit._7.ClassTest$1.it from class org.duderino.injection.jmockit._7.Dependency
+
+Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
+<br /></pre>
+Assuming there is a publicly accessible 'it' member with the same type 
+as the real, non-mocked instance, JMockit will automatically copy the 
+real, non-mocked instance reference into the 'it' attribute.   While not
+ tested, getting the data type wrong would probably produced a 
+ClassCastException.<br />
+<br />
+The other special gotcha is the 'reentrant = true' qualifier on the 
+@Mock annotation.   Without this qualifier JMockit will still redirect 
+calls to the real instance to the mock.   That is, the mock will call 
+itself recursively, generating a stack overflow that looks like this:<br />
+<br />
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
+Running TestSuite
+Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.668 sec &lt;&lt;&lt; FAILURE!
+testIt(org.duderino.injection.jmockit._7.ClassTest)  Time elapsed: 0.095 sec  &lt;&lt;&lt; FAILURE!
+java.lang.StackOverflowError
+	at java.util.HashMap.get(HashMap.java:298)
+	at java.util.Collections$SynchronizedMap.get(Collections.java:1975)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+<br />...<br />	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+
+Results :
+
+Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest)
+
+Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
+<br /></pre>
+<h2>8. Inject hand-coded mocks or stubs
     </h2>
-<h2>7. Mocks injection can be narrowly targeted</h2>
+Well, this one is kinda a 'duh'.  Every example so far has injected a hand-coded mock. <br />
+<h2>9. Mocks injection can be narrowly targeted</h2>
 <br />
 <h3>Lesson Learned: Mocking Out The Java Class Library Is Dangerous</h3>
 
@@ -318,13 +745,13 @@ testCheck(org.duderino.injection.jmockit.basic.Y2KCheckerTest)  Time elapsed: 0.
 <br /></pre>
 
 <br />
-<h2>8. Generate basic stubs
+<h2>10. Generate basic stubs
     </h2>
-<h2>9. Generate basic mocks</h2>
-<h2>10. Generate async-friendly mocks</h2>
-<h2>11. Generate thread-friendly mocks</h2>
-<h2>12. Associate assertions in hand-coded mocks or stubs with test cases in same thread</h2>
-<h2>13. Associate assertions in hand-coded mocks or stubs with test cases in different thread</h2>
+<h2>11. Generate basic mocks</h2>
+<h2>12. Generate async-friendly mocks</h2>
+<h2>13. Generate thread-friendly mocks</h2>
+<h2>14. Associate assertions in hand-coded mocks or stubs with test cases in same thread</h2>
+<h2>15. Associate assertions in hand-coded mocks or stubs with test cases in different thread</h2>
 <br />
 <br />
 

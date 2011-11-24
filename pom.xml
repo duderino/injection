@@ -20,13 +20,19 @@
         </repository>
     </repositories>
 
-
     <dependencies>
         <dependency>
             <groupId>mockit</groupId>
             <artifactId>jmockit</artifactId>
             <version>0.999.10</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.jmockit</groupId>
+            <artifactId>jmockit-coverage</artifactId>
+            <version>0.999.11</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -58,6 +64,12 @@
                     </suiteXmlFiles>
                     <argLine>-javaagent:"${settings.localRepository}"/mockit/jmockit/0.999.10/jmockit-0.999.10.jar
                     </argLine>
+                    <systemProperties>
+                        <property>
+                            <name>jmockit-coverage-outputDir</name>
+                            <value>target/coverage-report</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
 

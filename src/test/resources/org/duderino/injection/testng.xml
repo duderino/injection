@@ -9,8 +9,13 @@
             <class name="org.duderino.injection.jmockit.basic.Y2KCheckerTest"/>
             <class name="org.duderino.injection.jmockit._1.ClassTest"/>
             <class name="org.duderino.injection.jmockit._2.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._2.ClassTestAlternative"/>
             <class name="org.duderino.injection.jmockit._3.ClassTest"/>
-            <!--<class name="org.duderino.injection.jmockit._7.ConfigurationTest"/> -->
+            <class name="org.duderino.injection.jmockit._4.ClassTest"/>
+            <!-- Does not work <class name="org.duderino.injection.jmockit._5.ClassTest"/> -->
+            <class name="org.duderino.injection.jmockit._6.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._7.ClassTest"/>
+            <!--<class name="org.duderino.injection.jmockit._9.ConfigurationTest"/> -->
             <!--<class name="org.duderino.injection.jmockit.MusicianDatabaseTest"/>
             <class name="org.duderino.injection.jmockit.XmlFetcherTest"/>
             <class name="org.duderino.injection.jmockit.SharedQueueTest"/> -->

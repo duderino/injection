@@ -1,4 +1,4 @@
-package org.duderino.injection.jmockit._7;
+package org.duderino.injection.jmockit._9;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

@@ -1,4 +1,4 @@
-package org.duderino.injection.jmockit._7;
+package org.duderino.injection.jmockit._9;
 
 import mockit.Mock;
 import mockit.Mockit;

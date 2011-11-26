@@ -5,13 +5,11 @@ using System.Text;
 
 namespace MolesTest._2
 {
-    public class Dependency
+    public sealed class Dependency02
     {
         public int generate()
         {
-            Random random = new Random();
-
-            return random.Next(0, 1000);
+            return 999;
         }
     }
 }

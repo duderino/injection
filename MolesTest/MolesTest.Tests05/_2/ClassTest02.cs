@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Moles.Framework;
-using MolesTest._1;
-using MolesTest._1.Moles;
+using MolesTest._2;
+using MolesTest._2.Moles;
 
-namespace MolesTest.Tests._1
+namespace MolesTest.Tests._2
 {
     /// <summary>
-    /// Demonstrate injecting a dependency into a class without modifying its public API.
+    /// Demonstrate mocking/stubbing out non-virtual function.
     /// </summary>
     [TestClass]
-    public class ClassTest
+    public class ClassTest02
     {
         [TestMethod]
         [HostType("Moles")]
-        public void test1()
+        public void test()
         {
-            MDependency.AllInstances.generate = _ => 123;
+            MDependency02.AllInstances.generate = _ => 123;
             
-            Class clazz = new Class();
+            Class02 clazz = new Class02();
 
             Assert.AreEqual(2 * 123, clazz.generate());
         }

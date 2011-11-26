@@ -42,15 +42,17 @@
   <ItemGroup>
     <Compile Include="Y2KChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_1\Class.cs" />
-    <Compile Include="_1\Dependency.cs" />
-    <Compile Include="_2\Class.cs" />
-    <Compile Include="_2\Dependency.cs" />
+    <Compile Include="_1\Class01.cs" />
+    <Compile Include="_1\Dependency01.cs" />
+    <Compile Include="_2\Class02.cs" />
+    <Compile Include="_2\Dependency02.cs" />
+    <Compile Include="_3\Class03.cs" />
+    <Compile Include="_3\Dependency03.cs" />
+    <Compile Include="_4\Class04.cs" />
+    <Compile Include="_4\Dependency04.cs" />
+    <Compile Include="_5\Class05.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_3\" />
-    <Folder Include="_4\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

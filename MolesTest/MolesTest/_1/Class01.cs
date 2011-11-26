@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MolesTest._2
+namespace MolesTest._1
 {
-    public class Class
+    public class Class01
     {
-        private Dependency dependency = new Dependency();
+        private Dependency01 dependency = new Dependency01();
 
         public int generate()
         {

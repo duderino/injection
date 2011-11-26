@@ -1,152 +1,214 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
     <title>Comparison</title>
-</head>
-<body>
-  
-<h1>Moles vs. JMockit Comparison</h1>
-<h2>Stubs vs. Mocks</h2>
-<h2>Implementation</h2>
-<h2>Language Influences &amp; Affinities<br />
-</h2>
-<h2>Ease of Adoption</h2>
-<h2>Stylistic Considerations<br />
-</h2>
-
-<h2>Feature Matrix<br />
-</h2>
-<table border="1" style="width: 100%;">
-<tbody><tr>
-  <td style="vertical-align: top;">ID<br />
-  </td>
-<td>Feature<br />
-</td><td>JMockit<br />
-</td><td>Moles<br />
-</td></tr><tr>
-  <td style="vertical-align: top;">1<br />
-  </td>
-<td>Inject mocks/stubs without changing the API<br />
-</td><td>Yes<br />
-</td><td>Yes<br />
-</td></tr><tr>
-  <td style="vertical-align: top;">2<br />
-  </td>
-<td>Mock/stub out final/non-virtual functions<br />
-</td><td>Yes<br />
-</td><td><br />
-</td></tr><tr>
-  <td style="vertical-align: top;">3<br />
-  </td>
-<td>Mock/stub out static functions<br />
-</td><td>Yes<br />
-</td><td><br />
-</td></tr>
-<tr>
-  <td style="vertical-align: top;">4<br />
-  </td>
-  <td style="vertical-align: top;">Mock/stub out constructors<br />
-  </td>
-  <td style="vertical-align: top;">Yes<br />
-  </td>
-  <td style="vertical-align: top;"><br />
-  </td>
-</tr>
-<tr>
-  <td style="vertical-align: top;">5<br />
-  </td>
-<td>Mock/stub out anonymous inner classes<br />
-</td><td>No<br />
-</td><td><br />
-</td></tr><tr>
-  <td style="vertical-align: top;">6<br />
-  </td>
-<td>Mock/stub out inaccessible (e.g., private) inner classes<br />
-</td><td>No<br />
-</td><td><br />
-</td></tr>
-  
-<tr>
-  <td style="vertical-align: top;">7<br />
-  </td>
-  <td style="vertical-align: top;">Mock can delegate to real instance<br />
-  </td>
-  <td style="vertical-align: top;">Yes<br />
-  </td>
-  <td style="vertical-align: top;"><br />
-  </td>
-</tr>
-<tr>
-    <td style="vertical-align: top;">8<br />
-    </td>
-    <td style="vertical-align: top;">Inject hand-coded mocks or stubs
-    </td>
-    <td style="vertical-align: top;">Yes<br />
-    </td>
-    <td style="vertical-align: top;"><br />
-    </td>
-    
-    
-  </tr>
-  
-<tr>
-  <td style="vertical-align: top;">9<br />
-  </td>
-  <td style="vertical-align: top;">Mocks injection can be narrowly targeted (use case - globally replacing system classes with mocks/stubs is dangerous)<br />
-  </td>
-  <td style="vertical-align: top;"><br />
-  </td>
-  <td style="vertical-align: top;"><br />
-  </td>
-</tr>
-<tr>
-    <td style="vertical-align: top;">10<br />
-    </td>
-    <td style="vertical-align: top;">Generate basic stubs (not mocks)
-    </td>
-    <td style="vertical-align: top;"><br />
-    </td>
-    <td style="vertical-align: top;"><br />
-    </td>
-    
-    
-  </tr>
-<tr>
-  <td style="vertical-align: top;">11<br />
-  </td>
-<td>Generate basic mocks (not stubs)<br />
-</td><td><br />
-</td><td><br />
-</td></tr><tr>
-  <td style="vertical-align: top;">12<br />
-  </td>
-<td>Generate async-friendly mocks (mocks can call callback functions)<br />
-</td><td><br />
-</td><td><br />
-</td></tr><tr>
-  <td style="vertical-align: top;">13<br />
-  </td>
-<td>Generate thread-friendly mocks (???)<br />
-</td><td><br />
-</td><td><br />
-</td></tr><tr>
-  <td style="vertical-align: top;">14<br />
-  </td>
-<td>Associate assertions in hand-coded mocks or stubs with test cases in same thread<br />
-</td><td><br />
-</td><td><br />
-</td></tr><tr>
-  <td style="vertical-align: top;">15<br />
-  </td>
-<td>Associate assertions in hand-coded mocks or stubs with test cases in different thread</td><td><br />
-</td><td><br />
-</td></tr></tbody>
-</table>
-<h2>Summary &amp; Analysis<br />
-</h2>
-<br />
-
-
-
-</body></html>
+  </head>
+  <body>
+    <h1>Moles vs. JMockit Comparison</h1>
+    <h2>Stubs vs. Mocks</h2>
+    <h2>Implementation</h2>
+    <h2>Language Influences &amp; Affinities<br />
+    </h2>
+    <h2>Ease of Adoption</h2>
+    <h2>Miscellaneous Issues</h2>
+    <h3>Moles</h3>
+    <span style="font-weight: bold;">Generated Moles Type Names Are Unstable<br />
+    </span><br />
+    When classes with the same name in different namespaces are moled (e.g.,
+    MolesTest._1.Dependency vs. MolesTest._2.Dependency), Moles will
+    inconsistently add a disambiguating suffix to the generated class name. 
+    Initially when relied on namespaces to disambiguate we saw Moles generate
+    type names like MolesTest._1.Moles.MDependency for MolesTest._1.Dependency
+    and MolesTest._2.Moles.MDependency01 for MolesTest._2.Dependency.   As we
+    added more test cases, we saw the suffix assignment occasionally swap.  
+    Suddenly MolesTest._1.Moles.MDependency was replaced by
+    MolesTest._1.Moles.MDependency01, etc.    Fortunately this broke our build
+    outright rather than introduce subtler errors.   To compensate we started
+    adding our own disambiguating suffixes to our classes (e.g.,
+    MolesTest._1.Dependency01) so Moles wouldn't do its own inconsistent
+    disambiguation.<br />
+    <h2>Stylistic Considerations<br />
+    </h2>
+    <h2>Feature Matrix<br />
+    </h2>
+    <table border="1" style="width: 100%;">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">ID<br />
+          </td>
+          <td>Feature<br />
+          </td>
+          <td>JMockit<br />
+          </td>
+          <td>Moles<br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">1<br />
+          </td>
+          <td>Inject mocks/stubs without changing the API<br />
+          </td>
+          <td>Yes<br />
+          </td>
+          <td>Yes<br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">2<br />
+          </td>
+          <td>Mock/stub out final/non-virtual functions<br />
+          </td>
+          <td>Yes<br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">3<br />
+          </td>
+          <td>Mock/stub out static functions<br />
+          </td>
+          <td>Yes<br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">4<br />
+          </td>
+          <td style="vertical-align: top;">Mock/stub out constructors<br />
+          </td>
+          <td style="vertical-align: top;">Yes<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">5<br />
+          </td>
+          <td>Mock/stub out anonymous inner/nested classes<br />
+          </td>
+          <td>No<br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">6<br />
+          </td>
+          <td>Mock/stub out inaccessible (e.g., private) inner/nested classes<br />
+          </td>
+          <td>No<br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">7<br />
+          </td>
+          <td style="vertical-align: top;">Mock/stub out base/superclass
+            functions<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">8<br />
+          </td>
+          <td style="vertical-align: top;">Mock can delegate to real instance<br />
+          </td>
+          <td style="vertical-align: top;">Yes<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">9<br />
+          </td>
+          <td style="vertical-align: top;">Inject hand-coded mocks or stubs </td>
+          <td style="vertical-align: top;">Yes<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">10<br />
+          </td>
+          <td style="vertical-align: top;">Mocks injection can be narrowly
+            targeted (use case - globally replacing system classes with
+            mocks/stubs is dangerous)<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">11<br />
+          </td>
+          <td style="vertical-align: top;">Generate basic stubs (not mocks) </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">12<br />
+          </td>
+          <td>Generate basic mocks (not stubs)<br />
+          </td>
+          <td><br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">13</td>
+          <td>Generate async-friendly mocks (mocks can call callback functions)<br />
+          </td>
+          <td><br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">14<br />
+          </td>
+          <td>Generate thread-friendly mocks (???)<br />
+          </td>
+          <td><br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">15<br />
+          </td>
+          <td>Associate assertions in hand-coded mocks or stubs with test cases
+            in same thread<br />
+          </td>
+          <td><br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">16<br />
+          </td>
+          <td>Associate assertions in hand-coded mocks or stubs with test cases
+            in different thread</td>
+          <td><br />
+          </td>
+          <td><br />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Summary &amp; Analysis<br />
+    </h2>
+    <br />
+  </body>
+</html>

@@ -5,296 +5,191 @@
   </head>
   <body>
     <h1>Moles Evaluation</h1>
-    <p>See https://github.com/duderino/injection/tree/master/MolesTest for
-      complete source code.<br>
+    <p>See&nbsp;<a href="https://github.com/duderino/injection/tree/master/MolesTest">https://github.com/duderino/injection/tree/master/MolesTest</a>
+      for complete source code.<br>
     </p>
     <p> </p>
     <h2>1. Inject mocks/stubs without changing the API</h2>
     Class.cs:<br>
-    <pre>namespace MolesTest._1
-{
-    public class Class
+    <pre>    public class Class01
     {
-        private Dependency dependency = new Dependency();
+        private Dependency01 dependency = new Dependency01();
 
         public int generate()
         {
             return dependency.generate() * 2;
         }
     }
-}
-<br></pre>
-    Dependency.cs:<br>
-    <pre>namespace MolesTest._1
-{
-    public class Dependency
+<br></pre> Dependency.cs:<br>
+    <pre>    public class Dependency01
     {
         public virtual int generate()
         {
-            Random random = new Random();
-
-            return random.Next(0, 1000);
+            return 999;
         }
-    }
-}<br></pre>
+    }<br></pre>
     ClassTest.cs:<br>
-    <pre>using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Moles.Framework;
-using MolesTest._1;
-using MolesTest._1.Moles;
-<br>namespace MolesTest.Tests._1
-{
-    [TestClass]
-    public class ClassTest
+    <pre>    [TestClass]
+    public class ClassTest01
     {
         [TestMethod]
         [HostType("Moles")]
-        public void test1()
+        public void test()
         {
-            MDependency.AllInstances.generate = _ =&gt; 123;
+            MDependency01.AllInstances.generate = _ =&gt; 123;
             
-            Class clazz = new Class();
+            Class01 clazz = new Class01();
 
             Assert.AreEqual(2 * 123, clazz.generate());
         }
-    }
-}<br></pre>
+    }<br></pre>
     <h2>2. Mock/stub out final/non-virtual functions</h2>
     Class.cs:<br>
-    <pre>namespace MolesTest._2
-{
-    public class Class
+    <pre>    public class Class02
     {
-        private Dependency dependency = new Dependency();
+        private Dependency02 dependency = new Dependency02();
 
         public int generate()
         {
             return dependency.generate() * 2;
         }
     }
-}
-<br>Removed virtual keyword from generate method -<br></pre>
+<br></pre>Removed virtual keyword from generate method and made the class sealed
+    <br>
+    <br>
     Dependency.cs:<br>
-    <pre>namespace MolesTest._2
-{
-    public class Dependency
+    <pre>    public sealed class Dependency02
     {
         public int generate()
-        {8
-            Random random = new Random();
-
-            return random.Next(0, 1000);
+        {
+            return 999;
         }
-    }
-}<br><br></pre>
-    Note the appended 01 in the MDependency01 moles type even though it's in a
-    different namespace as the MDependency moles type used in our previous
-    example (MolesTest._1.Moles.MDependency vs
-    MolesTest._2.Moles.MDependency01).&nbsp;&nbsp; Moles type naming apparently
-    tries to avoid unintentional type name collisions.<br>
-    <br>
+    }<br><br></pre>
     ClassTest.cs:<br>
-    <pre>using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Moles.Framework;
-using MolesTest._2;
-using MolesTest._2.Moles;<br><br>namespace MolesTest.Tests._2
-{
-    [TestClass]
-    public class ClassTest
+    <pre>    [TestClass]
+    public class ClassTest02
     {
         [TestMethod]
         [HostType("Moles")]
-        public void test2()
+        public void test()
         {
-            MDependency01.AllInstances.generate = _ =&gt; 123;
+            MDependency02.AllInstances.generate = _ =&gt; 123;
             
-            Class clazz = new Class();
+            Class02 clazz = new Class02();
 
             Assert.AreEqual(2 * 123, clazz.generate());
         }
-    }
-}<br><br></pre>
-    For clarity, 'using' statements and appended '0n' moles type suffixes will
-    be excluded from subsequent examples.&nbsp;&nbsp; The source code checked
-    into https://github.com/duderino/injection/tree/master/MolesTest still has
-    these, however.
+    }<br></pre>
     <h2>3. Mock/stub out static functions</h2>
     Here we change our dependency's method to be static.<br>
     <br>
     Dependency.cs:<br>
-    <pre>public class Dependency {
-    public static int generate() {
-        return (int) Math.random() * 1000;
-    }
-}
-</pre>
-    The class under test no longer instantiates the dependency and instead calls
-    its static method.<br>
-    <br>
-    Class.cs:<br>
-    <pre>public class Class {
-    public int generate() {
-        return Dependency.generate() * 2;
-    }
-}
-<br></pre>The static method can be mocked out using the same mechanism used in
-    the previous example.<br>
-    <br>
-    ClassTest.cs:<br>
-    <pre>public class ClassTest {
-    @MockClass(realClass = Dependency.class)
-    public static class MockDependency {
-        @Mock
-        public static int generate() {
-            return 123;
+    <pre>    public static class Dependency03
+    {
+        public static int generate()
+        {
+            return 999;
         }
     }
-
-    @Test
-    public void testIt() {
-        Mockit.setUpMock(Dependency.class, MockDependency.class);
-
-        Class clazz = new Class();
-
-        assert 123 * 2 == clazz.generate();
+</pre> The class under test no longer instantiates the dependency and instead
+    calls its static method.<br>
+    <br>
+    Class.cs:<br>
+    <pre>    public class Class03
+    {
+        public int generate()
+        {
+            return Dependency03.generate() * 2;
+        }
     }
-}</pre>
+<br></pre>The static method can be mocked using the MDependency03.generate
+    delegate.&nbsp;&nbsp; Use of the AllInstances inner class is not required
+    for mocking out static functions.<br>
+    <br>
+    ClassTest.cs:<br>
+    <pre>    [TestClass]
+    public class ClassTest03
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void test()
+        {
+            MDependency03.generate = () =&gt; 123;
+            
+            Class03 clazz = new Class03();
+
+            Assert.AreEqual(2 * 123, clazz.generate());
+        }
+    }</pre>
     <h2>4. Mock/stub out constructors</h2>
     Here we change our dependency to take an argument in its constructor.<br>
     <br>
     Dependency.cs:<br>
-    <pre>public class Dependency {
-    private final int max;
+    <pre>    public class Dependency04
+    {
+        private int value;
 
-    public Dependency(int max) {
-        this.max = max;
-    }
+        public Dependency04(int value)
+        {
+            this.value = value;
+        }
 
-    public int generate() {
-        return (int) Math.random() * max;
+        public int generate()
+        {
+            return value;
+        }
     }
-}
-</pre>
-    The class under test is similarly modified to pass the argument through its
-    constructor to the dependency's constructor.<br>
+</pre><br>
     <br>
     Class.cs:<br>
-    <pre>public class Class {
-    private final Dependency dependency;
+    <pre>    public class Class04
+    {
+        private Dependency04 dependency = new Dependency04(999);
 
-    public Class(int max) {
-        dependency = new Dependency(max);
+        public int generate()
+        {
+            return dependency.generate() * 2;
+        }
     }
-
-    public int generate() {
-        return dependency.generate() * 2;
-    }
-}
-<br></pre>
-    Finally the test case is modified to pass the argument to the
-    constructor.&nbsp;&nbsp; By defining a special "void $init()" method, the
-    mock can verify that the constructor was passed the correct value.<br>
+<br></pre>TODO - assert on values passed to ctor.&nbsp;&nbsp; can also
+    dynamically modify mock in its ctor.<br>
     <br>
     ClassTest.cs:<br>
-    <pre>public class ClassTest {
-    private static final int MAX = 1000;
+    <pre>    [TestClass]
+    public class ClassTest04
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void test()
+        {
+            MDependency04.ConstructorInt32 = (@this, value) =&gt; { 
+                Assert.AreEqual(999, value);
 
-    @MockClass(realClass = Dependency.class)
-    public static class MockDependency {
-        @Mock
-        void $init(int max) {
-            assert MAX == max;
-        }
+                var mole = new MDependency04(@this) { generate = () =&gt; 123 }; 
+            };
+            
+            Class04 clazz = new Class04();
 
-        @Mock
-        public static int generate() {
-            return 123;
-        }
-    }
-
-    @Test
-    public void testIt() {
-        Mockit.setUpMock(Dependency.class, MockDependency.class);
-
-        Class clazz = new Class(MAX);
-
-        assert 123 * 2 == clazz.generate();
-    }
-}
-</pre>
-    <h2>5. Mock/stub out anonymous inner classes</h2>
-    Sometimes the class under test creates an anonymous inner class that we'd
-    like to mock out.&nbsp;&nbsp; This is a particularly hard problem because
-    the inner class may call back on the class under test's internals.<br>
-    <br>
-    Either JMockit does not support this or I simply couldn't figure out how to
-    do it.&nbsp;&nbsp; This is what I tried to do...<br>
-    <br>
-    First, I turned the Dependency into an interface.<br>
-    <br>
-    Dependency.cs:<br>
-    <pre>public interface Dependency {
-    int generate();
-}
-</pre>
-    Next I modified the class under test to instantiate an anonymous
-    implementation of the interface.<br>
-    <br>
-    Class.cs:<br>
-    <pre>public class Class {
-    public int generate() {
-       Dependency dependency = new Dependency() {
-           @Override
-           public int generate() {
-               return (int) Math.random() * 1000;
-           }
-       };
-
-        return dependency.generate() * 2;
-    }
-}<br></pre>
-    Finally the test case was modified to inject a mock version of the
-    Dependency.<br>
-    <br>
-    ClassTest.cs:<br>
-    <pre>public class ClassTest {
-    @MockClass(realClass = Dependency.class)
-    public static class MockDependency {
-        @Mock
-        public int generate() {
-            return 123;
+            Assert.AreEqual(2 * 123, clazz.generate());
         }
     }
-
-    @Test
-    public void testIt() {
-        Mockit.setUpMock(Dependency.class, MockDependency.class);
-
-        Class clazz = new Class();
-
-        assert 123 * 2 == clazz.generate();
-    }
-}
 </pre>
-    Unfortunately JMockit threw a "Not a modifiable class"
-    IllegalArgumentException when the test was run:<br>
-    <pre>-------------------------------------------------------
- T E S T S
--------------------------------------------------------
-JMockit: loaded external tool mockit.coverage.CodeCoverage
-Running TestSuite
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.42 sec &lt;&lt;&lt; FAILURE!
-testIt(org.duderino.injection.jmockit._5.ClassTest)  Time elapsed: 0.033 sec  &lt;&lt;&lt; FAILURE!
-java.lang.IllegalArgumentException: Not a modifiable class: org.duderino.injection.jmockit._5.Dependency
-	at org.duderino.injection.jmockit._5.ClassTest.testIt(ClassTest.cs:22)
+    <h2>5. Mock/stub out anonymous inner/nested classes</h2>
+    This is not applicable to C#.&nbsp;&nbsp; While C# has anonymous classes,
+    they cannot implement an interface but are instead limited to a collection
+    of simple, read-only properties.&nbsp;&nbsp; This class to test, for
+    instance, is so contrived it's not very useful.&nbsp;&nbsp; The anonymous
+    class is really a hard-coded constant and not a true dependency.<br>
+    <pre>    public class Class05
+    {
+        public int generate()
+        {
+            var dependency = new { generate = 999 };
 
-Results :
-
-Failed tests:   testIt(org.duderino.injection.jmockit._5.ClassTest): Not a modifiable class: org.duderino.injection.jmockit._5.Dependency
-
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
-<br></pre>
-    <h2>6. Mock/stub out inaccessible (e.g., private) inner classes</h2>
+            return dependency.generate * 2;
+        }
+    }<br></pre>
+    <h2>6. Mock/stub out inaccessible (e.g., private) inner/nested classes</h2>
     Extending on the previous example, it appears that JMockit must have access
     to the definition of every class it needs to mock out.&nbsp;&nbsp; Private
     inner classes, static or not, are not visible to the JMockit annotations so
@@ -338,8 +233,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
     }
 }
 
-</pre>
-    The result was a predictable compilation error:<br>
+</pre> The result was a predictable compilation error:<br>
     <pre>[INFO] -------------------------------------------------------------
 [ERROR] COMPILATION ERROR : 
 [INFO] -------------------------------------------------------------
@@ -348,22 +242,26 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [INFO] 2 errors 
 
 <br></pre>The same results were observed by omitting the 'static' qualifier.<br>
-    <h2>7. Inject a mock that delegates to a real instance</h2>
+    <h2>7. Mock/stub out base/superclass functions</h2>
+    <p>TODO - mock out 1 method in superclass and 1 method in
+      subclass.&nbsp;&nbsp; Might be an exclusive OR.</p>
+    <h2>8. Inject a mock that delegates to a real instance</h2>
+    <p>TODO - rename these in source code from here down - add 1 to package.<br>
+    </p>
     Since we want to make sure we call the real dependency, we first change it
     to return a constant rather than the random number used in previous
     examples.&nbsp;&nbsp; Our test case will assert later that this constant was
     in fact returned.<br>
     <br>
-    Dependency.cs:<br>
+    Dependency.java:<br>
     <pre>public class Dependency {
     public int generate() {
         return 123;
     }
 }
-</pre>
-    And the class under test instantiates and calls the dependency as usual.<br>
+</pre> And the class under test instantiates and calls the dependency as usual.<br>
     <br>
-    Class.cs:<br>
+    Class.java:<br>
     <pre>public class Class {
     private Dependency dependency = new Dependency();
 
@@ -371,10 +269,9 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
         return dependency.generate() * 2;
     }
 }
-<br></pre>
-    So we save all the complexity for the test case...<br>
+<br></pre> So we save all the complexity for the test case...<br>
     <br>
-    ClassTest.cs:<br>
+    ClassTest.java:<br>
     <pre>public class ClassTest {
     @Test
     public void testIt() {
@@ -417,19 +314,19 @@ Running TestSuite
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.529 sec &lt;&lt;&lt; FAILURE!
 testIt(org.duderino.injection.jmockit._7.ClassTest)  Time elapsed: 0.012 sec  &lt;&lt;&lt; FAILURE!
 java.lang.IllegalAccessError: tried to access field org.duderino.injection.jmockit._7.ClassTest$1.it from class org.duderino.injection.jmockit._7.Dependency
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.cs)
-	at org.duderino.injection.jmockit._7.Class.generate(Class.cs:10)
-	at org.duderino.injection.jmockit._7.ClassTest.testIt(ClassTest.cs:37)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+	at org.duderino.injection.jmockit._7.Class.generate(Class.java:10)
+	at org.duderino.injection.jmockit._7.ClassTest.testIt(ClassTest.java:37)
 
 Results :
 
 Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest): tried to access field org.duderino.injection.jmockit._7.ClassTest$1.it from class org.duderino.injection.jmockit._7.Dependency
 
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
-<br></pre>Assuming there is a publicly accessible 'it' member with the same type
-    as the real, non-mocked instance, JMockit will automatically copy the real,
-    non-mocked instance reference into the 'it' attribute.&nbsp;&nbsp; While not
-    tested, getting the data type wrong would probably produced a
+<br></pre> Assuming there is a publicly accessible 'it' member with the same
+    type as the real, non-mocked instance, JMockit will automatically copy the
+    real, non-mocked instance reference into the 'it' attribute.&nbsp;&nbsp;
+    While not tested, getting the data type wrong would probably produced a
     ClassCastException.<br>
     <br>
     The other special gotcha is the 'reentrant = true' qualifier on the @Mock
@@ -445,15 +342,15 @@ Running TestSuite
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.668 sec &lt;&lt;&lt; FAILURE!
 testIt(org.duderino.injection.jmockit._7.ClassTest)  Time elapsed: 0.095 sec  &lt;&lt;&lt; FAILURE!
 java.lang.StackOverflowError
-	at java.util.HashMap.get(HashMap.cs:298)
-	at java.util.Collections$SynchronizedMap.get(Collections.cs:1975)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.cs)
-	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.cs:26)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.cs)
-	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.cs:26)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.cs)
-<br>...<br>	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.cs:26)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.cs)
+	at java.util.HashMap.get(HashMap.java:298)
+	at java.util.Collections$SynchronizedMap.get(Collections.java:1975)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
+<br>...<br>	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
+	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
 
 Results :
 
@@ -461,13 +358,13 @@ Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest)
 
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
 <br></pre>
-    <h2>8. Inject hand-coded mocks or stubs </h2>
+    <h2>9. Inject hand-coded mocks or stubs </h2>
     Well, this one is kinda a 'duh'.&nbsp; Every example so far has injected a
     hand-coded mock. <br>
-    <h2>9. Mocks injection can be narrowly targeted</h2>
+    <h2>10. Mocks injection can be narrowly targeted</h2>
     <br>
     <h3>Lesson Learned: Mocking Out The Java Class Library Is Dangerous</h3>
-    Configuration.cs<br>
+    Configuration.java<br>
     <pre>package org.duderino.injection.jmockit._1;
 
 import org.w3c.dom.Document;
@@ -531,8 +428,7 @@ public class Configuration {
         }
     }
 }
-<br></pre>
-    ConfigurationTest.cs<br>
+<br></pre> ConfigurationTest.java<br>
     <pre>package org.duderino.injection.jmockit._1;
 
 import mockit.Mock;
@@ -573,8 +469,7 @@ public class ConfigurationTest {
         assert "bar".equals(configuration.get("foo"));
     }
 }
-<br></pre>
-    Output:<br>
+<br></pre> Output:<br>
     <pre>-------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -587,39 +482,33 @@ ZoneInfo: Bad file descriptor
 Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.779 sec &lt;&lt;&lt; FAILURE!
 testCheck(org.duderino.injection.jmockit._1.ConfigurationTest)  Time elapsed: 0.382 sec  &lt;&lt;&lt; FAILURE!
 java.lang.NoClassDefFoundError: org/duderino/injection/jmockit/_1/Configuration
-	at org.duderino.injection.jmockit._1.ConfigurationTest.testCheck(ConfigurationTest.cs:36)
+	at org.duderino.injection.jmockit._1.ConfigurationTest.testCheck(ConfigurationTest.java:36)
 Caused by: java.lang.ClassNotFoundException: org.duderino.injection.jmockit._1.Configuration
-	at java.net.URLClassLoader$1.run(URLClassLoader.cs:199)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:199)
 	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.cs:190)
-	at java.lang.ClassLoader.loadClass(ClassLoader.cs:306)
-	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.cs:301)
-	at java.lang.ClassLoader.loadClass(ClassLoader.cs:247)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
 	... 35 more
 Caused by: java.io.IOException: Bad file descriptor
 	at java.io.FileInputStream.readBytes(Native Method)
-	at java.io.FileInputStream.read(FileInputStream.cs:220)
-	at sun.misc.Resource.getBytes(Resource.cs:108)
-	at java.net.URLClassLoader.defineClass(URLClassLoader.cs:257)
-	at java.net.URLClassLoader.access$000(URLClassLoader.cs:58)
-	at java.net.URLClassLoader$1.run(URLClassLoader.cs:197)
+	at java.io.FileInputStream.read(FileInputStream.java:220)
+	at sun.misc.Resource.getBytes(Resource.java:108)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:257)
+	at java.net.URLClassLoader.access$000(URLClassLoader.java:58)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:197)
 	... 40 more
 testCheck(org.duderino.injection.jmockit.basic.Y2KCheckerTest)  Time elapsed: 0.01 sec  &lt;&lt;&lt; FAILURE!
-<br></pre>
-    <br>
-    <h2>10. Generate basic stubs </h2>
-    <h2>11. Generate basic mocks</h2>
-    <h2>12. Generate async-friendly mocks</h2>
-    <h2>13. Generate thread-friendly mocks</h2>
-    <h2>14. Associate assertions in hand-coded mocks or stubs with test cases in
-      same thread</h2>
+<br></pre> <br>
+    <h2>11. Generate basic stubs </h2>
+    <h2>12. Generate basic mocks</h2>
+    <h2>13. Generate async-friendly mocks</h2>
+    <h2>14. Generate thread-friendly mocks</h2>
     <h2>15. Associate assertions in hand-coded mocks or stubs with test cases in
+      same thread</h2>
+    <h2>16. Associate assertions in hand-coded mocks or stubs with test cases in
       different thread</h2>
     <br>
-    <br>
-    <br>
-    <br>
-    <h1> <br>
-    </h1>
   </body>
 </html>

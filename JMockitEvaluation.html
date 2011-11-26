@@ -1,14 +1,16 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>JMockit Evaluation</title>
   </head>
   <body>
     <h1>JMockit Evaluation</h1>
-    <p>See https://github.com/duderino/injection for complete source code.<br />
+    <p>See <a href="https://github.com/duderino/injection">https://github.com/duderino/injection</a>
+      for complete source code.<br />
     </p>
     <h2>1. Inject mocks/stubs without changing the API</h2>
+    <p>TODO - replace all random number generation with return 999;</p>
     Class.java:<br />
     <pre>public class Class {
     private Dependency dependency = new Dependency();
@@ -61,12 +63,11 @@
         return dependency.generate() * 2;
     }
 }
-<br /></pre>
-    The test case can no longer use Java's anonymous inner class mechanism since
-    the dependency cannot be subclassed.   Instead it has to use a
-    static/regular class with JMockit's @MockClass annotation.   The annotation
-    tells JMockit which class the mock is meant to replace.   It works, but it
-    is a bit less natural.<br />
+<br /></pre> The test case can no longer use Java's anonymous inner class
+    mechanism since the dependency cannot be subclassed.   Instead it has to use
+    a static/regular class with JMockit's @MockClass annotation.   The
+    annotation tells JMockit which class the mock is meant to replace.   It
+    works, but it is a bit less natural.<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
@@ -118,9 +119,8 @@
         return (int) Math.random() * 1000;
     }
 }
-</pre>
-    The class under test no longer instantiates the dependency and instead calls
-    its static method.<br />
+</pre> The class under test no longer instantiates the dependency and instead
+    calls its static method.<br />
     <br />
     Class.java:<br />
     <pre>public class Class {
@@ -128,9 +128,8 @@
         return Dependency.generate() * 2;
     }
 }
-<br /></pre>
-    The static method can be mocked out using the same mechanism used in the
-    previous example.<br />
+<br /></pre> The static method can be mocked out using the same mechanism used
+    in the previous example.<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
@@ -166,9 +165,11 @@
         return (int) Math.random() * max;
     }
 }
-</pre>
-    The class under test is similarly modified to pass the argument through its
-    constructor to the dependency's constructor.<br />
+</pre> The class under test is similarly modified to pass the argument through
+    its constructor to the dependency's constructor.<br />
+    <br />
+    TODO - bring up to date with moles equivalent.   Class should pass hardcoded
+    999 to Dependency.<br />
     <br />
     Class.java:<br />
     <pre>public class Class {
@@ -182,10 +183,11 @@
         return dependency.generate() * 2;
     }
 }
-<br /></pre>
-    Finally the test case is modified to pass the argument to the constructor.  
-    By defining a special "void $init()" method, the mock can verify that the
-    constructor was passed the correct value.<br />
+<br /></pre> Finally the test case is modified to pass the argument to the
+    constructor.   By defining a special "void $init()" method, the mock can
+    verify that the constructor was passed the correct value.<br />
+    <br />
+    TODO - can you change anything in the ctor?<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
@@ -228,8 +230,7 @@
     <pre>public interface Dependency {
     int generate();
 }
-</pre>
-    Next I modified the class under test to instantiate an anonymous
+</pre> Next I modified the class under test to instantiate an anonymous
     implementation of the interface.<br />
     <br />
     Class.java:<br />
@@ -267,8 +268,7 @@
         assert 123 * 2 == clazz.generate();
     }
 }
-</pre>
-    Unfortunately JMockit threw a "Not a modifiable class"
+</pre> Unfortunately JMockit threw a "Not a modifiable class"
     IllegalArgumentException when the test was run:<br />
     <pre>-------------------------------------------------------
  T E S T S
@@ -330,8 +330,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
     }
 }
 
-</pre>
-    The result was a predictable compilation error:<br />
+</pre> The result was a predictable compilation error:<br />
     <pre>[INFO] -------------------------------------------------------------
 [ERROR] COMPILATION ERROR : 
 [INFO] -------------------------------------------------------------
@@ -339,9 +338,14 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [ERROR] /Users/blattj/dev/injection/src/test/java/org/duderino/injection/jmockit/_6/ClassTest.java:[22,30] org.duderino.injection.jmockit._6.Class.Dependency has private access in org.duderino.injection.jmockit._6.Class
 [INFO] 2 errors 
 
-<br /></pre>
-    The same results were observed by omitting the 'static' qualifier.<br />
-    <h2>7. Inject a mock that delegates to a real instance</h2>
+<br /></pre> The same results were observed by omitting the 'static' qualifier.<br />
+    <h2>7. Mock/stub out base/superclass functions</h2>
+    <p>TODO - mock out 1 method in superclass and 1 method in subclass.   Might
+      be an exclusive OR.<br />
+    </p>
+    <h2>8. Inject a mock that delegates to a real instance</h2>
+    <p>TODO - rename these in source code from here down - add 1 to package.<br />
+    </p>
     Since we want to make sure we call the real dependency, we first change it
     to return a constant rather than the random number used in previous
     examples.   Our test case will assert later that this constant was in fact
@@ -353,8 +357,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
         return 123;
     }
 }
-</pre>
-    And the class under test instantiates and calls the dependency as usual.<br />
+</pre> And the class under test instantiates and calls the dependency as usual.<br />
     <br />
     Class.java:<br />
     <pre>public class Class {
@@ -364,8 +367,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
         return dependency.generate() * 2;
     }
 }
-<br /></pre>
-    So we save all the complexity for the test case...<br />
+<br /></pre> So we save all the complexity for the test case...<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
@@ -419,11 +421,11 @@ Results :
 Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest): tried to access field org.duderino.injection.jmockit._7.ClassTest$1.it from class org.duderino.injection.jmockit._7.Dependency
 
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
-<br /></pre>
-    Assuming there is a publicly accessible 'it' member with the same type as
-    the real, non-mocked instance, JMockit will automatically copy the real,
-    non-mocked instance reference into the 'it' attribute.   While not tested,
-    getting the data type wrong would probably produced a ClassCastException.<br />
+<br /></pre> Assuming there is a publicly accessible 'it' member with the same
+    type as the real, non-mocked instance, JMockit will automatically copy the
+    real, non-mocked instance reference into the 'it' attribute.   While not
+    tested, getting the data type wrong would probably produced a
+    ClassCastException.<br />
     <br />
     The other special gotcha is the 'reentrant = true' qualifier on the @Mock
     annotation.   Without this qualifier JMockit will still redirect calls to
@@ -454,10 +456,10 @@ Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest)
 
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre>
-    <h2>8. Inject hand-coded mocks or stubs </h2>
+    <h2>9. Inject hand-coded mocks or stubs </h2>
     Well, this one is kinda a 'duh'.  Every example so far has injected a
     hand-coded mock. <br />
-    <h2>9. Mocks injection can be narrowly targeted</h2>
+    <h2>10. Mocks injection can be narrowly targeted</h2>
     <br />
     <h3>Lesson Learned: Mocking Out The Java Class Library Is Dangerous</h3>
     Configuration.java<br />
@@ -524,8 +526,7 @@ public class Configuration {
         }
     }
 }
-<br /></pre>
-    ConfigurationTest.java<br />
+<br /></pre> ConfigurationTest.java<br />
     <pre>package org.duderino.injection.jmockit._1;
 
 import mockit.Mock;
@@ -566,8 +567,7 @@ public class ConfigurationTest {
         assert "bar".equals(configuration.get("foo"));
     }
 }
-<br /></pre>
-    Output:<br />
+<br /></pre> Output:<br />
     <pre>-------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -598,15 +598,14 @@ Caused by: java.io.IOException: Bad file descriptor
 	at java.net.URLClassLoader$1.run(URLClassLoader.java:197)
 	... 40 more
 testCheck(org.duderino.injection.jmockit.basic.Y2KCheckerTest)  Time elapsed: 0.01 sec  &lt;&lt;&lt; FAILURE!
-<br /></pre>
-    <br />
-    <h2>10. Generate basic stubs </h2>
-    <h2>11. Generate basic mocks</h2>
-    <h2>12. Generate async-friendly mocks</h2>
-    <h2>13. Generate thread-friendly mocks</h2>
-    <h2>14. Associate assertions in hand-coded mocks or stubs with test cases in
-      same thread</h2>
+<br /></pre> <br />
+    <h2>11. Generate basic stubs </h2>
+    <h2>12. Generate basic mocks</h2>
+    <h2>13. Generate async-friendly mocks</h2>
+    <h2>14. Generate thread-friendly mocks</h2>
     <h2>15. Associate assertions in hand-coded mocks or stubs with test cases in
+      same thread</h2>
+    <h2>16. Associate assertions in hand-coded mocks or stubs with test cases in
       different thread</h2>
     <br />
     <br />

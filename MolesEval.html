@@ -360,121 +360,108 @@ Compile complete -- 1 errors, 0 warnings
     }<br></pre>
     <pre></pre>
     <h2>8. Inject a mock that delegates to a real instance</h2>
-    <p>TODO - rename these in source code from here down - add 1 to package.<br>
-    </p>
-    Since we want to make sure we call the real dependency, we first change it
-    to return a constant rather than the random number used in previous
-    examples.&nbsp;&nbsp; Our test case will assert later that this constant was
-    in fact returned.<br>
-    <br>
     Dependency.java:<br>
-    <pre>public class Dependency {
-    public int generate() {
-        return 123;
+    <pre>    public class Dependency08
+    {
+        public int generate()
+        {
+            return 999;
+        }
     }
-}
-</pre> And the class under test instantiates and calls the dependency as usual.<br>
-    <br>
+</pre> <br>
     Class.java:<br>
-    <pre>public class Class {
-    private Dependency dependency = new Dependency();
+    <pre>    public class Class08
+    {
+        private Dependency08 dependency = new Dependency08();
 
-    public int generate() {
-        return dependency.generate() * 2;
+        public int generate()
+        {
+            return dependency.generate() * 2;
+        }
     }
-}
 <br></pre> So we save all the complexity for the test case...<br>
     <br>
     ClassTest.java:<br>
-    <pre>public class ClassTest {
-    @Test
-    public void testIt() {
-        final List&lt;Integer&gt; calls = new ArrayList&lt;Integer&gt;();
+    <pre>    [TestClass]
+    public class ClassTest01
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void test()
+        {
+            int count = 0;
 
-        Mockit.setUpMock(Dependency.class, new Dependency() {
-            //private int numCalls = 0;
-            public Dependency it;
+            MDependency08.AllInstances.generate = (Dependency08 dependency) =&gt;
+            {
+                ++count;
 
-            @Mock(reentrant = true)
-            @Override
-            public int generate() {
-                int result = it.generate();
+                return MolesContext.ExecuteWithoutMoles(() =&gt; {
+                    return dependency.generate();
+                });
+            };
+            
+            Class08 clazz = new Class08();
 
-                calls.add(new Integer(result));
-
-                return result;
+            for (int i = 0; i &lt; 10; ++i)
+            {
+                Assert.AreEqual(2 * 999, clazz.generate());
             }
-        });
 
-        Class clazz = new Class();
+            Assert.AreEqual(10, count);
+        }
+    }</pre>
+    <br>
+    <h2>9. Inject hand-coded mocks or stubs </h2>
+    Dependency.cs:<br>
+    <pre>    public class Dependency09
+    {
+        public int generate()
+        {
+            return 999;
+        }
+    }<br></pre>
+    Class.cs:<br>
+    <pre>    public class Class09
+    {
+        private Dependency09 dependency = new Dependency09();
 
-        for (int i = 0; i &lt; 10; ++i) {
-            assert 123 * 2 == clazz.generate();
+        public int generate()
+        {
+            return dependency.generate() * 2;
+        }
+    }<br></pre>
+    ClassTest.cs:<br>
+    <pre>    [TestClass]
+    public class ClassTest09
+    {
+        private class MockDependency
+        {
+            private int value = 123;
+
+            public int generate()
+            {
+                return value;
+            }
         }
 
-        assert calls.size() == 10;
-    }
-}</pre>
-    Several special things have to happen when we setup this mock object.<br>
-    <br>
-    We have to declare a 'public Dependency it;' member.&nbsp;&nbsp; All three
-    tokens are important here.&nbsp;&nbsp; If the member is declared private,
-    JMockit will throw an exception that looks like this:<br>
-    <pre>-------------------------------------------------------
- T E S T S
--------------------------------------------------------
-JMockit: loaded external tool mockit.coverage.CodeCoverage
-Running TestSuite
-Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.529 sec &lt;&lt;&lt; FAILURE!
-testIt(org.duderino.injection.jmockit._7.ClassTest)  Time elapsed: 0.012 sec  &lt;&lt;&lt; FAILURE!
-java.lang.IllegalAccessError: tried to access field org.duderino.injection.jmockit._7.ClassTest$1.it from class org.duderino.injection.jmockit._7.Dependency
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
-	at org.duderino.injection.jmockit._7.Class.generate(Class.java:10)
-	at org.duderino.injection.jmockit._7.ClassTest.testIt(ClassTest.java:37)
+        [TestMethod]
+        [HostType("Moles")]
+        public void test()
+        {
+            // While this works, it doesn't appear to be threadsafe.
 
-Results :
+            MockDependency mockDependency = new MockDependency();
 
-Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest): tried to access field org.duderino.injection.jmockit._7.ClassTest$1.it from class org.duderino.injection.jmockit._7.Dependency
+            MDependency09.AllInstances.generate = _ =&gt;
+            {
+                return mockDependency.generate();
+            };
+            
+            Class09 clazz = new Class09();
 
-Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
-<br></pre> Assuming there is a publicly accessible 'it' member with the same
-    type as the real, non-mocked instance, JMockit will automatically copy the
-    real, non-mocked instance reference into the 'it' attribute.&nbsp;&nbsp;
-    While not tested, getting the data type wrong would probably produced a
-    ClassCastException.<br>
-    <br>
-    The other special gotcha is the 'reentrant = true' qualifier on the @Mock
-    annotation.&nbsp;&nbsp; Without this qualifier JMockit will still redirect
-    calls to the real instance to the mock.&nbsp;&nbsp; That is, the mock will
-    call itself recursively, generating a stack overflow that looks like this:<br>
-    <br>
-    <pre>-------------------------------------------------------
- T E S T S
--------------------------------------------------------
-JMockit: loaded external tool mockit.coverage.CodeCoverage
-Running TestSuite
-Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.668 sec &lt;&lt;&lt; FAILURE!
-testIt(org.duderino.injection.jmockit._7.ClassTest)  Time elapsed: 0.095 sec  &lt;&lt;&lt; FAILURE!
-java.lang.StackOverflowError
-	at java.util.HashMap.get(HashMap.java:298)
-	at java.util.Collections$SynchronizedMap.get(Collections.java:1975)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
-	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
-	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
-<br>...<br>	at org.duderino.injection.jmockit._7.ClassTest$1.generate(ClassTest.java:26)
-	at org.duderino.injection.jmockit._7.Dependency.generate(Dependency.java)
-
-Results :
-
-Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest)
-
-Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
-<br></pre>
-    <h2>9. Inject hand-coded mocks or stubs </h2>
-    Well, this one is kinda a 'duh'.&nbsp; Every example so far has injected a
-    hand-coded mock. <br>
+            Assert.AreEqual(2 * 123, clazz.generate());
+        }
+    }<br></pre>
     <h2>10. Mocks injection can be narrowly targeted</h2>
     <br>
     <h3>Lesson Learned: Mocking Out The Java Class Library Is Dangerous</h3>

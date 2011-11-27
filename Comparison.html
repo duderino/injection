@@ -108,7 +108,8 @@
         <tr>
           <td style="vertical-align: top;">8<br />
           </td>
-          <td style="vertical-align: top;">Mock can delegate to real instance<br />
+          <td style="vertical-align: top;">Mock/stub can delegate to real
+            instance<br />
           </td>
           <td style="vertical-align: top;">YES </td>
           <td style="vertical-align: top;">YES<br />
@@ -117,7 +118,9 @@
         <tr>
           <td style="vertical-align: top;">9<br />
           </td>
-          <td style="vertical-align: top;">Inject hand-coded mocks or stubs </td>
+          <td style="vertical-align: top;">Hand-coded mocks/stubs can be
+            injected.<br />
+          </td>
           <td style="vertical-align: top;">YES </td>
           <td style="vertical-align: top;">YES<br />
           </td>
@@ -125,9 +128,29 @@
         <tr>
           <td style="vertical-align: top;">10<br />
           </td>
-          <td style="vertical-align: top;">Mocks injection can be narrowly
-            targeted (use case - globally replacing system classes with
-            mocks/stubs is dangerous)<br />
+          <td style="vertical-align: top;">Mocks/stub injection can be toggled<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+          <td style="vertical-align: top;">YES<br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">11<br />
+          </td>
+          <td style="vertical-align: top;">Mock/stub injection can be narrowly
+            targeted<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+          <td style="vertical-align: top;">NO<br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">12<br />
+          </td>
+          <td style="vertical-align: top;">Mock/stub out interface (use case -
+            code under test uses dependency injection framework)<br />
           </td>
           <td style="vertical-align: top;"><br />
           </td>
@@ -135,8 +158,17 @@
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">11<br />
+          <td style="vertical-align: top;">13<br />
           </td>
+          <td style="vertical-align: top;">Safely mock/stub out class library<br />
+          </td>
+          <td style="vertical-align: top;">NO<br />
+          </td>
+          <td style="vertical-align: top;"><br />
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;">14</td>
           <td style="vertical-align: top;">Generate basic stubs (not mocks) </td>
           <td style="vertical-align: top;"><br />
           </td>
@@ -144,8 +176,7 @@
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">12<br />
-          </td>
+          <td style="vertical-align: top;">15</td>
           <td>Generate basic mocks (not stubs)<br />
           </td>
           <td><br />
@@ -154,7 +185,7 @@
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">13</td>
+          <td style="vertical-align: top;">16</td>
           <td>Generate async-friendly mocks (mocks can call callback functions)<br />
           </td>
           <td><br />
@@ -163,8 +194,7 @@
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">14<br />
-          </td>
+          <td style="vertical-align: top;">17</td>
           <td>Generate thread-friendly mocks (mock/stub instances are
             thread-specific)<br />
           </td>
@@ -174,8 +204,7 @@
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">15<br />
-          </td>
+          <td style="vertical-align: top;">18</td>
           <td>Associate assertions in hand-coded mocks or stubs with test cases
             in same thread<br />
           </td>
@@ -185,8 +214,7 @@
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">16<br />
-          </td>
+          <td style="vertical-align: top;">19</td>
           <td>Associate assertions in hand-coded mocks or stubs with test cases
             in different thread</td>
           <td><br />

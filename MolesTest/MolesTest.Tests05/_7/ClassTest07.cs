@@ -10,7 +10,7 @@ using MolesTest._7.Moles;
 namespace MolesTest.Tests._7
 {
     /// <summary>
-    /// Demonstrate mocking/stubbing out static functions.
+    /// Demonstrate mocking/stubbing out subclass and superclass functions
     /// </summary>
     [TestClass]
     public class ClassTest07

@@ -10,7 +10,7 @@ using MolesTest._8.Moles;
 namespace MolesTest.Tests._8
 {
     /// <summary>
-    /// Demonstrate injecting a dependency into a class without modifying its public API.
+    /// Demonstrate mock/stub can delegate to real instance
     /// </summary>
     [TestClass]
     public class ClassTest01

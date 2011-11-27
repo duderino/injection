@@ -10,7 +10,7 @@ using MolesTest._9.Moles;
 namespace MolesTest.Tests._9
 {
     /// <summary>
-    /// Demonstrate injecting hand-coded mocks or stubs. 
+    /// Demonstrate injection of hannd-coded mocks/stubs.
     /// </summary>
     [TestClass]
     public class ClassTest09

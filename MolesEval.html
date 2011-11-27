@@ -190,61 +190,175 @@
         }
     }<br></pre>
     <h2>6. Mock/stub out inaccessible (e.g., private) inner/nested classes</h2>
-    Extending on the previous example, it appears that JMockit must have access
-    to the definition of every class it needs to mock out.&nbsp;&nbsp; Private
-    inner classes, static or not, are not visible to the JMockit annotations so
-    they break compilation.<br>
-    <br>
     For this test we moved the Dependency class into the Class class.<br>
     <br>
     Class.cs:<br>
-    <pre>public class Class {
-    private static class Dependency {
-        public int generate() {
-            return (int) Math.random() * 1000;
+    <pre>    public class Class06
+    {
+        private class Dependency06
+        {
+            public int generate()
+            {
+                return 999;
+            }
         }
-    }
 
-    private Dependency dependency = new Dependency();
+        private Dependency06 dependency = new Dependency06();
 
-    public int generate() {
-        return dependency.generate() * 2;
-    }
-}<br></pre>
-    Next we tried to inject a mock implementation in the test case.<br>
+        public int generate()
+        {
+            return dependency.generate() * 2;
+        }
+    }<br></pre>
+    <br>
     <br>
     ClassTest.cs:<br>
-    <pre>public class ClassTest {
-    @MockClass(realClass = Class.Dependency.class)
-    public static class MockDependency {
-        @Mock
-        public int generate() {
-            return 123;
+    <pre>    [TestClass]
+    public class ClassTest04
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void test()
+        {
+            MClass06.MDependency06.AllInstances.generate = _ =&gt; 123;
+
+            Class06 clazz = new Class06();
+
+            Assert.AreEqual(2 * 123, clazz.generate());
         }
     }
 
-    @Test
-    public void testIt() {
-        Mockit.setUpMock(Class.Dependency.class, MockDependency.class);
+</pre> The result was a compilation error:<br>
+    <pre>------ Build started: Project: MolesTest, Configuration: Debug Any CPU ------
+  MolesTest -&gt; C:\Users\foo\Documents\Visual Studio 2010\Projects\MolesTest\MolesTest\bin\Debug\MolesTest.dll
+------ Build started: Project: MolesTest.Tests, Configuration: Debug Any CPU ------
+C:\Users\foo\Documents\Visual Studio 2010\Projects\MolesTest\MolesTest.Tests05\_6\ClassTest06.cs(22,22): error CS0117: 'MolesTest._6.Moles.MClass06' does not contain a definition for 'MDependency06'
 
-        Class clazz = new Class();
+Compile complete -- 1 errors, 0 warnings
+  Microsoft Moles v0.94.51006.1 - http://research.microsoft.com/moles - .NET v4.0.30319
+  Copyright (c) Microsoft Corporation 2007-2010. All rights reserved.
+  
+  Generating 2 Moles assemblies with 2 concurrent processes
+  3:start&gt; MolesTest.moles
+  4:start&gt; mscorlib.moles
+  4:end&gt; mscorlib.moles Success (0 - 0x0)
+  3:end&gt; MolesTest.moles Success (0 - 0x0)
+  
+  	Moles compilation SUCCESS - 2.5885226s
+========== Build: 1 succeeded or up-to-date, 1 failed, 0 skipped ==========
+<br></pre>The same test works if the accessibility of the Dependency06 class is
+    changed from private to public.&nbsp;&nbsp; We also tried making the
+    internals visible to Moles by adding these two lines to the assembly, but
+    they did not help:<br>
+    <pre>[assembly: InternalsVisibleTo("MolesTest._6.Moles")]
+[assembly: InternalsVisibleTo("MolesTest.Moles")]<br></pre>
+    <h2>7. Mock/stub out subclass and superclass functions</h2>
+    <p>SuperDepenency.cs:<br>
+    </p>
+    <pre>    public class SuperDependency07
+    {
+        public virtual int generate()
+        {
+            return 999;
+        }
 
-        assert 123 * 2 == clazz.generate();
-    }
-}
+        public int superGenerate()
+        {
+            return 999;
+        }
+    }<br></pre>
+    SubDependency.cs:<br>
+    <pre>    public class SubDependency07 : SuperDependency07
+    {
+        public override int generate()
+        {
+            return 333;
+        }
 
-</pre> The result was a predictable compilation error:<br>
-    <pre>[INFO] -------------------------------------------------------------
-[ERROR] COMPILATION ERROR : 
-[INFO] -------------------------------------------------------------
-[ERROR] /Users/blattj/dev/injection/src/test/java/org/duderino/injection/jmockit/_6/ClassTest.cs:[12,32] org.duderino.injection.jmockit._6.Class.Dependency has private access in org.duderino.injection.jmockit._6.Class
-[ERROR] /Users/blattj/dev/injection/src/test/java/org/duderino/injection/jmockit/_6/ClassTest.cs:[22,30] org.duderino.injection.jmockit._6.Class.Dependency has private access in org.duderino.injection.jmockit._6.Class
-[INFO] 2 errors 
+        public int subGenerate()
+        {
+            return 333;
+        }
+    }<br></pre>
+    Class.cs:<br>
+    <pre>    public class Class07
+    {
+        private SubDependency07 dependency = new SubDependency07();
 
-<br></pre>The same results were observed by omitting the 'static' qualifier.<br>
-    <h2>7. Mock/stub out base/superclass functions</h2>
-    <p>TODO - mock out 1 method in superclass and 1 method in
-      subclass.&nbsp;&nbsp; Might be an exclusive OR.</p>
+        public int generate()
+        {
+            return 2 * dependency.generate();
+        }
+
+        public int superGenerate()
+        {
+            return 2 * dependency.superGenerate();
+        }
+
+        public int subGenerate()
+        {
+            return 2 * dependency.subGenerate();
+        }
+    }<br></pre>
+    ClassTest.cs:<br>
+    <pre>    [TestClass]
+    public class ClassTest07
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void testOverride()
+        {
+            MSubDependency07.AllInstances.generate = _ =&gt; 123;
+
+            Class07 clazz = new Class07();
+
+            Assert.AreEqual(2 * 123, clazz.generate());
+            Assert.AreEqual(2 * 333, clazz.subGenerate());
+            Assert.AreEqual(2 * 999, clazz.superGenerate());
+        }
+
+        [TestMethod]
+        [HostType("Moles")]
+        public void testOvershadow()
+        {
+            MSuperDependency07.AllInstances.generate = _ =&gt; 123;
+
+            Class07 clazz = new Class07();
+
+            Assert.AreEqual(2 * 333, clazz.generate());
+            Assert.AreEqual(2 * 333, clazz.subGenerate());
+            Assert.AreEqual(2 * 999, clazz.superGenerate());
+        }
+
+        [TestMethod]
+        [HostType("Moles")]
+        public void testSuper()
+        {
+            // does not compile: MSubDependency07.AllInstances.superGenerate = _ =&gt; 123;
+
+            MSuperDependency07.AllInstances.superGenerate = _ =&gt; 123;
+
+            Class07 clazz = new Class07();
+
+            Assert.AreEqual(2 * 333, clazz.generate());
+            Assert.AreEqual(2 * 333, clazz.subGenerate());
+            Assert.AreEqual(2 * 123, clazz.superGenerate());
+        }
+
+        [TestMethod]
+        [HostType("Moles")]
+        public void testSub()
+        {
+            MSubDependency07.AllInstances.subGenerate = _ =&gt; 123;
+
+            Class07 clazz = new Class07();
+
+            Assert.AreEqual(2 * 333, clazz.generate());
+            Assert.AreEqual(2 * 123, clazz.subGenerate());
+            Assert.AreEqual(2 * 999, clazz.superGenerate());
+        }
+    }<br></pre>
+    <pre></pre>
     <h2>8. Inject a mock that delegates to a real instance</h2>
     <p>TODO - rename these in source code from here down - add 1 to package.<br>
     </p>

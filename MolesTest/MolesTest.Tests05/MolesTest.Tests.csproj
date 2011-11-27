@@ -69,6 +69,10 @@
     <Compile Include="_2\ClassTest02.cs" />
     <Compile Include="_3\ClassTest03.cs" />
     <Compile Include="_4\ClassTest04.cs" />
+    <Compile Include="_6\ClassTest06.cs" />
+    <Compile Include="_7\ClassTest07.cs" />
+    <Compile Include="_8\ClassTest08.cs" />
+    <Compile Include="_9\ClassTest09.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="_5\" />

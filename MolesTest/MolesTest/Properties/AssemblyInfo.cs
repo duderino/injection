@@ -36,5 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("MolesTest.Tests")]
 [assembly: InternalsVisibleTo("MolesTest.Explorables")]
-[assembly: InternalsVisibleTo("MolesTest1.Tests")]
-//[assembly: InternalsVisibleTo("MolesTest._1.Moles")]
+[assembly: InternalsVisibleTo("MolesTest._6.Moles")]
+[assembly: InternalsVisibleTo("MolesTest.Moles")]

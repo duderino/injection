@@ -51,6 +51,14 @@
     <Compile Include="_4\Class04.cs" />
     <Compile Include="_4\Dependency04.cs" />
     <Compile Include="_5\Class05.cs" />
+    <Compile Include="_6\Class06.cs" />
+    <Compile Include="_7\SubDependency07.cs" />
+    <Compile Include="_7\Class07.cs" />
+    <Compile Include="_7\SuperDependency07.cs" />
+    <Compile Include="_8\Class08.cs" />
+    <Compile Include="_8\Dependency08.cs" />
+    <Compile Include="_9\Class09.cs" />
+    <Compile Include="_9\Dependency09.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

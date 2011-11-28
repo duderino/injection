@@ -538,8 +538,114 @@ Compile complete -- 1 errors, 0 warnings
             Assert.AreEqual(2 * 123, clazz.generate());
         }
     }</pre>
-    <h2>12. Mock/stub out interface</h2>
+    <h2>12. Mock/stub out any implementation of an interface</h2>
+    <p>TODO - use case - dependency injection frameworks where the
+      implementation of an interface is not known in advance and the code under
+      test only knows of the interface.</p>
+    <p>Dependency.cs:<br>
+    </p>
+    <pre>    public interface Dependency12
+    {
+        int generate();
+    }
+</pre> Class.cs:<br>
+    <pre>    public class Class12
+    {
+        // Make this public so Moles can generate a mole for it
+        public class DependencyImpl : Dependency12
+        {
+            public int generate()
+            {
+                return 999;
+            }
+        }
+
+        private Dependency12 dependency = new DependencyImpl();
+
+        public int generate()
+        {
+            return dependency.generate() * 2;
+        }
+    }<br></pre>
+    ClassTest.cs:<br>
+    <pre>    [TestClass]
+    public class ClassTest12
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void test()
+        {
+            // Does not compile: MDependency12.AllInstances.generate = _ =&gt; 123;
+
+            Class12 clazz = new Class12();
+
+            // Does not pass because could not inject stub:  Assert.AreEqual(2 * 123, clazz.generate());
+
+            Assert.AreEqual(2 * 999, clazz.generate());
+        }
+    }</pre>
     <h2>13. Safely mock/stub out class library</h2>
+    Class.cs:<br>
+    <pre>    public class Class13
+    {
+        public int generate1() 
+        {
+            StreamReader reader = File.OpenText("foo.txt");
+
+            string line = reader.ReadLine();
+
+            return 2 * int.Parse(line);
+        }
+
+        public int generate2()
+        {
+            FileStream stream = File.Open("foo", FileMode.Open);
+
+            StreamReader reader = new StreamReader(stream);
+
+            string line = reader.ReadLine();
+
+            return 2 * int.Parse(line);
+        }
+    }<br></pre>
+    ClassTest.cs:<br>
+    <pre>    [TestClass]
+    public class ClassTest13
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void test1()
+        {
+            MFile.OpenTextString = _ =&gt; new MStreamReader();
+
+            MStreamReader.AllInstances.ReadLine = _ =&gt; "123";
+
+            Class13 clazz = new Class13();
+
+            Assert.AreEqual(2 * 123, clazz.generate1());
+        }
+
+ 
+        [TestMethod]
+        [HostType("Moles")]
+        public void test2()
+        {
+            MemoryStream memoryStream = new MemoryStream(new byte[] { 0x31, 0x32, 0x33 });   // "123" in ascii/unicode hex
+
+            MFileStream  mFileStream = new MFileStream();
+
+            mFileStream.CanReadGet = () =&gt; memoryStream.CanRead;
+
+            mFileStream.ReadByteArrayInt32Int32 = (byte[] array, int offset, int length) =&gt; memoryStream.Read(array, offset, length);
+
+            MFile.OpenStringFileMode = (string path, FileMode mode) =&gt; mFileStream;
+
+            Class13 clazz = new Class13();
+
+            Assert.AreEqual(2 * 123, clazz.generate2());
+        }
+    }</pre>
+    <p></p>
     <h2>14. Generate basic stubs </h2>
     <h2>15. Generate basic mocks</h2>
     <h2>16. Generate async-friendly mocks</h2>

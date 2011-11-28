@@ -42,9 +42,11 @@
     <Reference Include="mscorlib.Behaviors, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="mscorlib.Moles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0ae41878053f6703, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Behaviors, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Moles, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0ae41878053f6703, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -67,6 +69,8 @@
     <Compile Include="Properties\PexAssemblyInfo.cs" />
     <Compile Include="_10\ClassTest10.cs" />
     <Compile Include="_11\ClassTest11.cs" />
+    <Compile Include="_12\ClassTest12.cs" />
+    <Compile Include="_13\ClassTest13.cs" />
     <Compile Include="_1\ClassTest01.cs" />
     <Compile Include="_2\ClassTest02.cs" />
     <Compile Include="_3\ClassTest03.cs" />
@@ -81,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Moles Include="MolesTest.moles" />
+  </ItemGroup>
+  <ItemGroup>
+    <Moles Include="System.moles" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

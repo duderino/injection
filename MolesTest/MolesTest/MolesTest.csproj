@@ -46,6 +46,9 @@
     <Compile Include="_10\Dependency10.cs" />
     <Compile Include="_11\Class11.cs" />
     <Compile Include="_11\Dependency11.cs" />
+    <Compile Include="_12\Class12.cs" />
+    <Compile Include="_12\Dependency12.cs" />
+    <Compile Include="_13\Class13.cs" />
     <Compile Include="_1\Class01.cs" />
     <Compile Include="_1\Dependency01.cs" />
     <Compile Include="_2\Class02.cs" />

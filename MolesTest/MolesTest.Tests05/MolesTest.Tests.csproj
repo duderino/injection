@@ -71,6 +71,10 @@
     <Compile Include="_11\ClassTest11.cs" />
     <Compile Include="_12\ClassTest12.cs" />
     <Compile Include="_13\ClassTest13.cs" />
+    <Compile Include="_14\ClassTest14.cs" />
+    <Compile Include="_15\ClassTest15.cs" />
+    <Compile Include="_16\ClassTest16.cs" />
+    <Compile Include="_17\ClassTest17.cs" />
     <Compile Include="_1\ClassTest01.cs" />
     <Compile Include="_2\ClassTest02.cs" />
     <Compile Include="_3\ClassTest03.cs" />

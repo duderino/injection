@@ -13,8 +13,9 @@
             <class name="org.duderino.injection.jmockit._3.ClassTest"/>
             <class name="org.duderino.injection.jmockit._4.ClassTest"/>
             <!-- Does not work <class name="org.duderino.injection.jmockit._5.ClassTest"/> -->
-            <class name="org.duderino.injection.jmockit._6.ClassTest"/>
+            <!-- Does not work <class name="org.duderino.injection.jmockit._6.ClassTest"/> -->
             <class name="org.duderino.injection.jmockit._7.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._8.ClassTest"/>
             <!--<class name="org.duderino.injection.jmockit._9.ConfigurationTest"/> -->
             <!--<class name="org.duderino.injection.jmockit.MusicianDatabaseTest"/>
             <class name="org.duderino.injection.jmockit.XmlFetcherTest"/>

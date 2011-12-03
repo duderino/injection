@@ -1,12 +1,17 @@
 package org.duderino.injection.jmockit._7;
 
-/**
- * A class with a private dependency
- */
 public class Class {
-    private Dependency dependency = new Dependency();
+    private SubDependency dependency = new SubDependency();
 
     public int generate() {
-        return dependency.generate() * 2;
+        return 2 * dependency.generate();
+    }
+
+    public int superGenerate() {
+        return 2 * dependency.superGenerate();
+    }
+
+    public int subGenerate() {
+        return 2 * dependency.subGenerate();
     }
 }

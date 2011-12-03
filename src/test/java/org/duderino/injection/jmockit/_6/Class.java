@@ -6,7 +6,7 @@ package org.duderino.injection.jmockit._6;
 public class Class {
     private class Dependency {
         public int generate() {
-            return (int) Math.random() * 1000;
+            return 999;
         }
     }
 

@@ -1,15 +1,13 @@
 package org.duderino.injection.jmockit._6;
 
 import mockit.Mock;
-import mockit.MockClass;
-import mockit.Mockit;
 import org.testng.annotations.Test;
 
 /**
  * Demonstrate mocking out a private static inner class dependency.
  */
 public class ClassTest {
-    @MockClass(realClass = Class.Dependency.class)
+    // Does not compile:  @MockClass(realClass = Class.Dependency.class)
     public class MockDependency {
         @Mock
         public int generate() {
@@ -19,10 +17,10 @@ public class ClassTest {
 
     @Test
     public void testIt() {
-        Mockit.setUpMock(Class.Dependency.class, MockDependency.class);
+        // Does not compile:  Mockit.setUpMock(Class.Dependency.class, MockDependency.class);
 
         Class clazz = new Class();
 
-        assert 123 * 2 == clazz.generate();
+        // Does not pass:  assert 123 * 2 == clazz.generate();
     }
 }

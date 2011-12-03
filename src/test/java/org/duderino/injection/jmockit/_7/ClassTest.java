@@ -1,42 +1,81 @@
 package org.duderino.injection.jmockit._7;
 
+
 import mockit.Mock;
 import mockit.Mockit;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Demonstrate injecting a mock that decorates/delegates to the
- * underlying real dependency.
- */
 public class ClassTest {
     @Test
-    public void testIt() {
-        final List<Integer> calls = new ArrayList<Integer>();
-
-        Mockit.setUpMock(Dependency.class, new Dependency() {
-            //private int numCalls = 0;
-            public Dependency it;
-
-            @Mock(reentrant = true)
-            @Override
+    public void testOverride() {
+        Mockit.setUpMock(SubDependency.class, new SubDependency() {
+            @Mock
             public int generate() {
-                int result = it.generate();
-
-                calls.add(new Integer(result));
-
-                return result;
+                return 123;
             }
         });
 
         Class clazz = new Class();
 
-        for (int i = 0; i < 10; ++i) {
-            assert 123 * 2 == clazz.generate();
-        }
+        assert 2 * 123 == clazz.generate();
+        assert 2 * 333 == clazz.subGenerate();
+        assert 2 * 999 == clazz.superGenerate();
+    }
 
-        assert calls.size() == 10;
+    @Test
+    public void testOvershadow() {
+        Mockit.setUpMock(SuperDependency.class, new SuperDependency() {
+            @Mock
+            public int generate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 333 == clazz.generate();
+        assert 2 * 333 == clazz.subGenerate();
+        assert 2 * 999 == clazz.superGenerate();
+    }
+
+    @Test
+    public void testSuper() {
+        /* Fails at runtime with a: "Matching real methods not found for the following mocks of org.duderino.injection.jmockit._7.ClassTest$3"
+
+        Mockit.setUpMock(SubDependency.class, new SubDependency() {
+            @Mock
+            public int superGenerate() {
+                return 123;
+            }
+        }); */
+
+        Mockit.setUpMock(SuperDependency.class, new SuperDependency() {
+            @Mock
+            public int superGenerate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 333 == clazz.generate();
+        assert 2 * 333 == clazz.subGenerate();
+        assert 2 * 123 == clazz.superGenerate();
+    }
+
+    @Test
+    public void testSub() {
+        Mockit.setUpMock(SubDependency.class, new SubDependency() {
+            @Mock
+            public int subGenerate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 333 == clazz.generate();
+        assert 2 * 123 == clazz.subGenerate();
+        assert 2 * 999 == clazz.superGenerate();
     }
 }

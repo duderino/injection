@@ -9,13 +9,11 @@ import org.testng.annotations.Test;
  * Demonstrate mocking out a dependency with a constructor.
  */
 public class ClassTest {
-    private static final int MAX = 1000;
-
     @MockClass(realClass = Dependency.class)
     public static class MockDependency {
         @Mock
-        void $init(int max) {
-            assert MAX == max;
+        void $init(int value) {
+            assert 999 == value;
         }
 
         @Mock
@@ -28,8 +26,9 @@ public class ClassTest {
     public void testIt() {
         Mockit.setUpMock(Dependency.class, MockDependency.class);
 
-        Class clazz = new Class(MAX);
+        Class clazz = new Class();
 
         assert 123 * 2 == clazz.generate();
     }
 }
+

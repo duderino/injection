@@ -4,13 +4,13 @@ package org.duderino.injection.jmockit._4;
  * An example dependency
  */
 public class Dependency {
-    private final int max;
+    private int value;
 
-    public Dependency(int max) {
-        this.max = max;
+    public Dependency(int value) {
+        this.value = value;
     }
 
     public int generate() {
-        return (int) Math.random() * max;
+        return value;
     }
 }

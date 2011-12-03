@@ -8,7 +8,7 @@ public class Class {
        Dependency dependency = new Dependency() {
            @Override
            public int generate() {
-               return (int) Math.random() * 1000;
+               return 999;
            }
        };
 

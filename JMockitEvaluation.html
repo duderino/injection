@@ -1,7 +1,7 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
     <title>JMockit Evaluation</title>
   </head>
   <body>
@@ -10,9 +10,9 @@
       for complete source code.<br />
     </p>
     <h2>1. Inject mocks/stubs without changing the API</h2>
-    <p>TODO - replace all random number generation with return 999;</p>
-    Class.java:<br />
-    <pre>public class Class {
+    <p>Class.java:<br />
+
+    </p><pre>public class Class {
     private Dependency dependency = new Dependency();
 
     public int generate() {
@@ -22,7 +22,7 @@
     Dependency.java:<br />
     <pre>public class Dependency {
     public int generate() {
-        return (int) Math.random() * 1000;
+        return 999;
     }
 }<br /></pre>
     ClassTest.java:<br />
@@ -42,15 +42,14 @@
         assert 123 * 2 == clazz.generate();
     }
 }<br /><br /></pre>
-    TODO - mention must setUpMock for the exact class the method was declared
-    in, not the immediate class.<br />
+    
     <h2>2. Mock/stub out final/non-virtual functions</h2>
     Change dependency to be final so our mock cannot subclass it.<br />
     <br />
     Dependency.java:<br />
     <pre>public final class Dependency {
     public final int generate() {
-        return (int) Math.random() * 1000;
+        return 999;
     }
 }</pre>
     The class under test doesn't change.<br />
@@ -116,7 +115,7 @@
     Dependency.java:<br />
     <pre>public class Dependency {
     public static int generate() {
-        return (int) Math.random() * 1000;
+        return 999;
     }
 }
 </pre> The class under test no longer instantiates the dependency and instead
@@ -155,49 +154,36 @@
     <br />
     Dependency.java:<br />
     <pre>public class Dependency {
-    private final int max;
+    private int value;
 
-    public Dependency(int max) {
-        this.max = max;
+    public Dependency(int value) {
+        this.value = value;
     }
 
     public int generate() {
-        return (int) Math.random() * max;
+        return value;
     }
 }
 </pre> The class under test is similarly modified to pass the argument through
     its constructor to the dependency's constructor.<br />
     <br />
-    TODO - bring up to date with moles equivalent.   Class should pass hardcoded
-    999 to Dependency.<br />
-    <br />
     Class.java:<br />
     <pre>public class Class {
-    private final Dependency dependency;
-
-    public Class(int max) {
-        dependency = new Dependency(max);
-    }
+    private Dependency dependency = new Dependency(999);
 
     public int generate() {
         return dependency.generate() * 2;
     }
 }
-<br /></pre> Finally the test case is modified to pass the argument to the
-    constructor.   By defining a special "void $init()" method, the mock can
-    verify that the constructor was passed the correct value.<br />
-    <br />
-    TODO - can you change anything in the ctor?<br />
+<br /></pre> TODO<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
-    private static final int MAX = 1000;
-
     @MockClass(realClass = Dependency.class)
     public static class MockDependency {
         @Mock
-        void $init(int max) {
-            assert MAX == max;
+        void $init(int value) {
+            assert 999 == value;
         }
 
         @Mock
@@ -210,13 +196,39 @@
     public void testIt() {
         Mockit.setUpMock(Dependency.class, MockDependency.class);
 
-        Class clazz = new Class(MAX);
+        Class clazz = new Class();
 
         assert 123 * 2 == clazz.generate();
     }
-}
-</pre>
-    <h2>5. Mock/stub out anonymous inner classes</h2>
+}<br /></pre>Unlike Moles, JMockit has some ability to modify the object
+ in the $init constructor, but it's limited by the accessibility of the 
+object's members.   If, for instance, we made the value field public, we
+ could change its value in the $init constructor and avoid overriding 
+the generate method:<br />
+<pre>public class ClassTest {
+    @MockClass(realClass = Dependency.class)
+    public static class MockDependency {
+        public Dependency it;
+
+        @Mock
+        void $init(int value) {
+            assert 999 == value;
+
+            it.value = 123;  // Compiles only if Dependency.value is accessible
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}<br /></pre>
+TODO - mention use of Dependency it and relate to section 8.<br />
+<h2>5. Mock/stub out anonymous inner classes</h2>
     Sometimes the class under test creates an anonymous inner class that we'd
     like to mock out.   This is a particularly hard problem because the inner
     class may call back on the class under test's internals.<br />
@@ -239,7 +251,7 @@
        Dependency dependency = new Dependency() {
            @Override
            public int generate() {
-               return (int) Math.random() * 1000;
+               return 999;
            }
        };
 
@@ -298,7 +310,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
     <pre>public class Class {
     private static class Dependency {
         public int generate() {
-            return (int) Math.random() * 1000;
+            return 999;
         }
     }
 
@@ -341,20 +353,154 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre> The same results were observed by omitting the 'static' qualifier.<br />
     <h2>7. Mock/stub out subclass and superclass functions</h2>
     <p>TODO - mock out 1 method in superclass and 1 method in subclass.   Might
-      be an exclusive OR.<br />
-    </p>
-    <h2>8. Inject a mock that delegates to a real instance</h2>
-    <p>TODO - rename these in source code from here down - add 1 to package.<br />
-    </p>
-    Since we want to make sure we call the real dependency, we first change it
-    to return a constant rather than the random number used in previous
-    examples.   Our test case will assert later that this constant was in fact
-    returned.<br />
+      be an exclusive OR.</p>
+<pre>public class SuperDependency {
+    public int generate() {
+        return 999;
+    }
+
+    public int superGenerate() {
+        return 999;
+    }
+}<br /></pre>
+TODO<br />
+<pre>public class SubDependency extends SuperDependency {
+    @Override
+    public int generate() {
+        return 333;
+    }
+
+    public int subGenerate() {
+        return 333;
+    }
+}<br /></pre>
+TODO<br />
+<pre>public class Class {
+    private SubDependency dependency = new SubDependency();
+
+    public int generate() {
+        return 2 * dependency.generate();
+    }
+
+    public int superGenerate() {
+        return 2 * dependency.superGenerate();
+    }
+
+    public int subGenerate() {
+        return 2 * dependency.subGenerate();
+    }
+}<br /></pre>
+TODO<br />
+<pre>public class ClassTest {
+    @Test
+    public void testOverride() {
+        Mockit.setUpMock(SubDependency.class, new SubDependency() {
+            @Mock
+            public int generate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 123 == clazz.generate();
+        assert 2 * 333 == clazz.subGenerate();
+        assert 2 * 999 == clazz.superGenerate();
+    }
+
+    @Test
+    public void testOvershadow() {
+        Mockit.setUpMock(SuperDependency.class, new SuperDependency() {
+            @Mock
+            public int generate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 333 == clazz.generate();
+        assert 2 * 333 == clazz.subGenerate();
+        assert 2 * 999 == clazz.superGenerate();
+    }
+
+    @Test
+    public void testSuper() {
+        Mockit.setUpMock(SuperDependency.class, new SuperDependency() {
+            @Mock
+            public int superGenerate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 333 == clazz.generate();
+        assert 2 * 333 == clazz.subGenerate();
+        assert 2 * 123 == clazz.superGenerate();
+    }
+
+    @Test
+    public void testSub() {
+        Mockit.setUpMock(SubDependency.class, new SubDependency() {
+            @Mock
+            public int subGenerate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 333 == clazz.generate();
+        assert 2 * 123 == clazz.subGenerate();
+        assert 2 * 999 == clazz.superGenerate();
+    }
+}<br /></pre>
+TODO - note the limitation that mocks must be setUp on the class that 
+declared the method!   Relate to Moles which has a similar limitation - 
+methods are only generated for methods declared in each class<br />
+<pre>    @Test
+    public void testSuper() {
+        Mockit.setUpMock(SubDependency.class, new SubDependency() {
+            @Mock
+            public int superGenerate() {
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 333 == clazz.generate();
+        assert 2 * 333 == clazz.subGenerate();
+        assert 2 * 123 == clazz.superGenerate();
+    }<br /></pre>
+ TODO - produces:<br />
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
+Running TestSuite
+Tests run: 11, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.578 sec &lt;&lt;&lt; FAILURE!
+testSuper(org.duderino.injection.jmockit._7.ClassTest)  Time elapsed: 0.006 sec  &lt;&lt;&lt; FAILURE!
+java.lang.IllegalArgumentException: Matching real methods not found for the following mocks of org.duderino.injection.jmockit._7.ClassTest$3:
+int superGenerate()
+	at org.duderino.injection.jmockit._7.ClassTest.testSuper(ClassTest.java:43)
+
+Results :
+
+Failed tests:   testSuper(org.duderino.injection.jmockit._7.ClassTest): Matching real methods not found for the following mocks of org.duderino.injection.jmockit._7.ClassTest$3:
+
+Tests run: 11, Failures: 1, Errors: 0, Skipped: 0
+
+<br />
+    </pre>
+
+    <h2>8. Inject a mock that delegates to a real instance</h2>TODO<br />
     <br />
     Dependency.java:<br />
     <pre>public class Dependency {
     public int generate() {
-        return 123;
+        return 999;
     }
 }
 </pre> And the class under test instantiates and calls the dependency as usual.<br />
@@ -367,36 +513,45 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
         return dependency.generate() * 2;
     }
 }
-<br /></pre> So we save all the complexity for the test case...<br />
+<br /></pre>TODO<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
+    private static class Count {
+        private int value = 0;
+
+        public void increment() {
+            ++value;
+        }
+
+        public int total() {
+            return value;
+        }
+    }
+
     @Test
     public void testIt() {
-        final List&lt;Integer&gt; calls = new ArrayList&lt;Integer&gt;();
+        final Count count = new Count();
 
         Mockit.setUpMock(Dependency.class, new Dependency() {
-            //private int numCalls = 0;
             public Dependency it;
 
             @Mock(reentrant = true)
             @Override
             public int generate() {
-                int result = it.generate();
+                count.increment();
 
-                calls.add(new Integer(result));
-
-                return result;
+                return it.generate();
             }
         });
 
         Class clazz = new Class();
 
         for (int i = 0; i &lt; 10; ++i) {
-            assert 123 * 2 == clazz.generate();
+            assert 999 * 2 == clazz.generate();
         }
 
-        assert calls.size() == 10;
+        assert count.total() == 10;
     }
 }</pre>
     Several special things have to happen when we setup this mock object.<br />
@@ -616,5 +771,6 @@ testCheck(org.duderino.injection.jmockit.basic.Y2KCheckerTest)  Time elapsed: 0.
       different thread</h2>
     <br />
     <br />
-  </body>
-</html>
+  
+
+</body></html>

@@ -614,32 +614,266 @@ Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
     <h2>9. Inject hand-coded mocks or stubs </h2>
     Well, this one is kinda a 'duh'.  Every example so far has injected a
     hand-coded mock. <br />
-    <h2>10. Mock/stub injection can be toggled</h2>
-    <h2>11. Mock/stub injection can be narrowly targeted</h2>
+    <h2>10. Mock/stub injection can be toggled</h2>Dependency.java:<br />
+
+    
+<pre>public class Dependency {
+    public int generate() {
+        return 999;
+    }
+}</pre>
+TODO<br />
+
+    <br />
+
+    Class.java:<br />
+
+    
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}
+<br /></pre>
+ TODO<br />
+
+    <br />
+
+    ClassTest.java:<br />
+
+    
+<pre>public class ClassTest {
+    @MockClass(realClass = Dependency.class)
+    public static class MockDependency {
+        @Mock
+        public int generate() {
+            return 123;
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+
+        Mockit.tearDownMocks(Dependency.class);
+
+        assert 999 * 2 == clazz.generate();
+
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        assert 123 * 2 == clazz.generate();
+    }
+}<br /></pre>
+
+    TODO<br />
+<br />
+
+    <h2>11. Mock/stub injection can be narrowly targeted</h2>Dependency.java:<br />
+
+
+    
+<pre>public class Dependency {
+    public int generate() {
+        return 999;
+    }
+}</pre>
+
+TODO<br />
+
+
+    <br />
+
+
+    Class.java:<br />
+
+
+    
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() + (2 * dependency.generate());
+    }
+}
+<br /></pre>
+
+ TODO<br />
+
+
+    <br />
+
+
+    ClassTest.java:<br />
+
+
+    
+<pre>public class ClassTest {
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, new Dependency() {
+            public Dependency it;
+            private int calls = 0;
+
+            @Mock(reentrant = true)
+            public int generate() {
+                return ++calls == 2 ? 123 : it.generate();
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 999 + (2 * 123) == clazz.generate();
+    }
+}<br /></pre>
+
+
+    TODO - mention same issues as 8.   Dependency must be public.  @mock must be reentrant or else stack overflow.<br />
+<br />
+
     <h2>12. Mock/stub out any implementation of an interface</h2>
-    <p>TODO - use case - dependency injection frameworks where the
+    
+<p>TODO - use case - dependency injection frameworks where the
       implementation of an interface is not known in advance and the code under
       test only knows of the interface.</p>
+
+    
+<p>Dependency.cs:<br />
+    </p>
+
+    
+<pre>public interface Dependency {
+    int generate();
+}
+</pre>
+ Class.cs:<br />
+
+    
+<pre>public class Class {
+    public class DependencyImpl implements Dependency {
+        public int generate() {
+               return 999;
+           }
+    }
+
+    private Dependency dependency = new DependencyImpl();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}<br /></pre>
+
+    ClassTest.cs:<br />
+
+    
+<pre>public class ClassTest {
+    @MockClass(realClass = Dependency.class)
+    public static class MockDependency {
+        @Mock
+        public int generate() {
+            return 123;
+        }
+    }
+
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, MockDependency.class);
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}<br /></pre>
+TODO<br />
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
+Running TestSuite
+Tests run: 14, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.595 sec &lt;&lt;&lt; FAILURE!
+testIt(org.duderino.injection.jmockit._12.ClassTest)  Time elapsed: 0.003 sec  &lt;&lt;&lt; FAILURE!
+java.lang.IllegalArgumentException: Not a modifiable class: org.duderino.injection.jmockit._12.Dependency
+	at org.duderino.injection.jmockit._12.ClassTest.testIt(ClassTest.java:22)
+
+Results :
+
+Failed tests:   testIt(org.duderino.injection.jmockit._12.ClassTest): Not a modifiable class: org.duderino.injection.jmockit._12.Dependency
+
+Tests run: 14, Failures: 1, Errors: 0, Skipped: 0
+<br /></pre>
+
     <p></p>
     <h2>13. Safely mock/stub out class library</h2>
     <p>Can core classes in the class library be safely mocked out without
-      interfering with the virtual machine?<br />
+      interfering with the virtual machine?</p>
+<p><br />
+</p>
+Class.java:<br />
+<pre>public class Class {
+    public int generate() throws Exception {
+        FileInputStream stream = new FileInputStream("foo");
+
+        byte[] bytes = new byte[3];
+
+        stream.read(bytes);
+
+        String string = new String(bytes, "ASCII");
+
+        return 2 * Integer.parseInt(string);
+    }
+}<br /></pre>
+ClassTest.java:<br />
+<pre>public class ClassTest {
+    @Test
+    public void test() throws Exception {
+        Mockit.setUpMock(FileInputStream.class, new InputStream() {
+            private byte[] bytes = new byte[]{0x31, 0x32, 0x33};
+            private int index = 0;
+
+            @Mock
+            void $init(String fileName) {
+                assert "foo".equals(fileName);
+            }
+
+            @Mock
+            public int read() throws IOException {
+                if (index &gt;= bytes.length) {
+                    return 0;
+                }
+
+                return bytes[index++];
+            }
+
+            @Mock
+            public int read(byte[] out) throws IOException {
+                for (int i = 0; i &lt; out.length; ++i) {
+                    int result = read();
+
+                    if (0 == result) {
+                        return i;
+                    }
+
+                    out[i] = bytes[i];
+                }
+
+                return out.length;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * 123 == clazz.generate();
+    }
+}<br /></pre>
+
+    <p>Configuration.java:<br />
     </p>
-    <p>Configuration.java<br />
-    </p>
-    <pre>package org.duderino.injection.jmockit._1;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-public class Configuration {
+    <pre>public class Configuration {
     private Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
     private final String path;
 
@@ -690,26 +924,19 @@ public class Configuration {
         }
     }
 }
-<br /></pre> ConfigurationTest.java<br />
-    <pre>package org.duderino.injection.jmockit._1;
-
-import mockit.Mock;
-import mockit.Mockit;
-import org.testng.annotations.Test;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-public class ConfigurationTest {
+<br /></pre> ConfigurationTest.java:<br />
+    <pre>public class ConfigurationTest {
     @Test
-    public void testCheck() throws Exception {
+    public void test() throws Exception {
         final String xml = "&lt;settings&gt;&lt;setting&gt;&lt;key&gt;foo&lt;/key&gt;&lt;value&gt;bar&lt;/value&gt;&lt;/setting&gt;&lt;/settings&gt;";
 
         Mockit.setUpMock(FileInputStream.class, new InputStream() {
-            private byte[] bytes = xml.getBytes("UTF-8");
+            private byte[] bytes = xml.getBytes();
             private int index = 0;
+
+            @Mock
+            void $init(String fileName) {
+            }
 
             @Mock
             public int read() throws IOException {
@@ -721,12 +948,22 @@ public class ConfigurationTest {
             }
 
             @Mock
-            private void open(String name) throws FileNotFoundException {
-                // do nothing
+            public int read(byte[] out) throws IOException {
+                for (int i = 0; i &lt; out.length; ++i) {
+                    int result = read();
+
+                    if (0 == result) {
+                        return i;
+                    }
+
+                    out[i] = bytes[i];
+                }
+
+                return out.length;
             }
         });
 
-        Configuration configuration = new Configuration("dummy path");
+        Configuration configuration = new Configuration("README");
 
         assert "bar".equals(configuration.get("foo"));
     }
@@ -735,42 +972,336 @@ public class ConfigurationTest {
     <pre>-------------------------------------------------------
  T E S T S
 -------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
 Running TestSuite
-WARNING: JMockit was initialized on demand, which may cause certain tests to fail;
-please check the documentation for better ways to get it initialized.
-ZoneInfo: Bad file descriptor
-ZoneInfo: Bad file descriptor
-ZoneInfo: Bad file descriptor
-Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.779 sec &lt;&lt;&lt; FAILURE!
-testCheck(org.duderino.injection.jmockit._1.ConfigurationTest)  Time elapsed: 0.382 sec  &lt;&lt;&lt; FAILURE!
-java.lang.NoClassDefFoundError: org/duderino/injection/jmockit/_1/Configuration
-	at org.duderino.injection.jmockit._1.ConfigurationTest.testCheck(ConfigurationTest.java:36)
-Caused by: java.lang.ClassNotFoundException: org.duderino.injection.jmockit._1.Configuration
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:199)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
-	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
-	... 35 more
-Caused by: java.io.IOException: Bad file descriptor
+Tests run: 15, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.718 sec &lt;&lt;&lt; FAILURE!
+test(org.duderino.injection.jmockit._13.ConfigurationTest)  Time elapsed: 0.022 sec  &lt;&lt;&lt; FAILURE!
+java.io.IOException: Bad file descriptor
 	at java.io.FileInputStream.readBytes(Native Method)
 	at java.io.FileInputStream.read(FileInputStream.java:220)
-	at sun.misc.Resource.getBytes(Resource.java:108)
-	at java.net.URLClassLoader.defineClass(URLClassLoader.java:257)
-	at java.net.URLClassLoader.access$000(URLClassLoader.java:58)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:197)
-	... 40 more
-testCheck(org.duderino.injection.jmockit.basic.Y2KCheckerTest)  Time elapsed: 0.01 sec  &lt;&lt;&lt; FAILURE!
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityManager$RewindableInputStream.read(XMLEntityManager.java:2961)
+	at com.sun.org.apache.xerces.internal.impl.io.UTF8Reader.read(UTF8Reader.java:299)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.load(XMLEntityScanner.java:1742)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.arrangeCapacity(XMLEntityScanner.java:1619)
+	at com.sun.org.apache.xerces.internal.impl.XMLEntityScanner.skipString(XMLEntityScanner.java:1657)
+	at com.sun.org.apache.xerces.internal.impl.XMLVersionDetector.determineDocVersion(XMLVersionDetector.java:193)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:772)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:737)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:119)
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:235)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:284)
+	at javax.xml.parsers.DocumentBuilder.parse(DocumentBuilder.java:124)
+	at org.duderino.injection.jmockit._13.Configuration.reload(Configuration.java:32)
+	at org.duderino.injection.jmockit._13.Configuration.&lt;init&gt;(Configuration.java:20)
+	at org.duderino.injection.jmockit._13.ConfigurationTest.test(ConfigurationTest.java:49)
+
+Results :
+
+Failed tests:   test(org.duderino.injection.jmockit._13.ConfigurationTest): Bad file descriptor
+
+Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
+
+
 </pre>
     <h2>14. Inject async-friendly mocks/stubs. </h2>
-    <h2>15. Inject thread-friendly mocks/stubs.</h2>
+<p>Dependency.cs:<br />
+    </p>
+
+    
+<pre>public class Dependency {
+    public void generate(Class clazz) {
+        clazz.callback(999);
+    }
+}
+</pre>
+ Class.cs:<br />
+
+    
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+    private int result = 0;
+
+    public void callback(int result) {
+        this.result = result;
+    }
+
+    public int generate() {
+        dependency.generate(this);
+
+        return 2 * result;
+    }
+}<br /></pre>
+
+    ClassTest.cs:<br />
+
+    
+<pre>public class ClassTest {
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, new Dependency() {
+            @Mock
+            @Override
+            public void generate(Class clazz) {
+                clazz.callback(123);
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}</pre>
+<h2>15. Inject thread-friendly mocks/stubs.</h2>
+
+    TODO - Can the injection mechanism be used concurrently?   Are mocks/stubs thread-specific?
+<p>Dependency.cs:</p>
+
+    
+<pre>public class Dependency {
+    public long generate() {
+        return Thread.currentThread().getId() + 999;
+    }
+}<br /></pre>
+
+    Class.cs:<br />
+
+    
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public long generate() {
+        return dependency.generate() * 2;
+    }
+}<br /></pre>
+
+    
+    ClassTest.cs:<br />
+
+    
+<pre>public class ClassTest implements Runnable {
+    @Override
+    public void run() {
+        long magicNumber = Thread.currentThread().getId() + 123;
+
+        Mockit.setUpMock(Dependency.class, new Dependency() {
+            @Mock
+            @Override
+            public long generate() {
+                return Thread.currentThread().getId() + 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 2 * magicNumber == clazz.generate();
+    }
+
+    @Test
+    public void testIt() throws InterruptedException {
+        Thread[] threads = new Thread[1000];
+
+        for (int i = 0; i &lt; threads.length; ++i) {
+            threads[i] = new Thread(this);
+        }
+
+        for (int i = 0; i &lt; threads.length; ++i) {
+            threads[i].start();
+        }
+
+        for (int i = 0; i &lt; threads.length; ++i) {
+            threads[i].join();
+        }
+    }
+}<br /></pre>
+
     <h2>16. Associate assertions in hand-coded mocks or stubs with test cases in
       same thread</h2>
+<p>Dependency.cs:</p>
+
+    
+<pre>public class Dependency {
+    public int generate() {
+        return 999;
+    }
+}<br /></pre>
+
+    Class.cs:<br />
+
+    
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}<br /></pre>
+
+    ClassTest.cs:<br />
+
+    
+<pre>public class ClassTest {
+    @Test
+    public void testIt() {
+        Mockit.setUpMock(Dependency.class, new Dependency() {
+            @Mock
+            @Override
+            public int generate() {
+                assert 1 == 2;
+
+                return 123;
+            }
+        });
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}<br /></pre>
+testng-results.xml:<br />
+<pre>      &lt;class name="org.duderino.injection.jmockit._16.ClassTest"&gt;
+        &lt;test-method status="FAIL" signature="testIt()" name="testIt" duration-ms="8" started-at="2011-12-03T17:50:15Z" finished-at="2011-12-03T17:50:15Z"&gt;
+          &lt;exception class="java.lang.AssertionError"&gt;
+            &lt;full-stacktrace&gt;
+              &lt;![CDATA[java.lang.AssertionError
+        at org.duderino.injection.jmockit._16.ClassTest$1.generate(ClassTest.java:17)
+        at org.duderino.injection.jmockit._16.Dependency.generate(Dependency.java)
+        at org.duderino.injection.jmockit._16.Class.generate(Class.java:10)
+        at org.duderino.injection.jmockit._16.ClassTest.testIt(ClassTest.java:25)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:122)
+        at org.apache.maven.surefire.testng.TestNGXmlTestSuite.execute(TestNGXmlTestSuite.java:92)
+        at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:101)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
+        at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
+        at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:172)
+        at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:104)
+        at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:70)
+]]&gt;
+            &lt;/full-stacktrace&gt;
+          &lt;/exception&gt;
+        &lt;/test-method&gt;
+      &lt;/class&gt;
+<br /></pre>
+<br />
+
     <h2>17. Associate assertions in hand-coded mocks or stubs with test cases in
       different thread</h2>
-    <br />
-    <br />
+    TODO - emphasize that this is not a property of JMockit but rather of TestNG.<br />
+<br />
+<p>Dependency.cs:</p>
+
+
+    
+<pre>public class Dependency {
+    public int generate() {
+        return 999;
+    }
+}<br /></pre>
+
+
+    Class.cs:<br />
+
+
+    
+<pre>public class Class {
+    private Dependency dependency = new Dependency();
+
+    public int generate() {
+        return dependency.generate() * 2;
+    }
+}<br /></pre>
+
+
+    ClassTest.cs:<br />
+
+
+    
+<pre>public class ClassTest implements Runnable {
+    public void run() {
+        assert 1 == 2;
+    }
+
+    @Test
+    public void test() throws InterruptedException {
+        Thread[] threads = new Thread[10];
+
+        for (int i = 0; i &lt; threads.length; ++i) {
+            threads[i] = new Thread(this);
+        }
+
+        for (int i = 0; i &lt; threads.length; ++i) {
+            threads[i].start();
+        }
+
+        for (int i = 0; i &lt; threads.length; ++i) {
+            threads[i].join();
+        }
+    }
+}<br /></pre>
+
+testng-results.xml:<br />
+
+<pre>      &lt;class name="org.duderino.injection.jmockit._17.ClassTest"&gt;
+        &lt;test-method status="PASS" signature="test()" name="test" duration-ms="11" started-at="2011-12-03T18:02:46Z" finished-at="2011-12-03T18:02:46Z"&gt;
+        &lt;/test-method&gt;
+      &lt;/class&gt;
+<br /></pre>
+console:<br />
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
+Running TestSuite
+Exception in thread "Thread-1004" Exception in thread "Thread-1003" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1005" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1012" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1011" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1010" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1009" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1008" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1007" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-1006" java.lang.AssertionError
+	at org.duderino.injection.jmockit._17.ClassTest.run(ClassTest.java:11)
+	at java.lang.Thread.run(Thread.java:680)
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.811 sec
+
+Results :
+
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5.925s
+[INFO] Finished at: Sat Dec 03 18:02:46 PST 2011
+[INFO] Final Memory: 9M/81M
+[INFO] ------------------------------------------------------------------------
+<br /></pre>
+
   
 
 </body></html>

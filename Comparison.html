@@ -1,7 +1,7 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Comparison</title>
   </head>
   <body>
@@ -100,7 +100,7 @@
           <td style="vertical-align: top;">Mock/stub out subclass and superclass
             functions<br />
           </td>
-          <td style="vertical-align: top;"><br />
+          <td style="vertical-align: top;">YES
           </td>
           <td style="vertical-align: top;">YES<br />
           </td>
@@ -130,7 +130,7 @@
           </td>
           <td style="vertical-align: top;">Mocks/stub injection can be toggled<br />
           </td>
-          <td style="vertical-align: top;"><br />
+          <td style="vertical-align: top;">YES
           </td>
           <td style="vertical-align: top;">YES<br />
           </td>
@@ -141,9 +141,9 @@
           <td style="vertical-align: top;">Mock/stub injection can be narrowly
             targeted<br />
           </td>
-          <td style="vertical-align: top;"><br />
+          <td style="vertical-align: top;">YES
           </td>
-          <td style="vertical-align: top;">NO<br />
+          <td style="vertical-align: top;">REDO -&gt; YES<br />
           </td>
         </tr>
         <tr>
@@ -152,7 +152,7 @@
           <td style="vertical-align: top;">Mock/stub out any implementation of
             an interface<br />
           </td>
-          <td style="vertical-align: top;"><br />
+          <td style="vertical-align: top;">NO<br />
           </td>
           <td style="vertical-align: top;">NO<br />
           </td>
@@ -164,14 +164,14 @@
           </td>
           <td style="vertical-align: top;">NO<br />
           </td>
-          <td style="vertical-align: top;">YES?<br />
+          <td style="vertical-align: top;">REDO -&gt; NO<br />
           </td>
         </tr>
         <tr>
           <td style="vertical-align: top;">14</td>
           <td style="vertical-align: top;">Inject async-friendly mocks/stubs.<br />
           </td>
-          <td style="vertical-align: top;"><br />
+          <td style="vertical-align: top;">YES<br />
           </td>
           <td style="vertical-align: top;">YES<br />
           </td>
@@ -180,7 +180,7 @@
           <td style="vertical-align: top;">15</td>
           <td>Inject thread-friendly mocks/stubs.<br />
           </td>
-          <td><br />
+          <td>YES<br />
           </td>
           <td>NO<br />
           </td>
@@ -190,7 +190,7 @@
           <td>Associate assertions in hand-coded mocks or stubs with test cases
             in same thread<br />
           </td>
-          <td><br />
+          <td>YES<br />
           </td>
           <td>YES<br />
           </td>
@@ -199,7 +199,7 @@
           <td style="vertical-align: top;">17</td>
           <td>Associate assertions in hand-coded mocks or stubs with test cases
             in different thread</td>
-          <td><br />
+          <td>NO<br />
           </td>
           <td>NO </td>
         </tr>
@@ -208,5 +208,6 @@
     <h2>Summary &amp; Analysis<br />
     </h2>
     <br />
-  </body>
-</html>
+  
+
+</body></html>

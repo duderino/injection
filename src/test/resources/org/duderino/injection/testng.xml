@@ -16,7 +16,15 @@
             <!-- Does not work <class name="org.duderino.injection.jmockit._6.ClassTest"/> -->
             <class name="org.duderino.injection.jmockit._7.ClassTest"/>
             <class name="org.duderino.injection.jmockit._8.ClassTest"/>
-            <!--<class name="org.duderino.injection.jmockit._9.ConfigurationTest"/> -->
+            <class name="org.duderino.injection.jmockit._10.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._11.ClassTest"/>
+            <!-- Does not work <class name="org.duderino.injection.jmockit._12.ClassTest"/> -->
+            <class name="org.duderino.injection.jmockit._13.ClassTest"/>
+            <!-- Does not work <class name="org.duderino.injection.jmockit._13.ConfigurationTest"/> -->
+            <class name="org.duderino.injection.jmockit._14.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._15.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._16.ClassTest"/>
+            <class name="org.duderino.injection.jmockit._17.ClassTest"/>
             <!--<class name="org.duderino.injection.jmockit.MusicianDatabaseTest"/>
             <class name="org.duderino.injection.jmockit.XmlFetcherTest"/>
             <class name="org.duderino.injection.jmockit.SharedQueueTest"/> -->

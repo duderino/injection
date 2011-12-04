@@ -11,7 +11,7 @@ using System.Threading;
 namespace MolesTest.Tests._16
 {
     /// <summary>
-    /// Demonstrate associating assertions in hand-coded mocks or stubs with test cases in same thread/
+    /// Demonstrate associating assertions in hand-coded mocks or stubs with test cases in same thread
     /// </summary>
     [TestClass]
     public class ClassTest16

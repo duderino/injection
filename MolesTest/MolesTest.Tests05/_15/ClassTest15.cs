@@ -11,7 +11,7 @@ using System.Threading;
 namespace MolesTest.Tests._15
 {
     /// <summary>
-    /// Demonstrate injecting async-friendly mocks/stubs.
+    /// Demonstrate injecting thread-friendly mocks/stubs.
     /// </summary>
     [TestClass]
     public class ClassTest15
@@ -39,12 +39,12 @@ namespace MolesTest.Tests._15
                 threads[i] = new Thread(this.run);
             }
 
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < threads.Length; ++i)
             {
                 threads[i].Start();
             }
 
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < threads.Length; ++i)
             {
                 threads[i].Join();
             }

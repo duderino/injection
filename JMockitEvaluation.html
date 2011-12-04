@@ -1,18 +1,29 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
     <title>JMockit Evaluation</title>
   </head>
   <body>
-    <h1>JMockit Evaluation</h1>
-    <p>See <a href="https://github.com/duderino/injection">https://github.com/duderino/injection</a>
-      for complete source code.<br />
-    </p>
-    <h2>1. Inject test doubles without changing the API</h2>
-    <p>Class.java:<br />
+    <h1>JMockit Evaluation</h1>In this document we evaluate JMockit 
+against a set of common unit testing and injection use cases.   To see 
+how JMockit stacks up against Moles, another test double injection 
+framework, see our <a href="Comparison.html">JMockit vs. Moles Comparison</a>.<br />
+<br />
+To get started with JMockit, see our <a href="JMockit.html">JMockit: The Basics</a>.<br />
 
-    </p><pre>public class Class {
+    <p>For the source code illustrated here, check out <a href="https://github.com/duderino/injection">https://github.com/duderino/injection</a>.</p>
+<p>Finally, refer to the <a href="http://jmockit.googlecode.com/svn/trunk/www/tutorial.html">JMockit Tutorial</a> for official documentation.</p>
+<p></p>
+<h2>1. Inject test doubles without changing the API</h2>
+    <p>Yes, JMockit supports this.<br />
+</p>
+<p>Imagine a class with a single dependency.   Can we use JMockit to inject a test double in lieu of that dependency?<br />
+</p>
+<p>Class.java:<br />
+
+    </p>
+<pre>public class Class {
     private Dependency dependency = new Dependency();
 
     public int generate() {
@@ -41,11 +52,17 @@
 
         assert 123 * 2 == clazz.generate();
     }
-}<br /><br /></pre>
+}<br /><br /></pre>Here we subclass Dependency with an anonymous 
+class.   The class uses JMockit's @Mock annotation to tell JMockit that 
+the test double's method should be used in lieu of the real one.   
+Mockit.setUpMock() registers the test double with the JMockit runtime.<br />
+
     
     <h2>2. Replace final/non-virtual functions with test doubles<br />
 </h2>
-    Change dependency to be final so our mock cannot subclass it.<br />
+    Yes, JMockit supports this.<br />
+<br />
+Let's make the Dependency final so that we can no longer subclass it with a test double.<br />
     <br />
     Dependency.java:<br />
     <pre>public final class Dependency {
@@ -53,7 +70,7 @@
         return 999;
     }
 }</pre>
-    The class under test doesn't change.<br />
+    We don't change the class under test for this.<br />
     <br />
     Class.java:<br />
     <pre>public class Class {
@@ -62,13 +79,10 @@
     public int generate() {
         return dependency.generate() * 2;
     }
-}
-<br /></pre> The test case can no longer use Java's anonymous inner class
-    mechanism since the dependency cannot be subclassed.   Instead it has to use
-    a static/regular class with JMockit's @MockClass annotation.   The
-    annotation tells JMockit which class the mock is meant to replace.   It
-    works, but it is a bit less natural.<br />
-    <br />
+}<br /></pre> Since Java won't let us subclass Dependency, we instead 
+create a static class.    We associate the static class with the 
+Dependency using JMockit's @MockClass annotation.<br />
+<br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
     @MockClass(realClass = Dependency.class)
@@ -88,10 +102,13 @@
         assert 123 * 2 == clazz.generate();
     }
 }<br /></pre>
-    JMockit also supports an alternative mechanism for these cases via its
-    MockUp generic class.   The authors recommend this as a replacement for the
-    convenience of anonymous mock classes, but the approach is arguably more
-    obscure.<br />
+    JMockit also supports an alternative mechanism for these cases via 
+its
+    MockUp generic class.   The JMockit authors recommend this as a 
+replacement for the
+    convenience of anonymous mock classes, but the code looks strange at
+ first glance to a Java programmer.   Creating new objects assigned to 
+nothing, while permitted by the language, isn't typically done.<br />
     <br />
     ClassTestAlternative.java:<br />
     <pre>public class ClassTestAlternative {
@@ -112,7 +129,9 @@
 }<br /></pre>
     <h2>3. Replace static functions with test doubles<br />
 </h2>
-    Here we change our dependency's method to be static.<br />
+    Yes, JMockit supports this.<br />
+<br />
+Here we change our dependency's method to be static.<br />
     <br />
     Dependency.java:<br />
     <pre>public class Dependency {
@@ -129,7 +148,7 @@
         return Dependency.generate() * 2;
     }
 }
-<br /></pre> The static method can be mocked out using the same mechanism used
+<br /></pre> The static method can be replaced with a test double using the same mechanism used
     in the previous example.<br />
     <br />
     ClassTest.java:<br />
@@ -152,8 +171,9 @@
     }
 }</pre>
     <h2>4. Replace constructors with test doubles<br />
-</h2>
-    Here we change our dependency to take an argument in its constructor.<br />
+</h2>Yes, JMockit supports this.<br />
+<br />
+Here we change our dependency to take an argument in its constructor.<br />
     <br />
     Dependency.java:<br />
     <pre>public class Dependency {
@@ -178,7 +198,7 @@
         return dependency.generate() * 2;
     }
 }
-<br /></pre> TODO<br />
+<br /></pre> JMockit will call any "$init" method with a void return type in lieu of the replaced class's constructor.<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
@@ -203,9 +223,10 @@
 
         assert 123 * 2 == clazz.generate();
     }
-}<br /></pre>Unlike Moles, JMockit has some ability to modify the object
- in the $init constructor, but it's limited by the accessibility of the 
-object's members.   If, for instance, we made the value field public, we
+}<br /></pre>The replacement constructor may also modify the real 
+object, but in such scenarios it's limited by the accessibility of the 
+real object's members.    If, for instance, we made the Dependency.value
+ field public, we
  could change its value in the $init constructor and avoid overriding 
 the generate method:<br />
 <pre>public class ClassTest {
@@ -229,24 +250,31 @@ the generate method:<br />
 
         assert 123 * 2 == clazz.generate();
     }
-}<br /></pre>
-TODO - mention use of Dependency it and relate to section 8.<br />
+}<br /><br /></pre>Here we rely on a special 'it' member to access the 
+real object from the test double.   This mechanism is treated in section
+ 8 below.<br />
+
 <h2>5. Replace anonymous inner classes with test doubles<br />
 </h2>
-    Sometimes the class under test creates an anonymous inner class that we'd
-    like to mock out.   This is a particularly hard problem because the inner
-    class may call back on the class under test's internals.<br />
+    No, JMockit does not support this.<br />
+<br />
+Sometimes the class under test creates an anonymous inner class that 
+we'd
+    like to replace with a test double.   This is a particularly hard 
+problem because the inner
+    class may call back on the class under test's internals.   It's also
+ arguably not a valid use case.   The inner class is arguably part of 
+the class under test's implementation and not a proper dependency.<br />
     <br />
-    Either JMockit does not support this or I simply couldn't figure out how to
-    do it.   This is what I tried to do...<br />
+    To be sure, JMockit might support this, but we couldn't figure out how to do it.   This is what we tried to do...<br />
     <br />
-    First, I turned the Dependency into an interface.<br />
+    First, we turned the Dependency into an interface.<br />
     <br />
     Dependency.java:<br />
     <pre>public interface Dependency {
     int generate();
 }
-</pre> Next I modified the class under test to instantiate an anonymous
+</pre> Next we modified the class under test to instantiate an anonymous
     implementation of the interface.<br />
     <br />
     Class.java:<br />
@@ -304,7 +332,9 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre>
     <h2>6. Replace inaccessible (e.g., private) inner classes with test doubles<br />
 </h2>
-    Extending on the previous example, it appears that JMockit must have access
+    No, JMockit does not support this.<br />
+<br />
+Extending the previous example, it appears that JMockit must have access
     to the definition of every class it needs to mock out.   Private inner
     classes, static or not, are not visible to the JMockit annotations so they
     break compilation.<br />
@@ -355,11 +385,19 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [ERROR] /Users/blattj/dev/injection/src/test/java/org/duderino/injection/jmockit/_6/ClassTest.java:[22,30] org.duderino.injection.jmockit._6.Class.Dependency has private access in org.duderino.injection.jmockit._6.Class
 [INFO] 2 errors 
 
-<br /></pre> The same results were observed by omitting the 'static' qualifier.<br />
+<br /></pre> The same result was observed by omitting the 'static' qualifier.<br />
     <h2>7. Replace subclass and superclass functions with test doubles<br />
 </h2>
-    <p>TODO - mock out 1 method in superclass and 1 method in subclass.   Might
-      be an exclusive OR.</p>
+    <p>Yes, JMockit supports this.</p>
+<p>To test this use case, we split our dependency into a superclass and a
+ subclass.   The superclass and subclass share one method so we can test
+ overriding and overshadowing.   The superclass and subclass also each 
+have a distinct method that isn't overriden or doesn't overshadow 
+methods in the other.</p>
+<p>To tell them apart, the super class always returns '999' and the subclass always returns '333'.<br />
+</p>
+<p>SuperDependency.java:<br />
+</p>
 <pre>public class SuperDependency {
     public int generate() {
         return 999;
@@ -369,7 +407,7 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
         return 999;
     }
 }<br /></pre>
-TODO<br />
+SubDependency.java:<br />
 <pre>public class SubDependency extends SuperDependency {
     @Override
     public int generate() {
@@ -380,7 +418,9 @@ TODO<br />
         return 333;
     }
 }<br /></pre>
-TODO<br />
+The class under test instantiates the subclass and exposes all three methods to the test case.<br />
+<br />
+Class.java:<br />
 <pre>public class Class {
     private SubDependency dependency = new SubDependency();
 
@@ -396,7 +436,15 @@ TODO<br />
         return 2 * dependency.subGenerate();
     }
 }<br /></pre>
-TODO<br />
+Our test class tests four conditions:<br />
+<ol>
+  <li>Can we inject a test double for the subclass that overrides the superclass?   See testOverride()</li>
+  <li>Can we inject a test double for the subclass that is overriden by the non-replaced subclass?   See testOvershadow()</li>
+  <li>Can we inject a test double for the super class that is not overshadowed by the subclass?   See testSuper()</li>
+  <li>Can we inject a test double for the subclass that does not override the superclass?  See testSub()<br />
+  </li>
+</ol>
+
 <pre>public class ClassTest {
     @Test
     public void testOverride() {
@@ -409,9 +457,9 @@ TODO<br />
 
         Class clazz = new Class();
 
-        assert 2 * 123 == clazz.generate();
-        assert 2 * 333 == clazz.subGenerate();
-        assert 2 * 999 == clazz.superGenerate();
+        assert 2 * 123 == clazz.generate();      // value should come from mock - mock should override
+        assert 2 * 333 == clazz.subGenerate();   // value should come from subclass
+        assert 2 * 999 == clazz.superGenerate(); // value should come from super class
     }
 
     @Test
@@ -425,9 +473,9 @@ TODO<br />
 
         Class clazz = new Class();
 
-        assert 2 * 333 == clazz.generate();
-        assert 2 * 333 == clazz.subGenerate();
-        assert 2 * 999 == clazz.superGenerate();
+        assert 2 * 333 == clazz.generate();      // value should come from subclass - mock should be overshadowed
+        assert 2 * 333 == clazz.subGenerate();   // value should come from subclass
+        assert 2 * 999 == clazz.superGenerate(); // value should come from super class
     }
 
     @Test
@@ -441,9 +489,9 @@ TODO<br />
 
         Class clazz = new Class();
 
-        assert 2 * 333 == clazz.generate();
-        assert 2 * 333 == clazz.subGenerate();
-        assert 2 * 123 == clazz.superGenerate();
+        assert 2 * 333 == clazz.generate();      // value should come from subclass
+        assert 2 * 333 == clazz.subGenerate();   // value should come from subclass
+        assert 2 * 123 == clazz.superGenerate(); // value should come from mock
     }
 
     @Test
@@ -457,14 +505,16 @@ TODO<br />
 
         Class clazz = new Class();
 
-        assert 2 * 333 == clazz.generate();
-        assert 2 * 123 == clazz.subGenerate();
-        assert 2 * 999 == clazz.superGenerate();
+        assert 2 * 333 == clazz.generate();      // value should come from subclass
+        assert 2 * 123 == clazz.subGenerate();   // value should come from mock
+        assert 2 * 999 == clazz.superGenerate(); // value should come from super class
     }
 }<br /></pre>
-TODO - note the limitation that mocks must be setUp on the class that 
-declared the method!   Relate to Moles which has a similar limitation - 
-methods are only generated for methods declared in each class<br />
+The one important JMockit limitation of note is that  the limitation 
+that methods may only be replaced on the class that declares them, not 
+the class that inherits them.   We could not, for instance, try to 
+replace the superGenerate() method on the SubDependency class because 
+that method is only declared in the SuperClass.   This test...:<br />
 <pre>    @Test
     public void testSuper() {
         Mockit.setUpMock(SubDependency.class, new SubDependency() {
@@ -480,7 +530,7 @@ methods are only generated for methods declared in each class<br />
         assert 2 * 333 == clazz.subGenerate();
         assert 2 * 123 == clazz.superGenerate();
     }<br /></pre>
- TODO - produces:<br />
+... produces the following runtime error:<br />
 <pre>-------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -497,11 +547,10 @@ Results :
 Failed tests:   testSuper(org.duderino.injection.jmockit._7.ClassTest): Matching real methods not found for the following mocks of org.duderino.injection.jmockit._7.ClassTest$3:
 
 Tests run: 11, Failures: 1, Errors: 0, Skipped: 0
-
+<br /></pre>The Moles injection framework evaluated in our <a href="MolesEval.html">Moles Evaluation</a> had a similar limitation.   Moles stubs were generated only for the methods declared, not inherited, in each class.<br />
+<h2>8. Inject a test double that delegates to a real instance</h2>Yes, JMockit supports this.<br />
 <br />
-    </pre>
-
-    <h2>8. Inject a test double that delegates to a real instance</h2>TODO<br />
+Here we created a simple dependency and class that depends on it.<br />
     <br />
     Dependency.java:<br />
     <pre>public class Dependency {
@@ -509,8 +558,8 @@ Tests run: 11, Failures: 1, Errors: 0, Skipped: 0
         return 999;
     }
 }
-</pre> And the class under test instantiates and calls the dependency as usual.<br />
-    <br />
+</pre>
+    
     Class.java:<br />
     <pre>public class Class {
     private Dependency dependency = new Dependency();
@@ -519,7 +568,9 @@ Tests run: 11, Failures: 1, Errors: 0, Skipped: 0
         return dependency.generate() * 2;
     }
 }
-<br /></pre>TODO<br />
+<br /></pre>In our test class we inject a test double that 'decorates' 
+the real class.   Our test double delegates to the real class, but 
+counts the number of times the real class is called.<br />
     <br />
     ClassTest.java:<br />
     <pre>public class ClassTest {
@@ -560,7 +611,7 @@ Tests run: 11, Failures: 1, Errors: 0, Skipped: 0
         assert count.total() == 10;
     }
 }</pre>
-    Several special things have to happen when we setup this mock object.<br />
+    Several special things have to happen when we setup this test double.<br />
     <br />
     We have to declare a 'public Dependency it;' member.   All three tokens are
     important here.   If the member is declared private, JMockit will throw an
@@ -584,7 +635,7 @@ Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest): tried to ac
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre> Assuming there is a publicly accessible 'it' member with the same
     type as the real, non-mocked instance, JMockit will automatically copy the
-    real, non-mocked instance reference into the 'it' attribute.   While not
+    real, non-mocked instance reference into the 'it' member.   While not
     tested, getting the data type wrong would probably produced a
     ClassCastException.<br />
     <br />
@@ -592,7 +643,6 @@ Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
     annotation.   Without this qualifier JMockit will still redirect calls to
     the real instance to the mock.   That is, the mock will call itself
     recursively, generating a stack overflow that looks like this:<br />
-    <br />
     <pre>-------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -618,9 +668,15 @@ Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest)
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre>
     <h2>9. Inject hand-coded test doubles </h2>
-    Well, this one is kinda a 'duh'.  Every example so far has injected a
-    hand-coded mock. <br />
-    <h2>10. Test double injection can be toggled</h2>Dependency.java:<br />
+    Yes, JMockit supports this.  <br />
+<br />
+Every example in this document has injected a
+    hand-coded test double. <br />
+    <h2>10. Test double injection can be toggled</h2>Yes, JMockit supports this.<br />
+<br />
+Again we declare a simple dependency and a class that depends on it.<br />
+<br />
+Dependency.java:<br />
 
     
 <pre>public class Dependency {
@@ -628,9 +684,9 @@ Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
         return 999;
     }
 }</pre>
-TODO<br />
 
-    <br />
+
+    
 
     Class.java:<br />
 
@@ -643,7 +699,9 @@ TODO<br />
     }
 }
 <br /></pre>
- TODO<br />
+ In our test case we alternate between the test double and the real 
+object by alternating between the Mockit.setUpMock() and 
+Mockit.tearDownMocks() methods.<br />
 
     <br />
 
@@ -677,10 +735,13 @@ TODO<br />
     }
 }<br /></pre>
 
-    TODO<br />
-<br />
+    
 
-    <h2>11. Test double injection can be narrowly targeted</h2>Dependency.java:<br />
+    <h2>11. Test double injection can be narrowly targeted</h2>Yes, JMockit supports this, but the resulting solution is brittle.<br />
+<br />
+For this example the dependency is unchanged.<br />
+<br />
+Dependency.java:<br />
 
 
     
@@ -690,7 +751,7 @@ TODO<br />
     }
 }</pre>
 
-TODO<br />
+But we modify the class under test to call the dependency twice.<br />
 
 
     <br />
@@ -706,10 +767,11 @@ TODO<br />
     public int generate() {
         return dependency.generate() + (2 * dependency.generate());
     }
-}
-<br /></pre>
-
- TODO<br />
+}<br /></pre>Can we replace the second generate() call but not the first?<br />
+<br />
+To do this we created a slightly more complicated test double that 
+counts the number of times it has been called.   On every call but the 
+second call it delegates to the real instance.<br />
 
 
     <br />
@@ -739,26 +801,36 @@ TODO<br />
 }<br /></pre>
 
 
-    TODO - mention same issues as 8.   Dependency must be public.  @mock must be reentrant or else stack overflow.<br />
+    See section 8 for a more details on delegating to the real instance from a test double.<br />
 <br />
+The solution is of course brittle because slight changes to and 
+non-determinism in the code under test will break the narrow targeting.<br />
 
     <h2>12. Replace any implementation of an interface with a test double<br />
 </h2>
     
-<p>TODO - use case - dependency injection frameworks where the
-      implementation of an interface is not known in advance and the code under
-      test only knows of the interface.</p>
-
-    
+<p>No, JMockit does not support this.</p>
+<p>There are cases when the implementation of a class's dependency is 
+not known until runtime and only its interface is known to the 
+compiler.   Such cases are increasingly common with inversion of control
+ frameworks like Spring and Guice.</p>
+<p>It would be nice if we could inject a test double implementation of 
+an interface without requiring access to the real implementation of that
+ interface.</p>
+<p>Here we turn our Dependency into an abstract interface.<br />
+</p>
+<p></p>
 <p>Dependency.cs:<br />
     </p>
 
     
 <pre>public interface Dependency {
     int generate();
-}
-</pre>
- Class.cs:<br />
+}<br /></pre>
+ And we implement it with an anonymous class.<br />
+<br />
+Class.cs:<br />
+
 
     
 <pre>public class Class {
@@ -775,7 +847,11 @@ TODO<br />
     }
 }<br /></pre>
 
-    ClassTest.cs:<br />
+    Finally we try to replace the real dependency implementation with a 
+test double using only the shared interface (for this test we have to 
+pretend the real implementation is not available).<br />
+<br />
+ClassTest.cs:<br />
 
     
 <pre>public class ClassTest {
@@ -796,7 +872,7 @@ TODO<br />
         assert 123 * 2 == clazz.generate();
     }
 }<br /></pre>
-TODO<br />
+Unfortunately JMockit produces the following error report when we do this:<br />
 <pre>-------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -817,10 +893,13 @@ Tests run: 14, Failures: 1, Errors: 0, Skipped: 0
     <p></p>
     <h2>13. Safely replace a class library class with a test double<br />
 </h2>
-    <p>Can core classes in the class library be safely mocked out without
-      interfering with the virtual machine?</p>
-<p><br />
+    <p>Yes, JMockit supports this, but the resulting solution is brittle.</p>
+<p>It would be nice if we could safely mock out core classes from the class library without destabilizing the entire system.<br />
 </p>
+<p>In a simple test of this, we create a class that depends on java.io.FileInputStream to return a number read from a file.<br />
+</p>
+
+
 Class.java:<br />
 <pre>public class Class {
     public int generate() throws Exception {
@@ -835,6 +914,8 @@ Class.java:<br />
         return 2 * Integer.parseInt(string);
     }
 }<br /></pre>
+In our test case we replace the FileInputStream core class with a test double that returns a canned response:<br />
+<br />
 ClassTest.java:<br />
 <pre>public class ClassTest {
     @Test
@@ -879,8 +960,13 @@ ClassTest.java:<br />
     }
 }<br /></pre>
 
-    <p>Configuration.java:<br />
+    <p>While this works, more complicated cases do not work.   Consider 
+the following Configuration class that retrieves key value pairs from an
+ external XML file.<br />
+</p>
+<p>Configuration.java:<br />
     </p>
+
     <pre>public class Configuration {
     private Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
     private final String path;
@@ -932,7 +1018,9 @@ ClassTest.java:<br />
         }
     }
 }
-<br /></pre> ConfigurationTest.java:<br />
+<br /></pre> We can replace the FileInputStream with a similar test double that returns a canned XML document.<br />
+<br />
+ConfigurationTest.java:<br />
     <pre>public class ConfigurationTest {
     @Test
     public void test() throws Exception {
@@ -976,7 +1064,9 @@ ClassTest.java:<br />
         assert "bar".equals(configuration.get("foo"));
     }
 }
-<br /></pre> Output:<br />
+<br /></pre> The problem we see here is that other code we depend on also uses FileInputStream.  <br />
+<br />
+Output:<br />
     <pre>-------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -1009,11 +1099,22 @@ Failed tests:   test(org.duderino.injection.jmockit._13.ConfigurationTest): Bad 
 
 Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
 
-
 </pre>
-    <h2>14. Inject async-friendly test doubles </h2>
+     In general, the more dependencies the class under test has, the greater the chance of a conflict with a test double.<br />
+<br />
+If necessary narrow targeting tricks can be borrowed from section 11.   
+Since these tricks are brittle, we say that the ability to replace core 
+class libraries, while possible, is also brittle.<br />
+<h2>14. Inject async-friendly test doubles </h2>
+
+<p>Yes, JMockit supports this.</p>
+<p>Sometimes dependencies call back on the classes that depend on 
+them.   This pattern is especially common in asynchronous programming.</p>
+<p>To test this we make our Dependency call back on the class under test.<br />
+</p>
 <p>Dependency.cs:<br />
     </p>
+
 
     
 <pre>public class Dependency {
@@ -1022,7 +1123,9 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
     }
 }
 </pre>
- Class.cs:<br />
+ The class under test similarly returns a value collected by its callback.<br />
+<br />
+Class.cs:<br />
 
     
 <pre>public class Class {
@@ -1040,7 +1143,9 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
     }
 }<br /></pre>
 
-    ClassTest.cs:<br />
+    For our test case we can simply inject a test double that calls back on the class yet passes a value of our choosing.<br />
+<br />
+ClassTest.cs:<br />
 
     
 <pre>public class ClassTest {
@@ -1062,7 +1167,15 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
 <h2>15. Inject thread-friendly test doubles<br />
 </h2>
 
-    TODO - Can the injection mechanism be used concurrently?   Are mocks/stubs thread-specific?
+    No, JMockit does not support this.<br />
+<br />
+When testing concurrent code, it can be useful to inject different test doubles for different threads.   <br />
+<br />
+It would also be nice to inject test doubles from any thread in the 
+program.   The JMockit infrastructure must be threadsafe itself to 
+support this.<br />
+<br />
+To test this we changed our Dependency to return a value derived from the thread ID.<br />
 <p>Dependency.cs:</p>
 
     
@@ -1072,7 +1185,9 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
     }
 }<br /></pre>
 
-    Class.cs:<br />
+    No change to our class under test though.<br />
+<br />
+Class.cs:<br />
 
     
 <pre>public class Class {
@@ -1084,19 +1199,24 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
 }<br /></pre>
 
     
-    ClassTest.cs:<br />
+    In our test class we launch 10 concurrent threads.    Each thread 
+injects a test double that returns another value tied to the thread ID, 
+yet different from the real dependency.   This lets us distinguish 
+between the test double and the real implementation as well as between test doubles created by different threads.<br />
+<br />
+ClassTest.cs:<br />
 
     
 <pre>public class ClassTest implements Runnable {
     @Override
     public void run() {
-        long magicNumber = Thread.currentThread().getId() + 123;
+        final long magicNumber = Thread.currentThread().getId() + 123;
 
         Mockit.setUpMock(Dependency.class, new Dependency() {
             @Mock
             @Override
             public long generate() {
-                return Thread.currentThread().getId() + 123;
+                return magicNumber;
             }
         });
 
@@ -1107,7 +1227,7 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
 
     @Test
     public void testIt() throws InterruptedException {
-        Thread[] threads = new Thread[1000];
+        Thread[] threads = new Thread[10];
 
         for (int i = 0; i &lt; threads.length; ++i) {
             threads[i] = new Thread(this);
@@ -1121,11 +1241,53 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
             threads[i].join();
         }
     }
-}<br /></pre>
+}<br /></pre>Unfortunately we saw that all threads shared the same test 
+double / the test double was not thread-specific.  As a result 7/10 
+thread assertions failed due to the race condition between injecting the
+ test double and invoking the test double in the class under test.<br />
+<br />
+Output:<br />
+<pre>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+JMockit: loaded external tool mockit.coverage.CodeCoverage
+Running TestSuite
+Exception in thread "Thread-10" Exception in thread "Thread-4" java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-7" java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-3" java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-11" java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-5" java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-9" java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+Exception in thread "Thread-12" java.lang.AssertionError
+	at org.duderino.injection.jmockit._15.ClassTest.run(ClassTest.java:25)
+	at java.lang.Thread.run(Thread.java:680)
+<br /></pre>
+
 
     <h2>16. Associate failed assertions in test doubles with test cases in
       same thread</h2>
+<p>Yes, JMockit supports this.  To be sure, this is due to TestNG not JMockit.<br />
+</p>
+<p>When test doubles fail assertions, those failures should be associated with the test case.</p>
+<p>Here we create a simple class with a dependency.<br />
+</p>
 <p>Dependency.cs:</p>
+
 
     
 <pre>public class Dependency {
@@ -1145,7 +1307,9 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
     }
 }<br /></pre>
 
-    ClassTest.cs:<br />
+    In our test case we inject a test double that fails an assertion.<br />
+<br />
+ClassTest.cs:<br />
 
     
 <pre>public class ClassTest {
@@ -1166,6 +1330,8 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
         assert 123 * 2 == clazz.generate();
     }
 }<br /></pre>
+In the testng result file we can see that the assertion was indeed associated with the test case.<br />
+<br />
 testng-results.xml:<br />
 <pre>      &lt;class name="org.duderino.injection.jmockit._16.ClassTest"&gt;
         &lt;test-method status="FAIL" signature="testIt()" name="testIt" duration-ms="8" started-at="2011-12-03T17:50:15Z" finished-at="2011-12-03T17:50:15Z"&gt;
@@ -1200,8 +1366,21 @@ testng-results.xml:<br />
 
     <h2>17. Associate failed assertions in test doubles with test cases in
       different threads</h2>
-    TODO - emphasize that this is not a property of JMockit but rather of TestNG.<br />
-<br />
+<p>No, JMockit does not support this.  To be sure, this is due to TestNG not JMockit.<br />
+</p>
+
+<p>When test doubles fail assertions, those failures should be 
+associated with the test case.   When the test double is executed in a 
+different thread than the test case, it's considerably more difficult 
+for the test case to associate the assertion on one thread with the test
+ case on another.<br />
+</p>
+
+<p>Here we again create a simple class with a dependency.<br />
+</p>
+
+
+
 <p>Dependency.cs:</p>
 
 
@@ -1226,7 +1405,9 @@ testng-results.xml:<br />
 }<br /></pre>
 
 
-    ClassTest.cs:<br />
+    In our test case we simply fail an assertion in a different thread than the test case.   There's no JMockit here at all.<br />
+<br />
+ClassTest.cs:<br />
 
 
     
@@ -1253,6 +1434,10 @@ testng-results.xml:<br />
     }
 }<br /></pre>
 
+Even though assertions are thrown, since TestNG is not in the call stack
+ the aren't associated with the test case.   TestNG thinks the test case
+ passed.<br />
+<br />
 testng-results.xml:<br />
 
 <pre>      &lt;class name="org.duderino.injection.jmockit._17.ClassTest"&gt;
@@ -1308,8 +1493,11 @@ Tests run: 18, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Total time: 5.925s
 [INFO] Finished at: Sat Dec 03 18:02:46 PST 2011
 [INFO] Final Memory: 9M/81M
-[INFO] ------------------------------------------------------------------------
-<br /></pre>
+[INFO] ------------------------------------------------------------------------<br /><br /></pre>
+<h2>Next Steps</h2>
+To see a similar evaluation for Moles, another test double injection framework, see our <a href="MolesEval.html">Moles Evaluation</a>.<br />
+<br />
+
 
   
 

@@ -1,7 +1,7 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Comparison</title>
   </head>
   <body>
@@ -73,8 +73,10 @@
           </td>
           <td style="vertical-align: top;">Replace constructors with test doubles<br />
           </td>
-          <td style="vertical-align: top;">YES </td>
-          <td style="vertical-align: top;">YES </td>
+          <td style="vertical-align: top;">YES<br />
+</td>
+          <td style="vertical-align: top;">YES<br />
+</td>
         </tr>
         <tr>
           <td style="vertical-align: top;">5<br />
@@ -141,9 +143,8 @@
           <td style="vertical-align: top;">Test double injection can be narrowly
             targeted<br />
           </td>
-          <td style="vertical-align: top;">YES
-          </td>
-          <td style="vertical-align: top;">REDO -&gt; YES<br />
+          <td style="vertical-align: top;">YES (brittle)</td>
+          <td style="vertical-align: top;">REDO -&gt; YES (brittle)<br />
           </td>
         </tr>
         <tr>
@@ -162,9 +163,9 @@
           </td>
           <td style="vertical-align: top;">Safely replace a class library class with a test double<br />
           </td>
-          <td style="vertical-align: top;">NO<br />
+          <td style="vertical-align: top;">YES (brittle)<br />
           </td>
-          <td style="vertical-align: top;">REDO -&gt; NO<br />
+          <td style="vertical-align: top;">YES (brittle)<br />
           </td>
         </tr>
         <tr>
@@ -180,7 +181,7 @@
           <td style="vertical-align: top;">15</td>
           <td>Inject thread-friendly test doubles<br />
           </td>
-          <td>YES<br />
+          <td>NO<br />
           </td>
           <td>NO<br />
           </td>

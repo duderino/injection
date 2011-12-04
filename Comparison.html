@@ -1,12 +1,12 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
     <title>Comparison</title>
   </head>
   <body>
     <h1>Moles vs. JMockit Comparison</h1>
-    <h2>Stubs vs. Mocks</h2>
+    
     <h2>Implementation</h2>
     <h2>Language Influences &amp; Affinities<br />
     </h2>
@@ -47,7 +47,7 @@
         <tr>
           <td style="vertical-align: top;">1<br />
           </td>
-          <td>Inject mocks/stubs without changing the API<br />
+          <td>Inject test doubles without changing the API<br />
           </td>
           <td>YES</td>
           <td>YES </td>
@@ -55,7 +55,7 @@
         <tr>
           <td style="vertical-align: top;">2<br />
           </td>
-          <td>Mock/stub out final/non-virtual functions<br />
+          <td>Replace final/non-virtual functions with test doubles<br />
           </td>
           <td>YES </td>
           <td>YES </td>
@@ -63,15 +63,15 @@
         <tr>
           <td style="vertical-align: top;">3<br />
           </td>
-          <td>Mock/stub out static functions<br />
-          </td>
+          <td>Replace static functions with test doubles<br />
+</td>
           <td>YES </td>
           <td>YES </td>
         </tr>
         <tr>
           <td style="vertical-align: top;">4<br />
           </td>
-          <td style="vertical-align: top;">Mock/stub out constructors<br />
+          <td style="vertical-align: top;">Replace constructors with test doubles<br />
           </td>
           <td style="vertical-align: top;">YES </td>
           <td style="vertical-align: top;">YES </td>
@@ -79,7 +79,7 @@
         <tr>
           <td style="vertical-align: top;">5<br />
           </td>
-          <td>Mock/stub out anonymous inner/nested classes<br />
+          <td>Replace anonymous inner/nested classes with test doubles<br />
           </td>
           <td>NO<br />
           </td>
@@ -89,7 +89,7 @@
         <tr>
           <td style="vertical-align: top;">6<br />
           </td>
-          <td>Mock/stub out inaccessible (e.g., private) inner/nested classes<br />
+          <td>Replace inaccessible (e.g., private) inner/nested classes with test doubles<br />
           </td>
           <td>NO </td>
           <td>NO </td>
@@ -97,8 +97,8 @@
         <tr>
           <td style="vertical-align: top;">7<br />
           </td>
-          <td style="vertical-align: top;">Mock/stub out subclass and superclass
-            functions<br />
+          <td style="vertical-align: top;">Replace subclass and superclass
+            functions with test doubles<br />
           </td>
           <td style="vertical-align: top;">YES
           </td>
@@ -108,7 +108,7 @@
         <tr>
           <td style="vertical-align: top;">8<br />
           </td>
-          <td style="vertical-align: top;">Mock/stub can delegate to real
+          <td style="vertical-align: top;">Test doubles can delegate to real
             instance<br />
           </td>
           <td style="vertical-align: top;">YES </td>
@@ -118,7 +118,7 @@
         <tr>
           <td style="vertical-align: top;">9<br />
           </td>
-          <td style="vertical-align: top;">Hand-coded mocks/stubs can be
+          <td style="vertical-align: top;">Hand-coded test doubles can be
             injected.<br />
           </td>
           <td style="vertical-align: top;">YES </td>
@@ -128,7 +128,7 @@
         <tr>
           <td style="vertical-align: top;">10<br />
           </td>
-          <td style="vertical-align: top;">Mocks/stub injection can be toggled<br />
+          <td style="vertical-align: top;">Test double injection can be toggled<br />
           </td>
           <td style="vertical-align: top;">YES
           </td>
@@ -138,7 +138,7 @@
         <tr>
           <td style="vertical-align: top;">11<br />
           </td>
-          <td style="vertical-align: top;">Mock/stub injection can be narrowly
+          <td style="vertical-align: top;">Test double injection can be narrowly
             targeted<br />
           </td>
           <td style="vertical-align: top;">YES
@@ -149,8 +149,8 @@
         <tr>
           <td style="vertical-align: top;">12<br />
           </td>
-          <td style="vertical-align: top;">Mock/stub out any implementation of
-            an interface<br />
+          <td style="vertical-align: top;">Replace any implementation of
+            an interface with a test double<br />
           </td>
           <td style="vertical-align: top;">NO<br />
           </td>
@@ -160,7 +160,7 @@
         <tr>
           <td style="vertical-align: top;">13<br />
           </td>
-          <td style="vertical-align: top;">Safely mock/stub out class library<br />
+          <td style="vertical-align: top;">Safely replace a class library class with a test double<br />
           </td>
           <td style="vertical-align: top;">NO<br />
           </td>
@@ -169,7 +169,7 @@
         </tr>
         <tr>
           <td style="vertical-align: top;">14</td>
-          <td style="vertical-align: top;">Inject async-friendly mocks/stubs.<br />
+          <td style="vertical-align: top;">Inject async-friendly test doubles<br />
           </td>
           <td style="vertical-align: top;">YES<br />
           </td>
@@ -178,7 +178,7 @@
         </tr>
         <tr>
           <td style="vertical-align: top;">15</td>
-          <td>Inject thread-friendly mocks/stubs.<br />
+          <td>Inject thread-friendly test doubles<br />
           </td>
           <td>YES<br />
           </td>
@@ -187,8 +187,8 @@
         </tr>
         <tr>
           <td style="vertical-align: top;">16</td>
-          <td>Associate assertions in hand-coded mocks or stubs with test cases
-            in same thread<br />
+          <td>Associate failed assertions in test doubles with test cases
+            in the same thread<br />
           </td>
           <td>YES<br />
           </td>
@@ -197,8 +197,8 @@
         </tr>
         <tr>
           <td style="vertical-align: top;">17</td>
-          <td>Associate assertions in hand-coded mocks or stubs with test cases
-            in different thread</td>
+          <td>Associate failed assertions in test doubles with test cases
+            in different threads</td>
           <td>NO<br />
           </td>
           <td>NO </td>

@@ -3,14 +3,10 @@
     <title>JMockit: The Basics</title>
 
   </head><body>
-<h1>JMockit: The Basics</h1>
-<h2>Motivating Example</h2>
-<pre>package org.duderino.injection.jmockit.basic;
+<h1>JMockit: The Basics</h1>This is a guide to quickly getting started with JMockit.&nbsp;&nbsp; <br>
+<h2>Motivating Example</h2>Consider unit testing the following code:<br>
 
-import java.util.Calendar;
-import java.util.Date;
-
-public class Y2KChecker {
+<pre>public class Y2KChecker {
     public void check() throws Y2KException {
         Calendar calendar = Calendar.getInstance();
 
@@ -28,8 +24,48 @@ public class Y2KChecker {
             super(reason);
         }
     }
-}<br></pre>
-<h2>Set Up JMockit with Maven and TestNG</h2>
+}<br><br></pre>Getting this code to throw the Y2KException is difficult 
+without some sort of test double injection framework or dependency injection/inversion of control 
+abstraction.&nbsp;&nbsp; To illustrate the latter, we could refactor the
+ code into something along these lines:<br>
+<pre>public class Y2KChecker {    <br>    public static class Clock {<br>        public long currentTimeMillis() {<br>            return System.currentTimeMillis();<br>        }<br>    }<br><br>    private final Clock clock;<br><br>    public Y2KChecker(Clock clock) {<br>        this.clock = clock;<br>    }<br><br>    public void check() throws Y2KException {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(2000, 1, 1);
+
+        Date date = calendar.getTime();
+
+        if (date.getTime() == clock.currentTimeMillis()) {
+            throw new Y2KException("Y2K Bug!");
+        }
+    }
+
+    public static class Y2KException extends Exception {
+        public Y2KException(String reason) {
+            super(reason);
+        }
+    }<br>}<br></pre>
+This code is now more testable.&nbsp;&nbsp; To trigger the Y2KException, you could write a test case that looks like this:<br>
+<pre>public class Test {<br><br>    @Test(expectedExceptions = Y2KChecker.Y2KException.class)<br>    public void testCheck() {<br>        Y2KChecker checker = new Y2KChecker(new Y2KChecker.Clock() {<br>            private static final long Y2K_MILLIS = 949433850262L;
+<br>            public long currentTimeMillis() {<br>                return Y2K_MILLIS;<br>            }<br>        }<br><br>        checker.check();<br>    }<br>}<br><br></pre>
+The problem with this approach, however, is that <em>implementational details of the class under test have to be exposed in its public API in order to test it</em>.&nbsp;&nbsp; This problem is shared with most dependency injection/inversion of control approaches to unit testing.<br>
+<br>
+Test double injection frameworks like JMockit introduce alternative mechanisms for 
+replacing dependencies with test doubles without exposing 
+implementational details of the class under test in its public API.<br>
+
+<h2>Set Up JMockit with Maven and TestNG</h2>It's easy to setup JMockit with Maven and TestNG.&nbsp;&nbsp; In our example POM we...<br>
+<ol>
+  <li>Add a JMockit dependency and the JMockit Maven repository</li>
+  <li>Add a TestNG dependency</li>
+  <li>Add the Maven Surefire plugin to run our unit tests</li>
+  <li>Add a testng.xml file where we will enumerate the test cases in our test suite</li>
+  <li>Configure the Surefire plugin to run with the JMockit 
+agent.&nbsp;&nbsp; The agent is responsible for injecting our test doubles at 
+runtime.<br>
+  </li>
+</ol>
+
 Minimal Maven POM:<br>
 <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -52,7 +88,6 @@ Minimal Maven POM:<br>
             &lt;/releases&gt;
         &lt;/repository&gt;
     &lt;/repositories&gt;
-
 
     &lt;dependencies&gt;
         &lt;dependency&gt;
@@ -88,20 +123,16 @@ Minimal Maven POM:<br>
 &lt;/project&gt;
 <br></pre>
 
-Pulls down the JMockit and TestNG jars.&nbsp;&nbsp; Configures the Maven
- Surefire plugin to run unit tests.&nbsp;&nbsp; Unit tests are 
-enumerated in the testng.xml file.<br>
-<br>
-Assumes source code and test sources can be found in the standard Maven directories (todo - link)<br>
+Providing you put your code and other resources in the <a href="http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">standard directories</a>, Maven will take care of the rest.<br>
 <br>
 If you are running JDK 1.6+, you can omit the 
 "&lt;argLine&gt;-javaagent..." line, but if you do so you'll see 
 worrying warning messages like this:<br>
-<pre>
-WARNING: JMockit was initialized on demand, which may cause certain tests to fail;
+<pre>WARNING: JMockit was initialized on demand, which may cause certain tests to fail;
 please check the documentation for better ways to get it initialized.
 <br></pre>
-Sample testng.xml:<br>
+As you add unit tests, add them to the testng.xml file.&nbsp;&nbsp; Our testng.xml file looks like this:<br>
+
 <pre>&lt;!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" &gt;
 &lt;suite name="Injection" verbose="1" parallel="false" thread-count="1"&gt;
     &lt;test name="unit"&gt;
@@ -110,10 +141,11 @@ Sample testng.xml:<br>
         &lt;/classes&gt;
     &lt;/test&gt;
 &lt;/suite&gt;<br></pre>
-<h2>Create A Test Case</h2>
-<pre>package org.duderino.injection.jmockit.basic;
+<h2>Create A Test Case</h2>Now that our development environment is setup, let's write a test case to test the Y2KChecker class.<br>
+<br>
+Y2KCheckerTest:<br>
 
-import mockit.Mock;
+<pre>import mockit.Mock;
 import mockit.Mockit;
 import org.testng.annotations.Test;
 
@@ -137,13 +169,32 @@ public class Y2KCheckerTest {
     }
 }
 <br></pre>
-Explain what's going on here.&nbsp;&nbsp; Mocking out a single method of
- System.&nbsp;&nbsp; @Mock annotation.&nbsp;&nbsp; 
-Mockit.setUpMock().&nbsp;&nbsp; TestNG verifies Y2KException is thrown.<br>
-<h2>Run The Unit Tests</h2>
+The first thing to realize is that we didn't have to modify the 
+Y2KChecker class in order to inject our test double.&nbsp;&nbsp; We 
+didn't have to create a wrapper for System.currentTimeMillis() 
+either.&nbsp;&nbsp; Instead we created a MockSystem test double with a 
+replacement currentTimeMillis() method.&nbsp;&nbsp; Note the @Mock 
+annotation on the replacement currentTimeMillis() method.<br>
+<br>
+Note also the Mockit.setupMock() call inside the test case.&nbsp;&nbsp; 
+This call will reroute all calls to System to our 
+MockSystem at runtime.&nbsp;&nbsp; When checker.check() is called,
+ the JMockit agent will reroute the System.currentTimeMillis() call to 
+MockSystem.currentTimeMillis();<br>
+<h2>Run The Unit Tests</h2>Now let's run the test suite.&nbsp;&nbsp; Because we put this...<br>
+<pre>&lt;build&gt;
+    &lt;defaultGoal&gt;test&lt;/defaultGoal&gt;
+    ...
+&lt;/build&gt;<br></pre>... in our Maven POM, all we have to do is type 'mvn' in our top-level 
+directory and Maven will run the test suite after completing all its 
+prerequisites (e.g., compiling both the code under test and the test 
+cases): <br>
+
 <p>$ mvn<br>
 [INFO] Scanning for projects...<br>
 [INFO]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
  <br>
 [INFO] ------------------------------------------------------------------------<br>
 [INFO] Building Injection 1.0-SNAPSHOT<br>
@@ -183,11 +234,14 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0<br>
 [INFO] Finished at: Wed Nov 23 11:49:47 PST 2011<br>
 [INFO] Final Memory: 4M/81M<br>
 [INFO] ------------------------------------------------------------------------<br>
-  <br>
-</p>
-&nbsp;<br>
+  </p>If this didn't work for you and you want to see a complete working example, our test code has been checked in at <a href="https://github.com/duderino/injection">https://github.com/duderino/injection</a>.&nbsp; 
+<h2>Next Steps<br>
+</h2>
 
+
+If you want to keep going, see our <a href="JMockitEvaluation.html">JMockit Evaluation</a> for a more detailed overview.&nbsp;&nbsp; <br>
 <br>
+See also the <a href="http://jmockit.googlecode.com/svn/trunk/www/tutorial.html">JMockit tutorial</a> for official documentation.<br>
 <h1>
   
 

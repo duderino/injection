@@ -1,7 +1,7 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>JMockit Evaluation</title>
   </head>
   <body>
@@ -9,7 +9,7 @@
     <p>See <a href="https://github.com/duderino/injection">https://github.com/duderino/injection</a>
       for complete source code.<br />
     </p>
-    <h2>1. Inject mocks/stubs without changing the API</h2>
+    <h2>1. Inject test doubles without changing the API</h2>
     <p>Class.java:<br />
 
     </p><pre>public class Class {
@@ -43,7 +43,8 @@
     }
 }<br /><br /></pre>
     
-    <h2>2. Mock/stub out final/non-virtual functions</h2>
+    <h2>2. Replace final/non-virtual functions with test doubles<br />
+</h2>
     Change dependency to be final so our mock cannot subclass it.<br />
     <br />
     Dependency.java:<br />
@@ -109,7 +110,8 @@
         assert 123 * 2 == clazz.generate();
     }
 }<br /></pre>
-    <h2>3. Mock/stub out static functions</h2>
+    <h2>3. Replace static functions with test doubles<br />
+</h2>
     Here we change our dependency's method to be static.<br />
     <br />
     Dependency.java:<br />
@@ -149,7 +151,8 @@
         assert 123 * 2 == clazz.generate();
     }
 }</pre>
-    <h2>4. Mock/stub out constructors</h2>
+    <h2>4. Replace constructors with test doubles<br />
+</h2>
     Here we change our dependency to take an argument in its constructor.<br />
     <br />
     Dependency.java:<br />
@@ -228,7 +231,8 @@ the generate method:<br />
     }
 }<br /></pre>
 TODO - mention use of Dependency it and relate to section 8.<br />
-<h2>5. Mock/stub out anonymous inner classes</h2>
+<h2>5. Replace anonymous inner classes with test doubles<br />
+</h2>
     Sometimes the class under test creates an anonymous inner class that we'd
     like to mock out.   This is a particularly hard problem because the inner
     class may call back on the class under test's internals.<br />
@@ -298,7 +302,8 @@ Failed tests:   testIt(org.duderino.injection.jmockit._5.ClassTest): Not a modif
 
 Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre>
-    <h2>6. Mock/stub out inaccessible (e.g., private) inner classes</h2>
+    <h2>6. Replace inaccessible (e.g., private) inner classes with test doubles<br />
+</h2>
     Extending on the previous example, it appears that JMockit must have access
     to the definition of every class it needs to mock out.   Private inner
     classes, static or not, are not visible to the JMockit annotations so they
@@ -351,7 +356,8 @@ Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [INFO] 2 errors 
 
 <br /></pre> The same results were observed by omitting the 'static' qualifier.<br />
-    <h2>7. Mock/stub out subclass and superclass functions</h2>
+    <h2>7. Replace subclass and superclass functions with test doubles<br />
+</h2>
     <p>TODO - mock out 1 method in superclass and 1 method in subclass.   Might
       be an exclusive OR.</p>
 <pre>public class SuperDependency {
@@ -495,7 +501,7 @@ Tests run: 11, Failures: 1, Errors: 0, Skipped: 0
 <br />
     </pre>
 
-    <h2>8. Inject a mock that delegates to a real instance</h2>TODO<br />
+    <h2>8. Inject a test double that delegates to a real instance</h2>TODO<br />
     <br />
     Dependency.java:<br />
     <pre>public class Dependency {
@@ -611,10 +617,10 @@ Failed tests:   testIt(org.duderino.injection.jmockit._7.ClassTest)
 
 Tests run: 7, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre>
-    <h2>9. Inject hand-coded mocks or stubs </h2>
+    <h2>9. Inject hand-coded test doubles </h2>
     Well, this one is kinda a 'duh'.  Every example so far has injected a
     hand-coded mock. <br />
-    <h2>10. Mock/stub injection can be toggled</h2>Dependency.java:<br />
+    <h2>10. Test double injection can be toggled</h2>Dependency.java:<br />
 
     
 <pre>public class Dependency {
@@ -674,7 +680,7 @@ TODO<br />
     TODO<br />
 <br />
 
-    <h2>11. Mock/stub injection can be narrowly targeted</h2>Dependency.java:<br />
+    <h2>11. Test double injection can be narrowly targeted</h2>Dependency.java:<br />
 
 
     
@@ -736,7 +742,8 @@ TODO<br />
     TODO - mention same issues as 8.   Dependency must be public.  @mock must be reentrant or else stack overflow.<br />
 <br />
 
-    <h2>12. Mock/stub out any implementation of an interface</h2>
+    <h2>12. Replace any implementation of an interface with a test double<br />
+</h2>
     
 <p>TODO - use case - dependency injection frameworks where the
       implementation of an interface is not known in advance and the code under
@@ -808,7 +815,8 @@ Tests run: 14, Failures: 1, Errors: 0, Skipped: 0
 <br /></pre>
 
     <p></p>
-    <h2>13. Safely mock/stub out class library</h2>
+    <h2>13. Safely replace a class library class with a test double<br />
+</h2>
     <p>Can core classes in the class library be safely mocked out without
       interfering with the virtual machine?</p>
 <p><br />
@@ -1003,7 +1011,7 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
 
 
 </pre>
-    <h2>14. Inject async-friendly mocks/stubs. </h2>
+    <h2>14. Inject async-friendly test doubles </h2>
 <p>Dependency.cs:<br />
     </p>
 
@@ -1051,7 +1059,8 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
         assert 123 * 2 == clazz.generate();
     }
 }</pre>
-<h2>15. Inject thread-friendly mocks/stubs.</h2>
+<h2>15. Inject thread-friendly test doubles<br />
+</h2>
 
     TODO - Can the injection mechanism be used concurrently?   Are mocks/stubs thread-specific?
 <p>Dependency.cs:</p>
@@ -1114,7 +1123,7 @@ Tests run: 15, Failures: 1, Errors: 0, Skipped: 0
     }
 }<br /></pre>
 
-    <h2>16. Associate assertions in hand-coded mocks or stubs with test cases in
+    <h2>16. Associate failed assertions in test doubles with test cases in
       same thread</h2>
 <p>Dependency.cs:</p>
 
@@ -1189,8 +1198,8 @@ testng-results.xml:<br />
 <br /></pre>
 <br />
 
-    <h2>17. Associate assertions in hand-coded mocks or stubs with test cases in
-      different thread</h2>
+    <h2>17. Associate failed assertions in test doubles with test cases in
+      different threads</h2>
     TODO - emphasize that this is not a property of JMockit but rather of TestNG.<br />
 <br />
 <p>Dependency.cs:</p>

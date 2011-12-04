@@ -10,13 +10,13 @@ import org.testng.annotations.Test;
 public class ClassTest implements Runnable {
     @Override
     public void run() {
-        long magicNumber = Thread.currentThread().getId() + 123;
+        final long magicNumber = Thread.currentThread().getId() + 123;
 
         Mockit.setUpMock(Dependency.class, new Dependency() {
             @Mock
             @Override
             public long generate() {
-                return Thread.currentThread().getId() + 123;
+                return magicNumber;
             }
         });
 
@@ -27,7 +27,7 @@ public class ClassTest implements Runnable {
 
     @Test
     public void testIt() throws InterruptedException {
-        Thread[] threads = new Thread[1000];
+        Thread[] threads = new Thread[10];
 
         for (int i = 0; i < threads.length; ++i) {
             threads[i] = new Thread(this);

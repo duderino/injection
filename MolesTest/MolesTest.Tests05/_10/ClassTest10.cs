@@ -28,6 +28,10 @@ namespace MolesTest.Tests._10
             MDependency10.AllInstances.generate = null;
 
             Assert.AreEqual(2 * 999, clazz.generate());
+
+            MDependency10.AllInstances.generate = _ => 123;
+
+            Assert.AreEqual(2 * 123, clazz.generate());
         }
     }
 }

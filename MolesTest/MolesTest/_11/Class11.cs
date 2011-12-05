@@ -11,9 +11,7 @@ namespace MolesTest._11
 
         public int generate()
         {
-            int result = dependency.generate();
-
-            return result + dependency.generate();
+            return dependency.generate() + (2 * dependency.generate());
         }
     }
 }

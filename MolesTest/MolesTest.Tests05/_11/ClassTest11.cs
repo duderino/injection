@@ -19,13 +19,23 @@ namespace MolesTest.Tests._11
         [HostType("Moles")]
         public void test()
         {
-            MDependency11.AllInstances.generate = _ => 123;
+            int calls = 0;
+
+            MDependency11.AllInstances.generate = (Dependency11 dependency) =>
+            {
+                if (++calls == 2) {
+                    return 123;
+                }
+
+                return MolesContext.ExecuteWithoutMoles(() =>
+                {
+                    return dependency.generate();
+                });
+            };
 
             Class11 clazz = new Class11();
 
-            // No way to mock out the first generate call but not the second, so this will fail: Assert.AreEqual(123 + 999, clazz.generate());
-
-            Assert.AreEqual(2 * 123, clazz.generate());
+            Assert.AreEqual(999 + (2 * 123), clazz.generate());
         }
     }
 }

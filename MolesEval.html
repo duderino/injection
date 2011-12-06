@@ -68,6 +68,23 @@
     Please refer to Appendix B in the <a href="http://research.microsoft.com/en-us/projects/pex/molesmanual.pdf">Moles
       Reference Manual</a> for complete description of the methods generated for
     each Moles Type.<br>
+    <br>
+    <span style="font-weight: bold;">Generated Moles Type Names Are Unstable<br>
+    </span><br>
+    When classes with the same name in different namespaces are moled (e.g.,
+    MolesTest._1.Dependency vs. MolesTest._2.Dependency), Moles will
+    inconsistently add a disambiguating suffix to the generated class
+    name.&nbsp; Initially when relied on namespaces to disambiguate we saw Moles
+    generate type names like MolesTest._1.Moles.MDependency for
+    MolesTest._1.Dependency and MolesTest._2.Moles.MDependency01 for
+    MolesTest._2.Dependency.&nbsp;&nbsp; As we added more test cases, we saw the
+    suffix assignment occasionally swap.&nbsp;&nbsp; Suddenly
+    MolesTest._1.Moles.MDependency was replaced by
+    MolesTest._1.Moles.MDependency01, etc.&nbsp;&nbsp;&nbsp; Fortunately this
+    broke our build outright rather than introduce subtler errors.&nbsp;&nbsp;
+    To compensate we started adding our own disambiguating suffixes to our
+    classes (e.g., MolesTest._1.Dependency01) so Moles wouldn't do its own
+    inconsistent disambiguation.<br>
     <h2>2. Replace out final/non-virtual functions with test doubles<br>
     </h2>
     Yes, Moles supports this.<br>
@@ -955,8 +972,8 @@ Compile complete -- 1 errors, 0 warnings
     While we are not sure why this test case crashed Visual Studio, the <a href="http://research.microsoft.com/en-us/projects/pex/molesmanual.pdf">Microsoft
       Moles Reference Manual</a> makes it clear that this is not supported:<br>
     <pre>Mole types apply to all threads and do not have thread affinity. This is an important fact if you plan to use a test runner that support concurrency: tests involving <br>mole types cannot run concurrently.</pre>
-    <h2>16. Associate failed assertions in test doubles with test cases in
-      the same thread</h2>
+    <h2>16. Associate failed assertions in test doubles with test cases in the
+      same thread</h2>
     <p>Yes, Moles supports this.&nbsp; To be sure, this is due to Microsoft's
       unit testing framework and not really Moles.<br>
     </p>

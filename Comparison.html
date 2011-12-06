@@ -1,36 +1,37 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Comparison</title>
   </head>
   <body>
     <h1>Moles vs. JMockit Comparison</h1>
-    <h2>Implementation</h2>
-    <h2>Language Influences &amp; Affinities<br />
-    </h2>
-    <h2>Ease of Adoption</h2>
-    <h2>Miscellaneous Issues</h2>
-    <h3>Moles</h3>
-    <span style="font-weight: bold;">Generated Moles Type Names Are Unstable<br />
-    </span><br />
-    When classes with the same name in different namespaces are moled (e.g.,
-    MolesTest._1.Dependency vs. MolesTest._2.Dependency), Moles will
-    inconsistently add a disambiguating suffix to the generated class name. 
-    Initially when relied on namespaces to disambiguate we saw Moles generate
-    type names like MolesTest._1.Moles.MDependency for MolesTest._1.Dependency
-    and MolesTest._2.Moles.MDependency01 for MolesTest._2.Dependency.   As we
-    added more test cases, we saw the suffix assignment occasionally swap.  
-    Suddenly MolesTest._1.Moles.MDependency was replaced by
-    MolesTest._1.Moles.MDependency01, etc.    Fortunately this broke our build
-    outright rather than introduce subtler errors.   To compensate we started
-    adding our own disambiguating suffixes to our classes (e.g.,
-    MolesTest._1.Dependency01) so Moles wouldn't do its own inconsistent
-    disambiguation.<br />
-    <h2>Stylistic Considerations<br />
-    </h2>
-    <h2>Feature Matrix<br />
-    </h2>
+    <h2>Overview</h2>
+    <p>This document compares two similar test double injection frameworks:
+      JMockit for Java and Moles for C#.   We created a set of use cases that
+      capture most/many of the things programmers have to do when unit testing
+      code with test doubles.   We then attempted to create a test case in each
+      framework to demonstrate each use case.<br />
+    </p>
+    <p>The JMockit test cases can be found in our <a href="JMockitEvaluation.html">JMockit
+        Evaluation</a>.   If you're unfamiliar with JMockit, you may want to
+      start with our <a href="JMockit.html">JMockit: The Basics</a>.<br />
+    </p>
+    <p>The Moles test cases can be found in our <a href="MolesEval.html">Moles
+        Evaluation</a>.   If you're unfamiliar with Moles, you may want to start
+      with our <a href="PexAndMoles.html">Pex &amp; Moles: The Basics</a>.  
+      Pex is a complimentary framework for parameterized unit testing, but since
+      there is no Pex equivalent for JMockit, we do not cover Pex outside of
+      that document.<br />
+    </p>
+    <p>The result of this document summarizes the results of both evaluations
+      and draws some higher-level conclusions on their relative merits.<br />
+    </p>
+    <p></p>
+    <h2>Evaluation Results</h2>
+    <p>Our common set of use cases as well as the ability to achieve each use
+      case with JMockit and Moles is summarized in this table.<br />
+    </p>
     <table border="1" style="width: 100%;">
       <tbody>
         <tr>
@@ -183,7 +184,7 @@
           </td>
           <td>NO<br />
           </td>
-          <td>NO<br />
+          <td>NO (crashes)<br />
           </td>
         </tr>
         <tr>
@@ -202,12 +203,208 @@
             different threads</td>
           <td>NO<br />
           </td>
-          <td>NO </td>
+          <td>NO (crashes)<br />
+          </td>
         </tr>
       </tbody>
     </table>
-    <h2>Summary &amp; Analysis<br />
+    <br />
+    <h2>Similarities<br />
     </h2>
+    The first thing to note is how similar both frameworks' capabilities are.  
+    They share similar strengths and weaknesses though they make use of
+    different mechanisms.<br />
+    <br />
+    Both frameworks allow injection of test doubles into the code under test
+    without having to modify the code under test's public API.   This in our
+    view is the chief limitation of dependency injection/inversion of control
+    frameworks like Guice and Spring.   These frameworks add complexity to the
+    code by introducing additional levels of indirection and also break down the
+    compartmentalization provided by private data members.   While they may be
+    appropriate for larger components, our concern is that using them to test
+    every class in isolation from its dependencies would create an unmanagebly
+    complex code base.<br />
+    <br />
+    Furthermore both framworks allow test doubles to be introduced for
+    final/sealed classes, static functions, and constructors.   They are not
+    limited to extension or realization of open classes, abstract classes, and
+    interfaces the way some dependency injection frameworks are.<br />
+    <br />
+    Both frameworks are similarly limited when it comes to injecting test
+    doubles for symbols that are inaccessible to the test code (e.g., private
+    members of the code under test).   In the JMockit case it is because code
+    that references these symbols in order to tell the JMockit runtime to
+    replace them with test doubles won't compile.   In the Moles case it is
+    because Moles only generates 'Moles Types' for publicly accessible members
+    of each class it stubs.<br />
+    <br />
+    Both frameworks pass the real instance to the test double so the test double
+    can delegate to it.<br />
+    <br />
+    Both frameworks support the injection of arbitrary hand-coded test
+    doubles.   For JMockit, this is the common case.   For Moles, this can be
+    achieved by having the generated Moles Types (stubs) delegate to a
+    hand-coded test double.   With this both frameworks can support test doubles
+    that call back on the code under test.   This is important for testing
+    increasingly popular asynchronous APIs.<br />
+    <br />
+    Both frameworks are similarly limited when it comes to scoping the injection
+    of test doubles.   In both cases injection can be modified between calls to
+    the class under test, but inside the call all transitive calls to the real
+    dependency will be redirected to the test double.   While the programmer has
+    some ability to restrict when the test double is invoked by counting the
+    number of times its called or by comparing the arguments that are passed to
+    it, this approach is sensitive to minor changes in the class under test
+    (e.g., another call to the dependency is introduced which breaks the count).<br />
+    <br />
+    While both frameworks allow replacement of core classes / classes from the
+    class library, because of the scoping problem this can be dangerous.   Core
+    classes are more likely to be used by many of a class's dependencies.   If
+    the dependencies are not fully mocked and they share the same test double,
+    care has to be taken by the programmer to ensure that the test double is
+    compatible with all dependencies.<br />
+    <br />
+    Neither framework can replace an unknown implementation with a test
+    double.   That is, calls to any implementation of an interface or abstract
+    class cannot be redirected to the same test double.   Instead test doubles
+    can only replace specifically designated classes.   <br />
+    <br />
+    Similarly, both frameworks require the programmer to specify the exact class
+    in the inheritance hierarchy that declares the symbol to be replaced with a
+    test double.   If a test double for a derived class replaces a symbol
+    declared in a base class, JMockit requires the programmer to associate the
+    test double with the base class, not the derived class.   In addition to
+    being inconvenient, it's somewhat brittle since it's sensitive to movement
+    of symbols across the inheritance hierarchy that is common in refactoring.  
+    Moles has a similar limitation in that the Moles Types (stubs) it generates
+    only have symbols that match the public symbols declared in each real
+    class.   Moles Types do not have injection points for inherited members.<br />
+    <br />
+    Finally, both frameworks had poor support for testing multithreaded code.  
+    Moles instrumented test cases actually crashed Visual Studio when executed
+    by multiple threads.   While JMockit performed more reliably, it was not
+    able to associate test doubles with specific threads.   Instead all threads
+    shared the same test double instance.   Also, while this is a property of
+    the TestNG Java unit testing framework and not JMockit, failed assertions in
+    background threads were not associated with the test case that spawned them 
+    nor were they considered failures by the unit test framework.<br />
+    <h2>Differences<br />
+    </h2>
+    Other than Moles' poorer performance under multithreaded conditions, we can
+    summarize their differences as:  Moles is harder than JMockit to learn but
+    once learnt is more natural to use.<br />
+    <br />
+    While we got the basics of JMockit working in less than a day, thanks in
+    part to copious online and Open Source documentation, it took a full week to
+    get Moles working.   The documentation for Moles is unfortunately sorely
+    lacking.   While the Moles maintainers produced multiple guides to using
+    Moles, they all referenced the same examples which in turn had the same
+    gaps.    As a result we put extra effort into our <a href="PexAndMoles.html">Pex
+      &amp; Moles: The Basics</a> guide because we know of no other resource
+    that shows you how to setup Moles without omitting important steps like
+    configuring Moles to stub out a referenced assembly, importing the namespace
+    for the generated stubs into the test case, and building the project before
+    trying to reference any generated stubs.<br />
+    <br />
+    Once the basics were learnt, however, Moles pulled ahead of JMockit.   Moles
+    did not require any strange language tricks to introduce test doubles.  
+    Moles test cases would look like typical C# code to a C# programmer
+    unfamiliar with Moles.    JMockit on the other hand made use of
+    constructions that, while they compiled, would look very strange to a Java
+    programmer unfamiliar with JMockit.<br />
+    <br />
+    To illustrate our point, consider this example from the in-depth
+    evaluations.   This is how one could replace a final/sealed dependency with
+    a test double using Moles:<br />
+    <br />
+    <pre>    [TestClass]
+    public class ClassTest02
+    {
+        [TestMethod]
+        [HostType("Moles")]
+        public void test()
+        {
+            MDependency02.AllInstances.generate = _ =&gt; 123;
+            
+            Class02 clazz = new Class02();
+
+            Assert.AreEqual(2 * 123, clazz.generate());
+        }
+    }<br /></pre>
+    Of course you have to be familiar with lambda expressions, but at least
+    these are part of the C# language.   Compare the Moles test case to the
+    corresponding JMockit test case:<br />
+    <pre>public class ClassTestAlternative {
+    @Test
+    public void testIt() {
+        new MockUp&lt;Dependency&gt;() {
+            @Mock
+            public int generate() {
+                return 123;
+            }
+        };
+
+
+        Class clazz = new Class();
+
+        assert 123 * 2 == clazz.generate();
+    }
+}<br /></pre>
+    Java programmers rarely instantiate objects yet assign them to nothing.  
+    JMockit unfortunately makes repeated use of this idiom.   Here is another
+    example pulled from their <a href="http://jmockit.googlecode.com/svn/trunk/www/tutorial/BehaviorBasedTesting.html">online
+      documentation</a>:<br />
+    <pre><code class=" java">   <span class="annotation">@Test</span>
+   <span class="keyword">public</span> <span class="keyword">void</span> doSomethingHandlesSomeCheckedException() <span
+class="keyword">throws</span> Exception
+   {
+      <span class="keyword">new</span> Expectations() {
+         DependencyAbc abc;
+
+         {
+            <strong><span class="keyword">new</span> DependencyAbc()</strong>;
+
+            abc.intReturningMethod(); <strong><em>result</em> = <span class="number">3</span></strong><span
+class="number"></span>;
+
+            abc.stringReturningMethod();
+            <strong>returns(<span class="string">"str1"</span>, <span class="string">"str2"</span>)</strong>;
+            <strong><em>result</em> = <span class="keyword">new</span> SomeCheckedException()</strong>;
+         }
+      };
+
+      <span class="keyword">new</span> UnitUnderTest().doSomething();
+   }</code></pre>
+    It doesn't look like valid Java but it is.  A programmer joining an existing
+    project that has already setup Moles should be able to get the hang of Moles
+    after seeing a few examples.   A programmer joining an existing JMockit
+    project, however, would probably have to reread the online documentation
+    several times before figuring out how to work with it.<br />
+    <br />
+    Moles accomplishes much with a few constructions.   JMockit accomplishes
+    much with a large collection of ad hoc constructions.   A little bit of
+    JMockit knowledge does not generalize as well as a little bit of Moles
+    knowledge.<br />
+    <br />
+    Yes, these observations are subjective.<br />
+    <h2>Conclusion</h2>
+    Once familiar with test double injection frameworks like Moles and JMockit,
+    it's hard to imaging unit testing code of any complexity without one.   Yet
+    these frameworks such as these are relatively new, having been introduced
+    more a decade after the <a href="http://www.martinfowler.com/bliki/Xunit.html">JUnit
+      was introduced in 1997</a>.   <br />
+    <br />
+    Without frameworks such as these or support in the language itself,
+    programmers had to resort to passing in test doubles in manually or via
+    dependency injection frameworks like Guice and Spring.   It was unfortunate
+    that before these frameworks were introduced core principles of simplicity
+    and compartmentalization/data hiding had to be violated in order to make
+    code unit testable.<br />
+    <br />
+    Perhaps now that <a href="http://www.d-programming-language.org/unittest.html">new
+      programming languages are incorporating unit testing into the language
+      itself</a>, we can next look forward to programming language support for
+    injection of test doubles.<br />
     <br />
   </body>
 </html>
